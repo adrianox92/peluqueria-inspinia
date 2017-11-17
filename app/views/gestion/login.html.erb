@@ -1,0 +1,22 @@
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+  <div>
+    <div>
+
+      <h1 class="logo-name">IN+</h1>
+
+    </div>
+    <h3>Gestión de la Peluquería Mar Sanz</h3>
+    <%= simple_form_for @usuario, url: login_path, defaults: {input_html: {class: 'm-t'}} do |f| %>
+        <%= f.input :nombre, placeholder: 'Nombre de usuario', input_html: {class: 'form-control'}, label: false, wrapper_html: {class: 'form-group'} %>
+        <%= f.input :clave, as: :password, placeholder: 'Contraseña', input_html: {class: 'form-control'}, label: false, wrapper_html: {class: 'form-group'} %>
+        <%= f.button :submit, 'Iniciar sesión', class: 'btn btn-primary block full-width m-b' %>
+
+    <% end %>
+    <p class="m-t">
+      <small>Desarrollado por Adrian Palomera Sanz &copy; 2017</small>
+    </p>
+  </div>
+</div>
+
+
+

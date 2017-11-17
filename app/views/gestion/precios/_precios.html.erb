@@ -1,0 +1,47 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Gestión de los servicios</h5>
+  </div>
+  <div class="ibox-content">
+
+    <div id="table" class="table-editable">
+
+      <table class="table">
+        <tr>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Activo</th>
+          <th>
+            <%= link_to new_gestion_precio_path do %>
+                <span class="table-add glyphicon glyphicon-plus"></span>
+            <% end %></th>
+        </tr>
+        <% precio.each do |p| %>
+            <tr id="precio_<%= p.id %>">
+              <td><%= p.nombre %></td>
+              <td><%= p.coste %></td>
+              <td><%= boolean_to_human(p.activo).html_safe %></td>
+              <td>
+                <%= link_to edit_gestion_precio_path(p.id), :confirm => "Are you sure?", :title => 'Editar servicio' do %>
+                    <span class="edit fa fa-edit"></span>
+                <% end %>
+                <%= link_to gestion_precio_path(p.id), :confirm => "¿Estas seguro?", :method => :destroy, remote: true, :title => 'Eliminar servicio' do %>
+                    <span class="table-remove glyphicon glyphicon-remove"></span>
+                <% end %>
+
+              </td>
+            </tr>
+        <% end if precio.count > 0 %>
+        <!-- This is our clonable table line -->
+        <tr class="hide">
+          <td contenteditable="true">Untitled</td>
+          <td contenteditable="true">undefined</td>
+          <td>
+            <span class="table-remove glyphicon glyphicon-remove"></span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</div>

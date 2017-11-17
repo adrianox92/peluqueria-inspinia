@@ -1,0 +1,11 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: peluqueria
+  pool: 5
+  username: postgres
+  password: eseadri92
+  host: localhost
+
+development: 
+  <<: *default

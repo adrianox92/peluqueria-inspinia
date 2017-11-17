@@ -1,0 +1,67 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Data Tables</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="<%= url_for :controller => 'dashboards', :action => 'dashboard_1' %>">Home</a>
+      </li>
+      <li>
+        <a>Tables</a>
+      </li>
+      <li class="active">
+        <strong>Data Tables</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+
+    </div>
+  </div>
+
+</div>
+
+<% content_for :javascript do %>
+
+    <script type="text/javascript">
+
+
+      $(function () {
+
+        $('.dataTables-example').DataTable({
+          pageLength: 25,
+          responsive: true,
+          dom: '<"html5buttons"B>lTfgitp',
+          buttons: [
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'ExampleFile'},
+            {extend: 'pdf', title: 'ExampleFile'},
+
+            {
+              extend: 'print',
+              customize: function (win) {
+                $(win.document.body).addClass('white-bg');
+                $(win.document.body).css('font-size', '10px');
+
+                $(win.document.body).find('table')
+                    .addClass('compact')
+                    .css('font-size', 'inherit');
+              }
+            }
+          ]
+
+        });
+
+
+      });
+
+
+    </script>
+
+<% end %>
