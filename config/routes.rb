@@ -149,7 +149,7 @@ Myapp::Application.routes.draw do
   namespace :gestion do
     resources :ventas do
     end
-    resources :precios do
+    resources :servicios do
     end
   end
 end

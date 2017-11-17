@@ -16,10 +16,12 @@ module ApplicationHelper
     def boolean_to_human (campo)
       out = ''
       if campo
-        out = '<i class="fa fa-check"></i>'
+        out = '<i class="fa fa-check activo"></i>'
       else
-        out = '<i class="fa fa-times"></i>'
+        out = '<i class="fa fa-times inactivo"></i>'
       end
       out
     end
+
+
 end

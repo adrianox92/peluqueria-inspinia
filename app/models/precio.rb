@@ -1,6 +1,6 @@
 class Precio < ActiveRecord::Base
   self.table_name = 'precio'
 
-  validates :nombre, :coste, :activo, presence: true
+  validates :nombre, :coste, presence: true
 
 end
