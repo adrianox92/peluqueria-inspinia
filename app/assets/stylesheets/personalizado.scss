@@ -1,3 +1,39 @@
-.activo, .nuevo{color: #0c770f;font-size: 20px;}
-.inactivo, .eliminar{color: #c8091a;font-size: 20px;}
-.editar{font-size: 20px;}
+@font-face {
+  font-family: 'digital-7regular';
+  src: url('digital-7-webfont.woff2') format('woff2'),
+  url('digital-7-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+.activo, .nuevo {
+  color: #0c770f;
+  font-size: 20px;
+}
+
+.inactivo, .eliminar {
+  color: #c8091a;
+  font-size: 20px;
+}
+
+.editar {
+  font-size: 20px;
+}
+
+/* Ventas */
+.caja-acciones {
+
+  .caja-precio-total {
+    background-color: #0f1c1f;
+    color: #fff;
+    font-size: 90px;
+    text-align: right;
+    padding-right: 15px;
+    .cuenta {
+      font-family: 'digital-7regular';
+      padding-right: 30px;
+      font-size: 120px;
+    }
+  }
+}
