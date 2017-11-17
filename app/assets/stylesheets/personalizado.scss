@@ -36,4 +36,24 @@
       font-size: 120px;
     }
   }
+  .ibox-content {
+    .row {
+      .box {
+        width: 100%;
+        margin-bottom: 30px;
+        .precio {
+          font-size: 34px;
+          font-weight: bold;
+        }
+        .producto {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+.cerrar-venta {
+  width: 100%;
+  text-align: center;
 }

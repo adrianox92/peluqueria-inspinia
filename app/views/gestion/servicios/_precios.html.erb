@@ -22,7 +22,7 @@
               <td><%= p.coste %></td>
               <td><%= boolean_to_human(p.activo).html_safe %></td>
               <td>
-                <%= link_to edit_gestion_servicio_path(p.id), :confirm => "Are you sure?", :title => 'Editar servicio' do %>
+                <%= link_to edit_gestion_servicio_path(p.id), :title => 'Editar servicio' do %>
                     <span class="editar fa fa-edit"></span>
                 <% end %>
                 <%= link_to gestion_servicio_path(p.id), :confirm => "¿Estas seguro?", :method => :destroy, remote: true, :title => 'Eliminar servicio' do %>

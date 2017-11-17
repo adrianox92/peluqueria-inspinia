@@ -139,7 +139,6 @@ Myapp::Application.routes.draw do
   get "landing/index"
 
 
-
   root 'gestion#index'
 
   get 'login' => 'gestion#login', as: 'login'
@@ -148,6 +147,8 @@ Myapp::Application.routes.draw do
 
   namespace :gestion do
     resources :ventas do
+      post 'aniade_venta/:servicio' => 'ventas#aniade_venta'
+      post 'cierra_venta' => 'ventas#cierra_venta'
     end
     resources :servicios do
     end

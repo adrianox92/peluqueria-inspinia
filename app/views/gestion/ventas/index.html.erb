@@ -21,38 +21,28 @@
         </div>
         <div class="ibox-content">
 
-          <table class="table table-striped">
+          <table class="table table-striped tabla-productos-venta">
             <thead>
             <tr>
               <th>#</th>
               <th>Nombre</th>
               <th>Precio</th>
-              <th>Total</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>1</td>
-              <td>Samantha</td>
-              <td>Samantha</td>
-              <td>15.20€</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>Jacob</td>
-              <td>Jacob</td>
-              <td>15.20€</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Damien</td>
-              <td>Damien</td>
-              <td>15.20€</td>
-            </tr>
+            <% @servicios_asociados.each_with_index do |sevasc, index| %>
+                <tr>
+                  <td><%= index %></td>
+                  <td><%= sevasc.servicio_nombre_dn %></td>
+                  <td><%= sevasc.precio_total %></td>
+                </tr>
+            <% end if @servicios_asociados.present? %>
             </tbody>
           </table>
           <hr class="hr-line-dashed">
-          <p class="text-center">Total: 40.70 </p>
+          <%= simple_form_for @venta, url: gestion_venta_cierra_venta_path(@venta.id), method: :post do |f| %>
+              <%= f.button :submit, 'Cerrar venta', class: 'btn btn-w-m btn-primary btn-lg cerrar-venta', :confirm => "¿Estas seguro? No se podrán añadir nuevos elementos a la factura cerrada" %>
+          <% end %>
           <div class="calculadora">
             <table class="table no-borders">
               <tr>
@@ -112,7 +102,26 @@
     </div>
     <div class="col-lg-8">
       <div class="caja-acciones">
-        <p class="caja-precio-total"><label class="cuenta">100</label><span class="euros float-right"><i class="fa fa-eur" aria-hidden="true"></i></span></p>
+        <p class="caja-precio-total">
+          <label class="cuenta"><%= @venta.precio_total %></label><span class="euros float-right"><i class="fa fa-eur" aria-hidden="true"></i></span>
+        </p>
+        <div class="ibox-content">
+          <div class="row">
+            <% @servicios.each_with_index do |s, index| %>
+                <div class="col-lg-4">
+                  <div class="box btn btn-w-m btn-primary" id="<%= s.id %>">
+                    <p class="precio">
+                      <%= s.coste %>
+                    </p>
+                    <p class="producto">
+                      <%= s.nombre %>
+                    </p>
+                  </div>
+                </div>
+            <% end %>
+          </div>
+          <input type="hidden" value="<%= @venta.id %>" id="venta_id" name="venta_id">
+        </div>
       </div>
     </div>
   </div>
