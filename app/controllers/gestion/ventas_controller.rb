@@ -22,24 +22,24 @@ class Gestion::VentasController < GestionController
   def inicia_venta
     #Cuando entremos en el index desde otra página que no provenga del controlador actual debemos mostrar la última venta que NO está cerrada
     #En caso contrario iniciamos una nueva
-      ventas_abiertas = Venta.where('cerrada = ?', false)
-      ultima_factura = Venta.last
+    ventas_abiertas = Venta.where('cerrada = ?', false)
+    ultima_factura = Venta.last
 
 
-      #Tengo una venta abierta, cargo la última
-      if ventas_abiertas.count > 0
-        ventas_abiertas.last
+    #Tengo una venta abierta, cargo la última
+    if ventas_abiertas.count > 0
+      ventas_abiertas.last
 
-        #Le ponemos el número de factura en caso de que no lo tenga
-        venta = ventas_abiertas.last
-        unless venta.venta_nombre.present?
-          venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
-        end
-        @venta = venta
-      else
-        venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
-        @venta = venta_nueva
+      #Le ponemos el número de factura en caso de que no lo tenga
+      venta = ventas_abiertas.last
+      unless venta.venta_nombre.present?
+        venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
       end
+      @venta = venta
+    else
+      venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
+      @venta = venta_nueva
+    end
   end
 
 
@@ -114,7 +114,12 @@ class Gestion::VentasController < GestionController
   def cierra_venta
     venta = Venta.find(params[:venta_id])
     if venta.present? and not venta.cerrada
-      venta.update_attribute :cerrada, true
+      #Una vez vamos a cerrar la venta tenemos que calcular el IVA y la base de la venta
+      precio_total = venta.precio_total
+      base = precio_total / 1.21
+      iva = precio_total - base
+
+      venta.update_attributes(:cerrada => true, :base => base, :iva => iva)
       redirect_to gestion_ventas_path
     end
   end

@@ -45,33 +45,9 @@
             <span class="nav-label" data-i18n="nav.layouts">Productos</span>
         <% end %>
       </li>
-      <li class="<%= is_active_controller('graphs') %>">
-        <a href="#"><i class="fa fa-bar-chart-o"></i>
-          <span class="nav-label" data-i18n="nav.graphs">Graphs</span><span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level collapse <%= is_active_controller('graphs', 'in') %>">
-          <li class="<%= is_active_action('flot') %>"><%= link_to "Flot Charts", graphs_flot_path %></li>
-          <li class="<%= is_active_action('morris') %>"><%= link_to "Morris.js Charts", graphs_morris_path %></li>
-          <li class="<%= is_active_action('rickshaw') %>"><%= link_to "Rickshaw Charts", graphs_rickshaw_path %> </li>
-          <li class="<%= is_active_action('chartjs') %>"><%= link_to "Chart.js", graphs_chartjs_path %></li>
-          <li class="<%= is_active_action('chartist') %>"><%= link_to "Chartist", graphs_chartist_path %></li>
-          <li class="<%= is_active_action('c3charts') %>"><%= link_to "c3 charts", graphs_c3charts_path %></li>
-          <li class="<%= is_active_action('peity') %>"><%= link_to "Peity Charts", graphs_peity_path %></li>
-          <li class="<%= is_active_action('sparkline') %>"><%= link_to "Sparkline Charts", graphs_sparkline_path %> </li>
-        </ul>
-      </li>
-      <li class="<%= is_active_controller('mailbox') %>">
-        <a href="#"><i class="fa fa-envelope"></i>
-          <span class="nav-label" data-i18n="nav.mailbox">Mailbox </span><span class="label label-warning pull-right">16/24</span></a>
-        <ul class="nav nav-second-level collapse <%= is_active_controller('mailbox', 'in') %>">
-          <li class="<%= is_active_action('inbox') %>"><%= link_to "Inbox", mailbox_inbox_path %> </li>
-          <li class="<%= is_active_action('email_view') %>"><%= link_to "Email view", mailbox_email_view_path %> </li>
-          <li class="<%= is_active_action('compose_email') %>"><%= link_to "Compose email", mailbox_compose_email_path %> </li>
-          <li class="<%= is_active_action('email_templates') %>"><%= link_to "Email templates", mailbox_email_templates_path %> </li>
-        </ul>
-      </li>
-      <li class="<%= is_active_controller('metrics') %>">
-        <%= link_to metrics_index_path do %>
-            <i class="fa fa-pie-chart"></i> <span class="nav-label" data-i18n="nav.metrics">Metrics</span>
+      <li class="<%= is_active_controller('estadisticas') %>">
+        <%= link_to gestion_estadisticas_path do %>
+            <i class="fa fa-pie-chart"></i> <span class="nav-label" data-i18n="nav.metrics">Estadísticas</span>
         <% end %>
       </li>
       <li class="<%= is_active_controller('widgets') %>">
