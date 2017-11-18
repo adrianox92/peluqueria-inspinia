@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>INSPINIA | Responsive admin theme</title>
+  <title>Peluquería Mar Sanz | Gestión</title>
 
   <!-- Include style per-controller - vendor plugins -->
   <%= stylesheet_link_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}.css") %>
@@ -18,7 +18,7 @@
 
 
 </head>
-<body class="<%= controller_name %>">
+<body class="<%= controller_name %> <%= action_name %>">
 
 <% if session[:logged_as] %>
     <!-- Skin configuration box -->

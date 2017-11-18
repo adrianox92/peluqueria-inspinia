@@ -1,0 +1,25 @@
+<%= simple_form_for :producto, url: (@producto.new_record? ? gestion_productos_path(@producto) : gestion_producto_path(@producto)), method: (@producto.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+    <div class="row">
+      <div class="col-xs-3">
+        <%= f.input :nombre, placeholder: 'Nombre del producto', input_html: {class: 'form-control m-b-md'} %>
+      </div>
+      <div class="col-xs-3">
+        <%= f.input :precio_compra, placeholder: 'Precio de compra', input_html: {class: 'form-control m-b-md'} %>
+      </div>
+      <div class="col-xs-3">
+        <%= f.input :precio_venta, placeholder: 'Precio de venta', input_html: {class: 'form-control m-b-md'} %>
+      </div>
+      <div class="col-xs-3">
+        <%= f.input :stock, placeholder: 'Unidades en stock', input_html: {class: 'form-control m-b-md'} %>
+      </div>
+      <div class="col-xs-3">
+          <%= f.input :fecha_ultima_compra, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
+      </div>
+      <div class="col-xs-3">
+        <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
+      </div>
+      <div class="col-xs-12">
+        <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+      </div>
+    </div>
+<% end %>

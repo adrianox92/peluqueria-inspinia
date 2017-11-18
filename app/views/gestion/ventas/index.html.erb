@@ -33,8 +33,8 @@
             <% @servicios_asociados.each_with_index do |sevasc, index| %>
                 <tr>
                   <td><%= index %></td>
-                  <td><%= sevasc.servicio_nombre_dn %></td>
-                  <td><%= sevasc.precio_total %></td>
+                  <td><%= sevasc.servicio_nombre_dn.present? ? sevasc.servicio_nombre_dn:  sevasc.producto_nombre_dn %></td>
+                  <td><%= sevasc.precio_total %> €</td>
                 </tr>
             <% end if @servicios_asociados.present? %>
             </tbody>
@@ -106,12 +106,13 @@
           <label class="cuenta"><%= @venta.precio_total %></label><span class="euros float-right"><i class="fa fa-eur" aria-hidden="true"></i></span>
         </p>
         <div class="ibox-content">
+          <h3>Servicios</h3>
           <div class="row">
             <% @servicios.each_with_index do |s, index| %>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                   <div class="box btn btn-w-m btn-primary" id="<%= s.id %>">
                     <p class="precio">
-                      <%= s.coste %>
+                      <%= s.coste %>€
                     </p>
                     <p class="producto">
                       <%= s.nombre %>
@@ -121,6 +122,23 @@
             <% end %>
           </div>
           <input type="hidden" value="<%= @venta.id %>" id="venta_id" name="venta_id">
+        </div>
+        <div class="ibox-content">
+          <h3>Productos</h3>
+          <div class="row">
+            <% @productos.each_with_index do |p, index| %>
+                <div class="col-lg-3">
+                  <div class="box-producto btn btn-w-m btn-primary" id="<%= p.id %>">
+                    <p class="precio">
+                      <%= p.precio_venta %>€
+                    </p>
+                    <p class="producto">
+                      <%= p.nombre %>
+                    </p>
+                  </div>
+                </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

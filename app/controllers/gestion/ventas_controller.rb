@@ -16,22 +16,22 @@ class Gestion::VentasController < GestionController
   def get_data
     @servicios = Precio.where('activo = ?', true)
     @tipo_pago = [['Efectivo'], ['Tarjeta']]
+    @productos = Producto.where('activo = ?', true)
   end
 
   def inicia_venta
     #Cuando entremos en el index desde otra página que no provenga del controlador actual debemos mostrar la última venta que NO está cerrada
     #En caso contrario iniciamos una nueva
-    if Rails.application.routes.recognize_path(request.referrer)[:controller] != 'gestion/ventas'
       ventas_abiertas = Venta.where('cerrada = ?', false)
-      ultima_factura = Venta.order('created_at').last
+      ultima_factura = Venta.last
 
 
       #Tengo una venta abierta, cargo la última
       if ventas_abiertas.count > 0
-        ventas_abiertas.order('created_at DESC').first
+        ventas_abiertas.last
 
         #Le ponemos el número de factura en caso de que no lo tenga
-        venta = ventas_abiertas.first
+        venta = ventas_abiertas.last
         unless venta.venta_nombre.present?
           venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
         end
@@ -40,10 +40,6 @@ class Gestion::VentasController < GestionController
         venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
         @venta = venta_nueva
       end
-    else
-      venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
-      @venta = venta_nueva
-    end
   end
 
 
@@ -75,6 +71,40 @@ class Gestion::VentasController < GestionController
       begin
         venta.update_attribute :precio_total, nuevo_precio
         render :json => {status: 'ok', precio_item: precio.coste, servicio_nombre_dn: precio.nombre, precio_total: nuevo_precio}
+      rescue => e
+        e.backtrace
+      end
+    end
+  end
+
+  def aniade_producto
+    #Antes de añadirlo a la venta debemos comprobar que existe, si ha llegado el ID es mas que probable que exista pero comprobamos que esté activo
+    venta = Venta.find(params[:venta_id])
+
+    unless venta.cerrada #Si la venta está cerrada no puedo añadir nuevos elementos. No debería poder acceder a una venta cerrada desde aquí
+      producto = Producto.find(params[:producto])
+      if producto.present? and producto.activo #Existe, continuamos la normal ejecución
+
+        #Desglosamos el precio
+        base = producto.precio_venta / 1.21
+        iva = producto.precio_venta - base
+
+        ServicioVenta.create(
+            base: base,
+            precio_total: producto.precio_venta,
+            iva: iva,
+            venta_id: params[:venta_id].to_i,
+            producto_id: params[:producto].to_i,
+            producto_nombre_dn: producto.nombre
+        )
+      end
+      #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
+
+      precio_total_actual = venta.precio_total
+      nuevo_precio = precio_total_actual + producto.precio_venta
+      begin
+        venta.update_attribute :precio_total, nuevo_precio
+        render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio}
       rescue => e
         e.backtrace
       end

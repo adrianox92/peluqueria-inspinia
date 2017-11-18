@@ -148,9 +148,10 @@ Myapp::Application.routes.draw do
   namespace :gestion do
     resources :ventas do
       post 'aniade_venta/:servicio' => 'ventas#aniade_venta'
+      post 'aniade_producto/:producto' => 'ventas#aniade_producto'
       post 'cierra_venta' => 'ventas#cierra_venta'
     end
-    resources :servicios do
-    end
+    resources :servicios
+    resources :productos
   end
 end
