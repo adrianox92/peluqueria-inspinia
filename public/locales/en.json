@@ -1,6 +1,6 @@
 {
   "app":{
-    "name": "INSPINIA 2.4"
+    "name": "PMS 1.0"
   },
   "nav":{
     "dashboard": "Dashboards",
@@ -32,7 +32,7 @@
     "messageinfo": "You have 42 messages and 6 notifications.",
     "search": "Search for something...",
     "logout": "Log out",
-    "welcometext": "Welcome to INSPINIA+ Admin Theme.",
+    "welcometext": "Gestión de la peluquería",
     "language": "Language"
   },
   "demo":{

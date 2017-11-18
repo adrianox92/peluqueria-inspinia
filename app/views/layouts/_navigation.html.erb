@@ -42,7 +42,13 @@
       <li class="<%= is_active_action('productos') %>">
         <%= link_to gestion_productos_path do %>
             <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-            <span class="nav-label" data-i18n="nav.layouts">Productos</span>
+            <span class="nav-label">Productos</span>
+        <% end %>
+      </li>
+      <li class="<%= is_active_controller('pagos') %>">
+        <%= link_to gestion_pagos_path do %>
+            <i class="fa fa-university" aria-hidden="true"></i>
+            <span class="nav-label">Pagos</span>
         <% end %>
       </li>
       <li class="<%= is_active_controller('estadisticas') %>">

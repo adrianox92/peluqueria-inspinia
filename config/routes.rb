@@ -155,5 +155,6 @@ Myapp::Application.routes.draw do
     resources :productos
     resources :informes
     resources :estadisticas
+    resources :pagos
   end
 end

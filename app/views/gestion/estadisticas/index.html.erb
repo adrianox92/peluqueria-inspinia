@@ -15,10 +15,11 @@
 <div class="wrapper wrapper-content  animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
-      <h3>Semana <%= Time.zone.now.beginning_of_week.strftime("%d/%m/%Y") %> al <%= Time.zone.now.end_of_week.strftime("%d/%m/%Y") %></h3>
+      <h3>Semana <%= Time.zone.now.beginning_of_week.strftime("%d/%m/%Y") %>
+        al <%= Time.zone.now.end_of_week.strftime("%d/%m/%Y") %></h3>
     </div>
-    <div class="col-lg-12">
-      <div class="col-lg-3">
+    <div class="col-lg-9">
+      <div class="col-lg-6">
         <div class="ibox">
           <div class="ibox-content">
             <h5>Ventas</h5>
@@ -38,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-3">
+      <div class="col-lg-6">
         <div class="ibox">
           <div class="ibox-content">
             <h5>Ingresos</h5>
@@ -53,10 +54,16 @@
                 clase = 'stat-percent font-bold text-danger'
                 clase2 = 'fa fa-level-down'
               end %>
-            <div class="<%= clase %>"><%= @diferencia_ingresos %>%  <i class="<%= clase2 %>"></i></div>
+            <div class="<%= clase %>"><%= @diferencia_ingresos %>% <i class="<%= clase2 %>"></i></div>
             <small>Ingresos totales</small>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="col-lg-12">
+        <input type="hidden" id="productos_semana" name="productos_semana" value="<%= @productos_semana %>">
+        <canvas id="chart_semanal" width="200" height="200"></canvas>
       </div>
     </div>
   </div>
@@ -100,7 +107,7 @@
                 clase = 'stat-percent font-bold text-danger'
                 clase2 = 'fa fa-level-down'
               end %>
-            <div class="<%= clase %>"><%= @diferencia_ingresos_meses %>%  <i class="<%= clase2 %>"></i></div>
+            <div class="<%= clase %>"><%= @diferencia_ingresos_meses %>% <i class="<%= clase2 %>"></i></div>
             <small>Ingresos totales</small>
           </div>
         </div>

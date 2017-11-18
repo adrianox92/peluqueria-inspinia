@@ -1,0 +1,19 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-12">
+    <h2>Pagos</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="<%= root_path %>">Inicio</a>
+      </li>
+      <li>
+        <a href="<%= gestion_pagos_path %>">Pagos</a>
+      </li>
+      <li class="active">
+        <strong>Nuevo Pago</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="row wrapper wrapper-content animated fadeInRight">
+  <%= render partial: 'form', locals: {pago: @pago} %>
+</div>

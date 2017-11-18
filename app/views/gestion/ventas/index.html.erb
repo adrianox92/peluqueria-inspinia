@@ -41,62 +41,9 @@
           </table>
           <hr class="hr-line-dashed">
           <%= simple_form_for @venta, url: gestion_venta_cierra_venta_path(@venta.id), method: :post do |f| %>
+              <%= f.input :tipo_pago, collection: @tipo_pago, selected: @tipo_pago.first, input_html: {class: 'form-control m-b-md'} %>
               <%= f.button :submit, 'Cerrar venta', class: 'btn btn-w-m btn-primary btn-lg cerrar-venta', :confirm => "¿Estas seguro? No se podrán añadir nuevos elementos a la factura cerrada" %>
           <% end %>
-          <div class="calculadora">
-            <table class="table no-borders">
-              <tr>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">7</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">8</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">9</button>
-                </td>
-                <td rowspan="4">
-                  <button class="btn btn-outline btn-primary dim text-center" type="button">=</button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">4</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">5</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">6</button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">1</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">2</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">3</button>
-                </td>
-
-              </tr>
-              <tr>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">+</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">0</button>
-                </td>
-                <td>
-                  <button class="btn btn-outline btn-primary dim" type="button">-</button>
-                </td>
-
-              </tr>
-            </table>
-
-          </div>
         </div>
       </div>
     </div>

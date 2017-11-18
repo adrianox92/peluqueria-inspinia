@@ -15,5 +15,6 @@
 //= require inspinia.js
 //= require socket.io
 //= require switchery/switchery.js
+//= require chartjs/Chart.min.js
 //= require gestion
 

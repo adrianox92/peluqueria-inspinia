@@ -50,6 +50,8 @@ class Gestion::EstadisticasController < GestionController
 
 
     #General
+    @productos_semana = devuelve_productos(Time.zone.now.beginning_of_week, Time.zone.now.end_of_week.strftime("%d/%m/%Y"))
+    #@productos_mes = devuelve_productos
     @ventas = ventas
   end
 
@@ -74,5 +76,28 @@ class Gestion::EstadisticasController < GestionController
       end
     end
     diferencia_ventas
+  end
+
+  def devuelve_productos(periodo_inicio, periodo_fin)
+    ventas_ids = Venta.where('cerrada = ? AND created_at >= ? AND created_at <= ?', true, periodo_inicio, periodo_fin).ids #Sacamos los IDS de las ventas de la semana
+    servicio_venta = ServicioVenta.where('venta_id IN (?) AND servicio_id IS NOT NULL', ventas_ids).order('servicio_id')
+    data = {}
+    servicio_id = 0
+    total_servicio = 0
+    usado = 0
+    servicio_venta.each do |serven|
+      if servicio_id != serven.servicio_id
+        total_servicio = 0
+        total_servicio = total_servicio + serven.precio_total
+        usado = 0
+        usado = usado + 1
+        servicio_id = serven.servicio_id
+      else
+        total_servicio = total_servicio + serven.precio_total
+        usado = usado + 1
+      end
+      data[serven.servicio_nombre_dn.to_sym] = {total_servicio: total_servicio, usado: usado}
+    end
+    data.to_json
   end
 end
