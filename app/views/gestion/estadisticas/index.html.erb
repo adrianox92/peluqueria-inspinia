@@ -59,9 +59,48 @@
           </div>
         </div>
       </div>
+      <div class="col-lg-6">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Tipos de pago</h5>
+            <div class="row">
+              <div class="col-xs-6">
+                <p>Pagos en efectivo</p>
+                <h1 class="no-margins"><%= @pagos_efectivo %></h1>
+              </div>
+              <div class="col-xs-6">
+                <p>Pagos con tarjeta</p>
+                <h1 class="no-margins"><%= @pagos_tarjeta %></h1>
+              </div>
+            </div>
+
+            <small>Métodos de pago</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="ibox">
+          <div class="ibox-content">
+            <h5>Gestión del IVA</h5>
+            <div class="row">
+              <div class="col-xs-6">
+                <p>IVA repercutido (Ventas)</p>
+                <h1 class="no-margins"><%= number_to_currency(@iva_repercutido, :unit => '€') %></h1>
+              </div>
+              <div class="col-xs-6">
+                <p>IVA soportado (Compras)</p>
+                <h1 class="no-margins"><%= number_to_currency(@iva_soportado, :unit => '€') %></h1>
+              </div>
+            </div>
+
+            <small>IVA</small>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-lg-3">
       <div class="col-lg-12">
+        <h3 class="no-margins">Productos mas usados durante la semana</h3>
         <input type="hidden" id="productos_semana" name="productos_semana" value="<%= @productos_semana %>">
         <canvas id="chart_semanal" width="200" height="200"></canvas>
       </div>

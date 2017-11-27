@@ -8,6 +8,9 @@ class Gestion::ProductosController < GestionController
   end
 
   def create
+    params[:producto][:base_compra] = params[:producto][:precio_compra].to_f / 1.21
+    params[:producto][:iva_compra] = params[:producto][:precio_compra].to_f - params[:producto][:base_compra]
+
     producto = Producto.create(permit_params)
     if producto.valid?
       redirect_to gestion_productos_path
@@ -23,6 +26,8 @@ class Gestion::ProductosController < GestionController
 
   def update
     producto = Producto.find(params[:id])
+    params[:producto][:base_compra] = params[:producto][:precio_compra].to_f / 1.21
+    params[:producto][:iva_compra] = params[:producto][:precio_compra].to_f - params[:producto][:base_compra]
     if producto.update_attributes(permit_params)
       redirect_to gestion_productos_path
     else
@@ -44,6 +49,6 @@ class Gestion::ProductosController < GestionController
   end
 
   def permit_params
-    params.require(:producto).permit(:nombre, :precio_compra, :precio_venta, :activo, :fecha_ultima_compra, :stock)
+    params.require(:producto).permit(:nombre, :precio_compra, :precio_venta, :activo, :fecha_ultima_compra, :stock, :iva_compra, :base_compra)
   end
 end

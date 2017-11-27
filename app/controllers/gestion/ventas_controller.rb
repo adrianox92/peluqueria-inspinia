@@ -15,7 +15,7 @@ class Gestion::VentasController < GestionController
 
   def get_data
     @servicios = Precio.where('activo = ?', true)
-    @tipo_pago = [['Efectivo'], ['Tarjeta']]
+    @tipo_pago = [['Efectivo', 'Efectivo'], ['Tarjeta', 'Tarjeta']]
     @productos = Producto.where('activo = ?', true)
   end
 
@@ -119,7 +119,7 @@ class Gestion::VentasController < GestionController
       base = precio_total / 1.21
       iva = precio_total - base
 
-      venta.update_attributes(:cerrada => true, :base => base, :iva => iva)
+      venta.update_attributes(:cerrada => true, :base => base, :iva => iva, :tipo_pago => params[:venta][:tipo_pago])
       redirect_to gestion_ventas_path
     end
   end

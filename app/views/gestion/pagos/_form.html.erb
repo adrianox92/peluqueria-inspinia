@@ -10,7 +10,7 @@
         <%= f.input :ultimo_pago, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
       </div>
       <div class="col-xs-3">
-        <%= f.input :tipo_pago, collection: @periodicidad, prompt: 'Seleccionar periodicidad', input_html: {class: 'form-control m-b-md'} %>
+        <%= f.input :periodicidad, collection: @periodicidad, prompt: 'Seleccionar periodicidad', input_html: {class: 'form-control m-b-md'} %>
       </div>
       <div class="col-xs-3">
         <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
