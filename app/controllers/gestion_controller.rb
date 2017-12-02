@@ -3,6 +3,7 @@ class GestionController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_filter :require_login, except: :login
+  before_filter :muestra_notificaciones
 
   def index
 
@@ -36,6 +37,11 @@ class GestionController < ActionController::Base
     unless session[:logged_as]
       redirect_to login_path
     end
+  end
+
+  #Muestra los productos stock menor de 10
+  def muestra_notificaciones
+    @notificaciones = Producto.stock_bajo
   end
 
 end

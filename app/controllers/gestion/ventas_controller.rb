@@ -16,26 +16,32 @@ class Gestion::VentasController < GestionController
   def get_data
     @servicios = Precio.where('activo = ?', true)
     @tipo_pago = [['Efectivo', 'Efectivo'], ['Tarjeta', 'Tarjeta']]
-    @productos = Producto.where('activo = ?', true)
+    @productos = Producto.where('activo = ? AND stock > ?', true, 0) #Productos activos con stock
   end
 
   def inicia_venta
     #Cuando entremos en el index desde otra página que no provenga del controlador actual debemos mostrar la última venta que NO está cerrada
     #En caso contrario iniciamos una nueva
     ventas_abiertas = Venta.where('cerrada = ?', false)
-    ultima_factura = Venta.last
+    ultima_factura = ventas_abiertas.last
 
 
     #Tengo una venta abierta, cargo la última
     if ventas_abiertas.count > 0
-      ventas_abiertas.last
 
-      #Le ponemos el número de factura en caso de que no lo tenga
-      venta = ventas_abiertas.last
-      unless venta.venta_nombre.present?
-        venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
+      #Si tenemos una venta abierta del día anterior tenemos que avisar
+      if ultima_factura.created_at.today?
+        ventas_abiertas.last
+
+        #Le ponemos el número de factura en caso de que no lo tenga
+        venta = ventas_abiertas.last
+        unless venta.venta_nombre.present?
+          venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
+        end
+        @venta = venta
+      else
+
       end
-      @venta = venta
     else
       venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
       @venta = venta_nueva
@@ -83,7 +89,7 @@ class Gestion::VentasController < GestionController
 
     unless venta.cerrada #Si la venta está cerrada no puedo añadir nuevos elementos. No debería poder acceder a una venta cerrada desde aquí
       producto = Producto.find(params[:producto])
-      if producto.present? and producto.activo #Existe, continuamos la normal ejecución
+      if producto.present? and producto.activo and producto.stock > 0 #Existe, continuamos la normal ejecución
 
         #Desglosamos el precio
         base = producto.precio_venta / 1.21
@@ -98,6 +104,7 @@ class Gestion::VentasController < GestionController
             producto_nombre_dn: producto.nombre
         )
       end
+      producto.update_attribute :stock, (producto.stock - 1) #Reducimos el stock del producto para llevar un control del mismo
       #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
 
       precio_total_actual = venta.precio_total
