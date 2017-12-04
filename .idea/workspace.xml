@@ -8,12 +8,6 @@
     <list default="true" id="b7cf4c3b-fae3-4721-85e7-d1ec5c54ed55" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/cache/assets/sprockets/v3.0/ot/Oty3A1HDP5d9ALryHL6fBLCQUxTJh7e-EY-57cXe9E4.cache" afterPath="$PROJECT_DIR$/tmp/cache/assets/sprockets/v3.0/ot/Oty3A1HDP5d9ALryHL6fBLCQUxTJh7e-EY-57cXe9E4.cache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/gestion.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/gestion.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/personalizado.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/personalizado.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/gestion/estadisticas_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/gestion/estadisticas_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/gestion/ventas_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/gestion/ventas_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/gestion/estadisticas/index.html.erb" afterPath="$PROJECT_DIR$/app/views/gestion/estadisticas/index.html.erb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_topnavbar.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_topnavbar.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log/development.log" afterPath="$PROJECT_DIR$/log/development.log" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tmp/pids/server.pid" afterPath="$PROJECT_DIR$/tmp/pids/server.pid" />
     </list>
@@ -658,7 +652,7 @@
       <workItem from="1511106354054" duration="1509000" />
       <workItem from="1511803995017" duration="4334000" />
       <workItem from="1512236417775" duration="8507000" />
-      <workItem from="1512410904280" duration="3326000" />
+      <workItem from="1512410904280" duration="3360000" />
     </task>
     <task id="LOCAL-00001" summary="Cambios y gestión de precios terminada">
       <created>1510937288122</created>
@@ -723,11 +717,18 @@
       <option name="project" value="LOCAL" />
       <updated>1512239604360</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Gráfica de ventas desarrollada.">
+      <created>1512414368864</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1512414368864</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68990000" />
+    <option name="totallyTimeSpent" value="69024000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -783,7 +784,8 @@
     <MESSAGE value="Init pagos" />
     <MESSAGE value="Pagos y correcciones en estadísticas y ventas." />
     <MESSAGE value="Pequeñas mejoras" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pequeñas mejoras" />
+    <MESSAGE value="Gráfica de ventas desarrollada." />
+    <option name="LAST_COMMIT_MESSAGE" value="Gráfica de ventas desarrollada." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1130,6 +1132,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="28" column="45" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>
