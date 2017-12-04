@@ -5,6 +5,33 @@ class Gestion::EstadisticasController < GestionController
 
     #Semana en curso
     ventas_semana_en_curso = ventas.where("created_at >= ?", Time.zone.now.beginning_of_week)
+
+    #TODO: Refactorizar a 1 única función
+    from = Time.zone.now.beginning_of_week.beginning_of_day
+    to = Time.zone.now.end_of_week
+    ventas_semana_total_hm = {}
+
+    Date.new(from.year, from.month, from.day).upto(Date.new(to.year, to.month, to.day)) do |date|
+      ventas_semana_total_hm["dia_#{date.wday}".to_sym] = {dia: date.wday, total_ventas: 0}
+    end
+
+    ventas_semana_total = Venta.where(created_at: from .. to)
+
+    dia = ''
+    total_semana_curso = 0
+    ventas_semana_total.each do |vsc|
+
+      if vsc.created_at.strftime("%d/%m/%Y")
+        dia = vsc.created_at.strftime("%d/%m/%Y")
+        total_semana_curso = total_semana_curso + vsc.precio_total
+      else
+        total_semana_curso = total_semana_curso + vsc.precio_total
+      end
+      ventas_semana_total_hm["dia_#{vsc.created_at.strftime("%d/%m/%Y").to_date.wday}".to_sym] = {dia: vsc.created_at.strftime("%d/%m/%Y").to_date.wday, total_ventas: total_semana_curso}
+    end if ventas_semana_total.count > 0
+
+    @ventas_semana_total = ventas_semana_total_hm.to_json
+
     @ventas_semana = ventas_semana_en_curso.count
     @pagos_tarjeta = ventas_semana_en_curso.where("tipo_pago = ?", 'Tarjeta').count
     @pagos_efectivo = ventas_semana_en_curso.where("tipo_pago = ?", 'Efectivo').count
@@ -21,9 +48,31 @@ class Gestion::EstadisticasController < GestionController
     end if compras_semana_en_curso.count > 0
 
 
-
+    #TODO: Refactorizar a 1 única función
     ventas_semana_anterior = ventas.where("created_at >= ? AND created_at < ?", (Time.zone.now.beginning_of_week - 7.days), Time.zone.now.beginning_of_week)
+    total_semana_anterior = 0
+    ventas_semana_anterior_total_hm = {}
+
+    from_semana_anterior = Time.zone.now.beginning_of_week - 7.days
+    to_semana_anterior = Time.zone.now.beginning_of_week
+    Date.new(from_semana_anterior.year, from_semana_anterior.month, from_semana_anterior.day).upto(Date.new(to_semana_anterior.year, to_semana_anterior.month, to_semana_anterior.day)) do |date|
+      ventas_semana_anterior_total_hm["dia_#{date.wday}".to_sym] = {dia: date.wday, total_ventas: 0}
+    end
     num_ventas_anterior = ventas_semana_anterior.count
+
+    ventas_semana_anterior.each do |vsa|
+
+      if vsa.created_at.strftime("%d/%m/%Y")
+        dia = vsa.created_at.strftime("%d/%m/%Y")
+        total_semana_anterior = total_semana_anterior + vsa.precio_total
+      else
+        total_semana_anterior = total_semana_anterior + vsa.precio_total
+      end
+      ventas_semana_anterior_total_hm["dia_#{vsa.created_at.strftime("%d/%m/%Y").to_date.wday}".to_sym] = {dia: vsa.created_at.strftime("%d/%m/%Y").to_date.wday, total_ventas: total_semana_anterior}
+    end if num_ventas_anterior > 0
+
+    @ventas_semana_anterior_total = ventas_semana_anterior_total_hm.to_json
+
     cero = false #Se lo pasamos al comparador para que sume 1 mas en caso de que sea 0 y no de un valor incorrecto
     if num_ventas_anterior == 0
       cero = true

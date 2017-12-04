@@ -34,7 +34,7 @@
                 clase = 'stat-percent font-bold text-danger'
                 clase2 = 'fa fa-level-down'
               end %>
-            <div class="<%= clase %>"><%= @diferencia_ventas %>% <i class="<%= clase2 %>"></i></div>
+            <div class="<%= clase %>"><%= @diferencia_ventas.round(2) %>% <i class="<%= clase2 %>"></i></div>
             <small>Ventas totales</small>
           </div>
         </div>
@@ -54,7 +54,7 @@
                 clase = 'stat-percent font-bold text-danger'
                 clase2 = 'fa fa-level-down'
               end %>
-            <div class="<%= clase %>"><%= @diferencia_ingresos %>% <i class="<%= clase2 %>"></i></div>
+            <div class="<%= clase %>"><%= @diferencia_ingresos.round(2) %>% <i class="<%= clase2 %>"></i></div>
             <small>Ingresos totales</small>
           </div>
         </div>
@@ -105,6 +105,14 @@
         <canvas id="chart_semanal" width="200" height="200"></canvas>
       </div>
     </div>
+    <div class="col-lg-12" id="estadisticas_semanales" data-semana-anterior="">
+      <input type="hidden" value="<%= @ventas_semana_total %>" id="ventas_semana_total_grafica">
+      <input type="hidden" value="<%= @ventas_semana_anterior_total %>" id="ventas_semana_anterior_total_grafica">
+      <h3 class="no-margins">Estadísticas de ventas semanal</h3>
+      <div class="col-lg-12">
+        <canvas id="line_semanal" width="300" height="300"></canvas>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-lg-12">
@@ -147,7 +155,7 @@
                   clase = 'stat-percent font-bold text-danger'
                   clase2 = 'fa fa-level-down'
                 end %>
-              <div class="<%= clase %>"><%= @diferencia_ingresos_meses %>% <i class="<%= clase2 %>"></i></div>
+              <div class="<%= clase %>"><%= @diferencia_ingresos_meses.round(2) %>% <i class="<%= clase2 %>"></i></div>
               <small>Ingresos totales</small>
             </div>
           </div>

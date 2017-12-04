@@ -66,6 +66,7 @@ $(document).ready(function () {
             array_precios = [],
             array_usados = [],
             ctx = document.getElementById("chart_semanal").getContext('2d');
+        ctx2 = document.getElementById("line_semanal").getContext('2d');
 
         $.each(data, function (servicio, valor) {
             array_servicios.push(servicio);
@@ -121,4 +122,49 @@ $(document).ready(function () {
             }
         });
     }
+    var data_semana_curso = JSON.parse($('#ventas_semana_total_grafica').val()),
+        data_semana_anterior = JSON.parse($('#ventas_semana_anterior_total_grafica').val()),
+        array_ventas_semana_anterior = [],
+        array_ventas_semana_curso = [];
+    $.each(data_semana_curso, function (total, valor) {
+        array_ventas_semana_curso.push(valor.total_ventas)
+    });
+
+    $.each(data_semana_anterior, function (total, valor) {
+        array_ventas_semana_anterior.push(valor.total_ventas)
+    });
+    console.log(array_ventas_semana_anterior)
+
+    var Chart_semanal = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            datasets: [
+
+                {
+                    label: "Semana actual",
+                    backgroundColor: 'rgba(26,179,148,0.5)',
+                    borderColor: "rgba(26,179,148,0.7)",
+                    pointBackgroundColor: "rgba(26,179,148,1)",
+                    pointBorderColor: "#fff",
+                    data: array_ventas_semana_curso
+                },
+                {
+                    label: "Semana anterior",
+                    backgroundColor: 'rgba(220, 220, 220, 0.5)',
+                    pointBorderColor: "#fff",
+                    data: array_ventas_semana_anterior
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Ingresos durante la semana comparada con la anterior'
+            }
+        }
+    });
+    Chart_semanal.height = 300;
 });

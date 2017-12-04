@@ -40,7 +40,8 @@ class Gestion::VentasController < GestionController
         end
         @venta = venta
       else
-
+        venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
+        @venta = venta_nueva
       end
     else
       venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
