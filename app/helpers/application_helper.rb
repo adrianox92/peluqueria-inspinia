@@ -8,7 +8,7 @@ module ApplicationHelper
     end
 
     def is_active_action(action_name)
-        params[:action] == action_name ? "active" : nil
+      controller_name == action_name ? "active" : nil
     end
 
     #Transforma un booleano de la BBDD a un icono de FontAwesome
