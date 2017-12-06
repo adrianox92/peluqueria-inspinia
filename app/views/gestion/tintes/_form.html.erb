@@ -1,0 +1,29 @@
+<%= simple_form_for :tinte, url: (@tinte.new_record? ? gestion_tintes_path(@tinte) : gestion_tinte_path(@tinte)), method: (@tinte.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-xs-3">
+            <%= f.input :nombre, placeholder: 'Nombre del producto', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :precio_compra, placeholder: 'Precio de compra', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :stock, placeholder: 'Unidades en stock', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :codigo, placeholder: 'Código del tinte', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :fecha_ultima_compra, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>

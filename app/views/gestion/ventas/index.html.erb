@@ -62,7 +62,7 @@
         <p class="caja-precio-total">
           <label class="cuenta"><%= @venta.precio_total %></label><span class="euros float-right"><i class="fa fa-eur" aria-hidden="true"></i></span>
         </p>
-        <div class="ibox-content">
+        <div class="ibox-content" id="servicios">
           <h3>Servicios</h3>
           <div class="row">
             <% @servicios.each_with_index do |s, index| %>
@@ -80,7 +80,7 @@
           </div>
           <input type="hidden" value="<%= @venta.id %>" id="venta_id" name="venta_id">
         </div>
-        <div class="ibox-content">
+        <div class="ibox-content" id="productos">
           <h3>Productos</h3>
           <div class="row">
             <% @productos.each_with_index do |p, index| %>

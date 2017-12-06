@@ -6,6 +6,7 @@ Myapp::Application.routes.draw do
   post 'login' => 'gestion#login'
   get 'logout' => 'gestion#logout', as: 'logout'
 
+
   namespace :gestion do
     resources :ventas do
       post 'aniade_venta/:servicio' => 'ventas#aniade_venta'
@@ -18,5 +19,12 @@ Myapp::Application.routes.draw do
     resources :informes
     resources :estadisticas
     resources :pagos
+    resources :clientes do
+      collection do
+        get 'filtrar_clientes/:cliente' => 'clientes#filtrar_clientes', as: 'filtrar_clientes'
+        get 'resetear_filtros/' => 'clientes#resetear_filtros', as: 'resetear_filtros'
+      end
+    end
+    resources :tintes
   end
 end

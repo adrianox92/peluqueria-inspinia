@@ -16,7 +16,7 @@ class Gestion::VentasController < GestionController
   def get_data
     @servicios = Precio.where('activo = ?', true)
     @tipo_pago = [['Efectivo', 'Efectivo'], ['Tarjeta', 'Tarjeta']]
-    @productos = Producto.where('activo = ? AND stock > ?', true, 0) #Productos activos con stock
+    @productos = Producto.where('activo = ? AND stock > ? AND tipo NOT ILIKE ? or tipo IS NULL', true, 0, '%tinte%') #Productos activos con stock
   end
 
   def inicia_venta
@@ -88,6 +88,7 @@ class Gestion::VentasController < GestionController
     #Antes de añadirlo a la venta debemos comprobar que existe, si ha llegado el ID es mas que probable que exista pero comprobamos que esté activo
     venta = Venta.find(params[:venta_id])
     servicio_venta = ''
+    producto_id = 0
     unless venta.cerrada #Si la venta está cerrada no puedo añadir nuevos elementos. No debería poder acceder a una venta cerrada desde aquí
       producto = Producto.find(params[:producto])
       if producto.present? and producto.activo and producto.stock > 0 #Existe, continuamos la normal ejecución
@@ -106,13 +107,14 @@ class Gestion::VentasController < GestionController
         )
       end
       producto.update_attribute :stock, (producto.stock - 1) #Reducimos el stock del producto para llevar un control del mismo
+      producto_id = producto.id
       #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
 
       precio_total_actual = venta.precio_total
       nuevo_precio = precio_total_actual + producto.precio_venta
       begin
         venta.update_attribute :precio_total, nuevo_precio
-        render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio, tipo: 'producto', id_item: servicio_venta.id}
+        render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio, tipo: 'producto', id_item: servicio_venta.id, stock: producto.stock, producto_id: producto_id}
       rescue => e
         e.backtrace
       end
@@ -120,6 +122,7 @@ class Gestion::VentasController < GestionController
   end
 
   def elimina_linea_venta
+    #TODO: Si el producto tenía 0 como lo hemos eliminado tenemos que volverlo a crear
     venta = Venta.find(params[:venta_id])
     unless venta.cerrada #Si la venta está cerrada no puedo eliminar los elementos. No debería poder acceder a una venta cerrada desde aquí
       servicio_venta = ServicioVenta.find(params[:id])

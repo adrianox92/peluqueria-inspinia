@@ -13,17 +13,6 @@
                             </span>
                         </span>
           </a>
-          <ul class="dropdown-menu animated fadeInRight m-t-xs">
-            <li><a href="">Profile</a>
-            </li>
-            <li><a href="">Contacts</a>
-            </li>
-            <li><a href="">Mailbox</a>
-            </li>
-            <li class="divider"></li>
-            <li><a href="<%= logout_path %>">Logout</a>
-            </li>
-          </ul>
         </div>
         <div class="logo-element">
           PMS
@@ -32,6 +21,12 @@
       <li class="<%= is_active_action('servicios') %>">
         <%= link_to gestion_servicios_path do %>
             <i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.layouts">Servicios (Precios)</span>
+        <% end %>
+      </li>
+      <li class="<%= is_active_action('clientes') %>">
+        <%= link_to gestion_clientes_path do %>
+            <i class="fa fa-address-book" aria-hidden="true"></i><span class="nav-label" data-i18n="nav.clients">Clientes</span>
+
         <% end %>
       </li>
       <li class="<%= is_active_action('ventas') %>">
@@ -45,13 +40,19 @@
             <span class="nav-label">Productos</span>
         <% end %>
       </li>
-      <li class="<%= is_active_controller('pagos') %>">
+      <li class="<%= is_active_action('tintes') %>">
+        <%= link_to gestion_tintes_path do %>
+            <i class="fa fa-paint-brush" aria-hidden="true"></i>
+            <span class="nav-label">Tintes</span>
+        <% end %>
+      </li>
+      <li class="<%= is_active_action('pagos') %>">
         <%= link_to gestion_pagos_path do %>
             <i class="fa fa-university" aria-hidden="true"></i>
             <span class="nav-label">Pagos</span>
         <% end %>
       </li>
-      <li class="<%= is_active_controller('estadisticas') %>">
+      <li class="<%= is_active_action('estadisticas') %>">
         <%= link_to gestion_estadisticas_path do %>
             <i class="fa fa-pie-chart"></i> <span class="nav-label" data-i18n="nav.metrics">Estadísticas</span>
         <% end %>
@@ -60,10 +61,10 @@
         <a href="#"><i class="fa fa-table"></i>
           <span class="nav-label" data-i18n="nav.tables">Tables</span><span class="fa arrow"></span></a>
         <ul class="nav nav-second-level collapse <%= is_active_controller('tables', 'in') %>">
-            <li><a href="#">1</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">1</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">1</a></li>
         </ul>
       </li>
     </ul>

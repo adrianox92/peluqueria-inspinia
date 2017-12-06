@@ -1,0 +1,26 @@
+<%= simple_form_for :cliente, url: (@cliente.new_record? ? gestion_clientes_path(@cliente) : gestion_cliente_path(@cliente)), method: (@cliente.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-xs-3">
+            <%= f.input :nombre, placeholder: 'Nombre del cliente', input_html: {class: "form-control m-b-md #{field_class(@cliente, :nombre) }"} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :apellidos, placeholder: 'Apellidos del cliente', input_html: {class: "form-control m-b-md #{field_class(@cliente, :apellidos) }"} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :telefono, placeholder: 'Teléfono del cliente', input_html: {class: "form-control m-b-md #{field_class(@cliente, :telefono) }"} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :sexo, collection: @sexo, prompt: 'Seleccionar género', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>

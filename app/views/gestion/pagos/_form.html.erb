@@ -1,22 +1,26 @@
 <%= simple_form_for :pago, url: (@pago.new_record? ? gestion_pagos_path(@pago) : gestion_pago_path(@pago)), method: (@pago.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
-    <div class="row">
-      <div class="col-xs-3">
-        <%= f.input :nombre, placeholder: 'Nombre del pago', input_html: {class: 'form-control m-b-md'} %>
-      </div>
-      <div class="col-xs-3">
-        <%= f.input :pago, placeholder: 'Pago a realizar', input_html: {class: 'form-control m-b-md'} %>
-      </div>
-      <div class="col-xs-3">
-        <%= f.input :ultimo_pago, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
-      </div>
-      <div class="col-xs-3">
-        <%= f.input :periodicidad, collection: @periodicidad, prompt: 'Seleccionar periodicidad', input_html: {class: 'form-control m-b-md'} %>
-      </div>
-      <div class="col-xs-3">
-        <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
-      </div>
-      <div class="col-xs-12">
-        <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-xs-3">
+            <%= f.input :nombre, placeholder: 'Nombre del pago', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :pago, placeholder: 'Pago a realizar', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :ultimo_pago, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :periodicidad, collection: @periodicidad, prompt: 'Seleccionar periodicidad', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+          </div>
+        </div>
       </div>
     </div>
 <% end %>

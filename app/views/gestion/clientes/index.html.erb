@@ -1,0 +1,38 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Clientes</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="<%= root_path %>">Home</a>
+      </li>
+      <li class="active">
+        <strong>Clientes</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <div class="col-sm-12">
+            <%= simple_form_for :cliente, url: filtrar_clientes_gestion_clientes_path(@clientes), method: :get, html: {class: 'form-horizontal'} do |f| %>
+                <div class="input-group">
+                  <input type="text" placeholder="Buscar cliente por nombre" id="cliente_nombre" name="cliente_nombre" class=" form-control" value="<%= session[:filter_cliente_nombre] %>">
+                  <span class="input-group-btn">
+                      <button type="submit" class="btn btn-primary">Buscar</button>
+                  </span>
+                </div>
+                  <%= link_to 'Resetear filtros', resetear_filtros_gestion_clientes_path, class: 'btn btn-w-m btn-info m-t-md' %>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <%= render partial: 'clientes', locals: {cliente: @clientes} %>
+    </div>
+  </div>
+</div>

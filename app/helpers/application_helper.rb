@@ -23,5 +23,23 @@ module ApplicationHelper
       out
     end
 
+  def genre_to_human (genero)
+    out = ''
+    if genero == 'Mujer'
+      out = '<i data-toggle="tooltip" data-placement="top" title="" data-original-title="Mujer" class="fa fa-female mujer"></i>'
+    else
+      out = '<i data-toggle="tooltip" data-placement="top" title="" data-original-title="Hombre" class="fa fa-male hombre"></i>'
+    end
+    out
+  end
+
+    def field_class(resource, field_name)
+      if resource.errors[field_name] and not resource.errors[field_name].empty?
+        return "error".html_safe
+      else
+        return "".html_safe
+      end
+    end
+
 
 end

@@ -60,13 +60,18 @@ $(document).ready(function () {
                 var nuevo_indice = parseInt(ultimo_indice) + 1,
                     newRowContentProducto = "<tr id='" + data.id_item + "'>" +
                         "<td>" + nuevo_indice + "</td>" +
-                        "<td>" + data.servicio_nombre_dn + "</td>" +
+                        "<td>" + data.producto_nombre_dn + "</td>" +
                         "<td>" + data.precio_item + "</td>" +
                         "<td><span id='" + data.id_item + "' data-tipo='" + data.tipo + "' class='eliminar glyphicon glyphicon-remove'></span></td>" +
                         "</tr>";
                 $('.cuenta').text((data.precio_total).toFixed(2));
                 $('.tabla-productos-venta tbody').append(newRowContentProducto);
 
+                if (data.stock == 0) {
+                    console.log(data.id_item);
+                    var id_producto = '#' + data.producto_id
+                    $('#productos ' + id_producto).remove();
+                }
             }
         });
     });
@@ -80,6 +85,7 @@ $(document).ready(function () {
                 type: 'post'
             }).done(function (data) {
                 if (data.status == 'ok') {
+                    //TODO: Si el producto tenía 0 como lo hemos eliminado tenemos que volverlo a crear
                     $('.cuenta').text((data.precio_total).toFixed(2));
                     $('.tabla-productos-venta tbody tr#' + data.id).remove();
                 }

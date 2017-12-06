@@ -12,6 +12,7 @@
           <th>Precio compra</th>
           <th>Precio venta</th>
           <th>Stock</th>
+          <th>Categoría</th>
           <th>Activo</th>
           <th>
             <%= link_to new_gestion_producto_path, :title => 'Añadir nuevo producto' do %>
@@ -24,6 +25,7 @@
               <td><%= p.precio_compra %></td>
               <td><%= p.precio_venta %></td>
               <td><%= p.stock %></td>
+              <td><%= p.tipo %></td>
               <td><%= boolean_to_human(p.activo).html_safe %></td>
               <td>
                 <%= link_to edit_gestion_producto_path(p.id), :title => 'Editar producto' do %>
@@ -36,14 +38,6 @@
               </td>
             </tr>
         <% end if producto.count > 0 %>
-        <!-- This is our clonable table line -->
-        <tr class="hide">
-          <td contenteditable="true">Untitled</td>
-          <td contenteditable="true">undefined</td>
-          <td>
-            <span class="table-remove glyphicon glyphicon-remove"></span>
-          </td>
-        </tr>
       </table>
     </div>
 

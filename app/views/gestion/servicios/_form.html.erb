@@ -1,14 +1,18 @@
 <%= simple_form_for :precio, url: (@precio.new_record? ? gestion_servicios_path(@precio) : gestion_servicio_path(@precio)), method: (@precio.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
-    <div class="row">
-      <div class="col-xs-6">
-        <%= f.input :nombre, placeholder: 'Nombre del producto', input_html: {class: 'form-control m-b-md'} %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-xs-6">
+            <%= f.input :nombre, placeholder: 'Nombre del producto', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-6">
+            <%= f.input :coste, placeholder: 'coste del mismo', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
+          </div>
+          <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+        </div>
       </div>
-      <div class="col-xs-6">
-        <%= f.input :coste, placeholder: 'coste del mismo', input_html: {class: 'form-control m-b-md'} %>
-      </div>
-      <div class="col-xs-12">
-        <%= f.input :activo, as: :boolean, input_html: {class: 'checkbox-inline js-switch'} %>
-      </div>
-      <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
     </div>
 <% end %>
