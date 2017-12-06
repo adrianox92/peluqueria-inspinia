@@ -34,7 +34,10 @@
                 clase = 'stat-percent font-bold text-danger'
                 clase2 = 'fa fa-level-down'
               end %>
-            <div class="<%= clase %>"><%= @diferencia_ventas.round(2) %>% <i class="<%= clase2 %>"></i></div>
+            <div class="<%= clase %>">
+              <p data-toggle="tooltip" data-placement="top" title="" data-original-title="Ventas semana anterior <%= @ventas_semana_anterior %>"><%= @diferencia_ventas.round(2) %>
+                % <i class="<%= clase2 %>"></i></p>
+            </div>
             <small>Ventas totales</small>
           </div>
         </div>
@@ -54,7 +57,9 @@
                 clase = 'stat-percent font-bold text-danger'
                 clase2 = 'fa fa-level-down'
               end %>
-            <div class="<%= clase %>"><%= @diferencia_ingresos.round(2) %>% <i class="<%= clase2 %>"></i></div>
+            <div class="<%= clase %>">
+              <p data-toggle="tooltip" data-placement="top" title="" data-original-title="Ingresos semana anterior <%= number_to_currency(@ingresos_semana_anterior, :unit => '€') %>"><%= @diferencia_ingresos.round(2) %>
+                % <i class="<%= clase2 %>"></i></p></div>
             <small>Ingresos totales</small>
           </div>
         </div>
@@ -100,9 +105,13 @@
     </div>
     <div class="col-lg-3">
       <div class="col-lg-12">
-        <h3 class="no-margins">Servicios mas usados durante la semana</h3>
-        <input type="hidden" id="productos_semana" name="productos_semana" value="<%= @productos_semana %>">
-        <canvas id="chart_semanal" width="200" height="200"></canvas>
+        <div class="ibox">
+          <div class="ibox-content">
+            <h3 class="no-margins">Servicios mas usados durante la semana</h3>
+            <input type="hidden" id="productos_semana" name="productos_semana" value="<%= @productos_semana %>">
+            <canvas id="chart_semanal" width="200" height="200"></canvas>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-lg-12" id="estadisticas_semanales" data-semana-anterior="">
@@ -157,6 +166,35 @@
                 end %>
               <div class="<%= clase %>"><%= @diferencia_ingresos_meses.round(2) %>% <i class="<%= clase2 %>"></i></div>
               <small>Ingresos totales</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h5>Gastos</h5>
+              <h1 class="no-margins"><%= number_to_currency(@total_gastos, :unit => '€') %></h1>
+              <small>Gastos totales</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h5>Balance mensual</h5>
+              <h1 class="no-margins"><%= number_to_currency(@total_mes, :unit => '€') %></h1>
+              <small>Balance del mes Ingresos - Gastos </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="col-lg-12">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h3 class="no-margins">Servicios mas usados durante el mes</h3>
+              <input type="hidden" id="productos_mes" name="productos_mes" value="<%= @productos_mes %>">
+              <canvas id="chart_mensual" width="200" height="200"></canvas>
             </div>
           </div>
         </div>

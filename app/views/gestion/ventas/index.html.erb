@@ -27,6 +27,7 @@
               <th>#</th>
               <th>Nombre</th>
               <th>Precio</th>
+              <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -34,12 +35,16 @@
               <td>0</td>
               <td></td>
               <td></td>
+              <td></td>
             </tr>
             <% @servicios_asociados.each_with_index do |sevasc, index| %>
-                <tr>
+                <tr id="<%= sevasc.id %>">
                   <td><%= index %></td>
-                  <td><%= sevasc.servicio_nombre_dn.present? ? sevasc.servicio_nombre_dn:  sevasc.producto_nombre_dn %></td>
+                  <td><%= sevasc.servicio_nombre_dn.present? ? sevasc.servicio_nombre_dn : sevasc.producto_nombre_dn %></td>
                   <td><%= sevasc.precio_total %> €</td>
+                  <td>
+                    <span id="<%= sevasc.id %>" data-tipo="<%= sevasc.servicio_nombre_dn.present? ? 'servicio' : 'producto' %>" class="eliminar glyphicon glyphicon-remove"></span>
+                  </td>
                 </tr>
             <% end if @servicios_asociados.present? %>
             </tbody>
@@ -64,7 +69,7 @@
                 <div class="col-lg-3">
                   <div class="box btn btn-w-m btn-primary" id="<%= s.id %>">
                     <p class="precio">
-                      <%= s.coste %>€
+                      <%= number_to_currency(s.coste, :unit => '€') %>
                     </p>
                     <p class="producto">
                       <%= s.nombre %>
@@ -82,10 +87,14 @@
                 <div class="col-lg-3">
                   <div class="box-producto btn btn-w-m btn-primary" id="<%= p.id %>">
                     <p class="precio">
-                      <%= p.precio_venta %>€
+                      <%= number_to_currency(p.precio_venta, :unit => '€') %>
                     </p>
                     <p class="producto">
                       <%= p.nombre %>
+                      <% if p.stock <= 3 %>
+                         <span class="stock-bajo" data-toggle="tooltip" data-placement="top" title="" data-original-title="Unidades disponibles: <%= p.stock %>">
+                           <i class="fa fa-exclamation-triangle pulse" aria-hidden="true"></i></span>
+                      <% end %>
                     </p>
                   </div>
                 </div>

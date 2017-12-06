@@ -30,13 +30,19 @@ $(document).ready(function () {
             if (data.status == 'ok') {
                 var ultimo_indice = $('.tabla-productos-venta tbody tr:last td:first').text(),
                     nuevo_indice = parseInt(ultimo_indice) + 1,
-                    newRowContent = "<tr><td>" + nuevo_indice + "</td><td>" + data.servicio_nombre_dn + "</td><td>" + data.precio_item + "</td></tr>";
-                $('.cuenta').text(data.precio_total);
+                    newRowContent = "<tr id='" + data.id_item + "'>" +
+                        "<td>" + nuevo_indice + "</td>" +
+                        "<td>" + data.servicio_nombre_dn + "</td>" +
+                        "<td>" + data.precio_item + "</td>" +
+                        "<td><span id='" + data.id_item + "' data-tipo='" + data.tipo + "' class='eliminar glyphicon glyphicon-remove'></span></td>" +
+                        "</tr>";
+                $('.cuenta').text((data.precio_total).toFixed(2));
                 $('.tabla-productos-venta tbody').append(newRowContent);
 
             }
         });
-    })
+    });
+
     $('.box-producto').on('click', function () {
         var $box_id = $(this).attr('id'),
             venta_id = $('#venta_id').val();
@@ -44,6 +50,7 @@ $(document).ready(function () {
             url: "/gestion/ventas/" + venta_id + "/aniade_producto/" + $box_id + "",
             type: 'post'
         }).done(function (data) {
+
             if (data.status == 'ok') {
                 if ($('.tabla-productos-venta tbody tr:last').length > 0) {
                     var ultimo_indice = 0;
@@ -51,22 +58,52 @@ $(document).ready(function () {
                     var ultimo_indice = $('.tabla-productos-venta tbody tr:last td:first').text();
                 }
                 var nuevo_indice = parseInt(ultimo_indice) + 1,
-                    newRowContentProducto = "<tr><td>" + nuevo_indice + "</td><td>" + data.producto_nombre_dn + "</td><td>" + data.precio_item + "</td></tr>";
-                $('.cuenta').text(data.precio_total);
+                    newRowContentProducto = "<tr id='" + data.id_item + "'>" +
+                        "<td>" + nuevo_indice + "</td>" +
+                        "<td>" + data.servicio_nombre_dn + "</td>" +
+                        "<td>" + data.precio_item + "</td>" +
+                        "<td><span id='" + data.id_item + "' data-tipo='" + data.tipo + "' class='eliminar glyphicon glyphicon-remove'></span></td>" +
+                        "</tr>";
+                $('.cuenta').text((data.precio_total).toFixed(2));
                 $('.tabla-productos-venta tbody').append(newRowContentProducto);
 
             }
         });
-    })
+    });
+    if ($('body.ventas').length > 0) {
+        $(document).on('click', '.eliminar', function () {
+            var servicio_id = $(this).attr('id'),
+                venta_id = $('#venta_id').val(),
+                tipo = $(this).data('tipo');
+            $.ajax({
+                url: "/gestion/ventas/" + venta_id + "/elimina_linea_venta/" + servicio_id + "/" + tipo + '',
+                type: 'post'
+            }).done(function (data) {
+                if (data.status == 'ok') {
+                    $('.cuenta').text((data.precio_total).toFixed(2));
+                    $('.tabla-productos-venta tbody tr#' + data.id).remove();
+                }
+                if (data.status == 'ko') {
+                    alert('error');
+                }
+
+            });
+        });
+    }
 
     /* Estadísticas */
     if ($('body.estadisticas').length > 0) {
         var data = JSON.parse($('#productos_semana').val()),
+            data_mensual = JSON.parse($('#productos_mes').val()),
             array_servicios = [],
             array_precios = [],
             array_usados = [],
-            ctx = document.getElementById("chart_semanal").getContext('2d');
-        ctx2 = document.getElementById("line_semanal").getContext('2d');
+            array_servicios_mes = [],
+            array_precios_mes = [],
+            array_usados_mes = [],
+            ctx = document.getElementById("chart_semanal").getContext('2d'),
+            ctx3 = document.getElementById("chart_mensual").getContext('2d'),
+            ctx2 = document.getElementById("line_semanal").getContext('2d');
 
         $.each(data, function (servicio, valor) {
             array_servicios.push(servicio);
@@ -121,50 +158,104 @@ $(document).ready(function () {
                 }
             }
         });
-    }
-    var data_semana_curso = JSON.parse($('#ventas_semana_total_grafica').val()),
-        data_semana_anterior = JSON.parse($('#ventas_semana_anterior_total_grafica').val()),
-        array_ventas_semana_anterior = [],
-        array_ventas_semana_curso = [];
-    $.each(data_semana_curso, function (total, valor) {
-        array_ventas_semana_curso.push(valor.total_ventas)
-    });
+        var data_semana_curso = JSON.parse($('#ventas_semana_total_grafica').val()),
+            data_semana_anterior = JSON.parse($('#ventas_semana_anterior_total_grafica').val()),
+            array_ventas_semana_anterior = [],
+            array_ventas_semana_curso = [];
+        $.each(data_semana_curso, function (total, valor) {
+            array_ventas_semana_curso.push(valor.total_ventas)
+        });
 
-    $.each(data_semana_anterior, function (total, valor) {
-        array_ventas_semana_anterior.push(valor.total_ventas)
-    });
-    console.log(array_ventas_semana_anterior)
+        $.each(data_semana_anterior, function (total, valor) {
+            array_ventas_semana_anterior.push(valor.total_ventas)
+        });
 
-    var Chart_semanal = new Chart(ctx2, {
-        type: 'line',
-        data: {
-            labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            datasets: [
+        var Chart_semanal = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                datasets: [
 
-                {
-                    label: "Semana actual",
-                    backgroundColor: 'rgba(26,179,148,0.5)',
-                    borderColor: "rgba(26,179,148,0.7)",
-                    pointBackgroundColor: "rgba(26,179,148,1)",
-                    pointBorderColor: "#fff",
-                    data: array_ventas_semana_curso
-                },
-                {
-                    label: "Semana anterior",
-                    backgroundColor: 'rgba(220, 220, 220, 0.5)',
-                    pointBorderColor: "#fff",
-                    data: array_ventas_semana_anterior
+                    {
+                        label: "Semana actual",
+                        backgroundColor: 'rgba(26,179,148,0.5)',
+                        borderColor: "rgba(26,179,148,0.7)",
+                        pointBackgroundColor: "rgba(26,179,148,1)",
+                        pointBorderColor: "#fff",
+                        data: array_ventas_semana_curso
+                    },
+                    {
+                        label: "Semana anterior",
+                        backgroundColor: 'rgba(220, 220, 220, 0.5)',
+                        pointBorderColor: "#fff",
+                        data: array_ventas_semana_anterior
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: true,
+                    text: 'Ingresos durante la semana comparada con la anterior'
                 }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            title: {
-                display: true,
-                text: 'Ingresos durante la semana comparada con la anterior'
             }
-        }
-    });
-    Chart_semanal.height = 300;
+        });
+        $.each(data_mensual, function (servicio, valor) {
+            array_servicios_mes.push(servicio);
+            array_precios_mes.push(data[servicio].total_servicio);
+            array_usados_mes.push(data[servicio].usado);
+
+        });
+        var myChartMensual = new Chart(ctx3, {
+            type: 'doughnut',
+            data: {
+                labels: array_servicios_mes,
+                datasets: [{
+                    label: '# de servicios usados',
+                    data: array_usados_mes,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(12, 119, 15, 0.2)',
+                        'rgba(211, 22, 249, 0.2)',
+                        'rgba((249, 21, 82, 0.2)',
+                        'rgba(20, 249, 207, 0.2)',
+                        'rgba(249, 172, 20, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(12, 119, 15, 1)',
+                        'rgba(211, 22, 249, 1)',
+                        'rgba((249, 21, 82, 1)',
+                        'rgba(20, 249, 207, 1)',
+                        'rgba(249, 172, 20, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        Chart_semanal.height = 300;
+    }
+
+
+    $('[data-toggle="tooltip"]').tooltip();
 });

@@ -5,6 +5,6 @@ class Producto < ActiveRecord::Base
 
 
   def self.stock_bajo
-    self.where('stock < ?', 10 ) #Buscamos los productos con menor stock de 10
+    self.where('stock < ?', 3 ) #Buscamos los productos con menor stock de 10
   end
 end

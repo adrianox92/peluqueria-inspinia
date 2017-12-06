@@ -53,7 +53,7 @@ class Gestion::VentasController < GestionController
   def aniade_venta
     #Antes de añadirlo a la venta debemos comprobar que existe, si ha llegado el ID es mas que probable que exista pero comprobamos que esté activo
     venta = Venta.find(params[:venta_id])
-
+    servicio_venta = ''
     unless venta.cerrada #Si la venta está cerrada no puedo añadir nuevos elementos. No debería poder acceder a una venta cerrada desde aquí
       precio = Precio.find(params[:servicio])
       if precio.present? and precio.activo #Existe, continuamos la normal ejecución
@@ -62,7 +62,7 @@ class Gestion::VentasController < GestionController
         base = precio.coste / 1.21
         iva = precio.coste - base
 
-        ServicioVenta.create(
+        servicio_venta = ServicioVenta.create(
             base: base,
             precio_total: precio.coste,
             iva: iva,
@@ -77,7 +77,7 @@ class Gestion::VentasController < GestionController
       nuevo_precio = precio_total_actual + precio.coste
       begin
         venta.update_attribute :precio_total, nuevo_precio
-        render :json => {status: 'ok', precio_item: precio.coste, servicio_nombre_dn: precio.nombre, precio_total: nuevo_precio}
+        render :json => {status: 'ok', precio_item: precio.coste, servicio_nombre_dn: precio.nombre, precio_total: nuevo_precio, tipo: 'servicio', id_item: servicio_venta.id}
       rescue => e
         e.backtrace
       end
@@ -87,7 +87,7 @@ class Gestion::VentasController < GestionController
   def aniade_producto
     #Antes de añadirlo a la venta debemos comprobar que existe, si ha llegado el ID es mas que probable que exista pero comprobamos que esté activo
     venta = Venta.find(params[:venta_id])
-
+    servicio_venta = ''
     unless venta.cerrada #Si la venta está cerrada no puedo añadir nuevos elementos. No debería poder acceder a una venta cerrada desde aquí
       producto = Producto.find(params[:producto])
       if producto.present? and producto.activo and producto.stock > 0 #Existe, continuamos la normal ejecución
@@ -96,7 +96,7 @@ class Gestion::VentasController < GestionController
         base = producto.precio_venta / 1.21
         iva = producto.precio_venta - base
 
-        ServicioVenta.create(
+        servicio_venta = ServicioVenta.create(
             base: base,
             precio_total: producto.precio_venta,
             iva: iva,
@@ -112,9 +112,57 @@ class Gestion::VentasController < GestionController
       nuevo_precio = precio_total_actual + producto.precio_venta
       begin
         venta.update_attribute :precio_total, nuevo_precio
-        render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio}
+        render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio, tipo: 'producto', id_item: servicio_venta.id}
       rescue => e
         e.backtrace
+      end
+    end
+  end
+
+  def elimina_linea_venta
+    venta = Venta.find(params[:venta_id])
+    unless venta.cerrada #Si la venta está cerrada no puedo eliminar los elementos. No debería poder acceder a una venta cerrada desde aquí
+      servicio_venta = ServicioVenta.find(params[:id])
+      if servicio_venta.present?
+        #Tenemos la linea en el código encontrada, debemos saber si es un producto o un servicio, no llega por parámetro
+        if params[:tipo] == 'servicio'
+          precio = Precio.find(servicio_venta.servicio_id)
+          if precio.present? and precio.activo #Existe, continuamos la normal ejecución
+
+            #Desglosamos el precio
+            base = precio.coste / 1.21
+            iva = precio.coste - base
+
+            precio_total_actual = venta.precio_total
+            nuevo_precio = precio_total_actual - precio.coste
+            begin
+              venta.update_attribute :precio_total, nuevo_precio
+              render :json => {status: 'ok', precio_total: nuevo_precio, id: servicio_venta.id}
+            rescue => e
+              e.backtrace
+            end
+          end
+        else #Si es un producto debemos restituir el stock
+          producto = Producto.find(servicio_venta.producto_id)
+          if producto.present? and producto.activo
+            #Desglosamos el precio
+            base = producto.precio_venta / 1.21
+            iva = producto.precio_venta - base
+
+            producto.update_attribute :stock, (producto.stock + 1) #Restituimos el stock del producto para llevar un control del mismo
+            precio_total_actual = venta.precio_total
+            nuevo_precio = precio_total_actual - producto.precio_venta
+            begin
+              venta.update_attribute :precio_total, nuevo_precio
+              render :json => {status: 'ok', precio_total: nuevo_precio, id: servicio_venta.id}
+            rescue => e
+              e.backtrace
+            end
+          end
+        end
+        servicio_venta.destroy
+      else
+        render :json => {status: 'ko'}
       end
     end
   end
@@ -145,7 +193,7 @@ class Gestion::VentasController < GestionController
   def nombra_factura (venta)
     anyo = Time.current.year
     mes = Time.now.strftime("%m").to_i
-    ultima_factura = (venta.present?) ? venta.id : 1
+    ultima_factura = (venta.present?) ? venta.id + 1 : 1
     factura = "#{anyo}#{mes}#{ultima_factura}"
   end
 end
