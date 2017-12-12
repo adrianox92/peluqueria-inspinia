@@ -5,13 +5,19 @@ $(document).ready(function () {
         var init = new Switchery(elem);
     }
 
-    /*
+
      if ($('body.ventas').length > 0) {
-     window.onbeforeunload = function () {
-     return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
-     };
+         $(".chosen-select").chosen({
+             no_results_text: "Cliente no encontrado",
+             allow_single_deselect: true,
+             placeholder_text_single: 'Seleccione cliente'
+         });
+         /*
+      window.onbeforeunload = function () {
+      return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
+      };*/
      }
-     */
+
     if ($('body.new, body.edit').length > 0) {
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',

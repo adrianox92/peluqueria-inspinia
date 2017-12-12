@@ -79,7 +79,8 @@ class Gestion::EstadisticasController < GestionController
   def ingresos (ventas)
     ingresos_totales = 0
     ventas.each do |v|
-      ingresos_totales = ingresos_totales + v.precio_total
+      precio_total = (v.precio_total).present? ? v.precio_total : 0
+      ingresos_totales = ingresos_totales + precio_total
     end
     ingresos_totales
   end
@@ -121,9 +122,11 @@ class Gestion::EstadisticasController < GestionController
       if vsa.created_at.strftime("%d/%m/%Y") != dia
         total_semana = 0
         dia = vsa.created_at.strftime("%d/%m/%Y")
-        total_semana = total_semana + vsa.precio_total
+        total_actual = ((vsa.precio_total).present? ? vsa.precio_total : 0)
+        total_semana = total_semana + total_actual
       else
-        total_semana = total_semana + vsa.precio_total
+        total_actual = ((vsa.precio_total).present? ? vsa.precio_total : 0)
+        total_semana = total_semana + total_actual
       end
       ventas_semana_hm["dia_#{vsa.created_at.strftime("%d/%m/%Y").to_date.wday}".to_sym] = {dia: vsa.created_at.strftime("%d/%m/%Y").to_date.wday, total_ventas: total_semana}
     end if num_ventas > 0

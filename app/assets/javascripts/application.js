@@ -16,5 +16,6 @@
 //= require socket.io
 //= require switchery/switchery.js
 //= require chartjs/Chart.min.js
+//= require chosen/chosen.jquery.js
 //= require gestion
 

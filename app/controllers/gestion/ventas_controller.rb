@@ -17,6 +17,7 @@ class Gestion::VentasController < GestionController
     @servicios = Precio.where('activo = ?', true)
     @tipo_pago = [['Efectivo', 'Efectivo'], ['Tarjeta', 'Tarjeta']]
     @productos = Producto.where('activo = ? AND stock > ? AND tipo NOT ILIKE ? or tipo IS NULL', true, 0, '%tinte%') #Productos activos con stock
+    @clientes = Cliente.where('activo = ?', true).map{|c| [c.nombre_completo_dn, c.id] }
   end
 
   def inicia_venta
@@ -73,7 +74,7 @@ class Gestion::VentasController < GestionController
       end
       #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
 
-      precio_total_actual = venta.precio_total
+      precio_total_actual = (venta.precio_total).present? ? venta.precio_total : 0
       nuevo_precio = precio_total_actual + precio.coste
       begin
         venta.update_attribute :precio_total, nuevo_precio
@@ -110,7 +111,7 @@ class Gestion::VentasController < GestionController
       producto_id = producto.id
       #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
 
-      precio_total_actual = venta.precio_total
+      precio_total_actual = (venta.precio_total).present? ? venta.precio_total : 0
       nuevo_precio = precio_total_actual + producto.precio_venta
       begin
         venta.update_attribute :precio_total, nuevo_precio
