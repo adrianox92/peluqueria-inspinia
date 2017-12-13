@@ -17,12 +17,7 @@ $(document).ready(function () {
       return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
       };*/
      }
-     */
-    if ($('body.new, body.edit, body.new_tinte, body.editar_tinte').length > 0) {
-=======
-
     if ($('.datepicker').length > 0) {
->>>>>>> 655881def8bab6a89ea5259371616dce2f499875
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             startDate: '-3d'
