@@ -144,7 +144,7 @@
                   clase = 'stat-percent font-bold text-danger'
                   clase2 = 'fa fa-level-down'
                 end %>
-              <div class="<%= clase %>"><%= @diferencia_ventas_meses %>% <i class="<%= clase2 %>"></i></div>
+              <div class="<%= clase %>"><%= @diferencia_ventas_meses.round(2) %>% <i class="<%= clase2 %>"></i></div>
               <small>Ventas totales</small>
             </div>
           </div>

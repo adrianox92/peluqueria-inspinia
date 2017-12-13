@@ -13,21 +13,28 @@ class Gestion::ClientesController < GestionController
   end
 
   def create
-    params[:cliente][:nombre_completo_dn] = "#{params[:cliente][:nombre]} #{params[:cliente][:apellidos]}"
-    cliente = Cliente.create(permit_params)
-
-    if cliente.valid?
-      redirect_to gestion_clientes_path
+    if params[:cliente_tinte].present?
+      a = 0
     else
-      @cliente = cliente
-      fill_form
-      render :new
+      params[:cliente][:nombre_completo_dn] = "#{params[:cliente][:nombre]} #{params[:cliente][:apellidos]}"
+      cliente = Cliente.create(permit_params)
+
+      if cliente.valid?
+        redirect_to gestion_clientes_path
+      else
+        @cliente = cliente
+        fill_form
+        render :new
+      end
     end
+
   end
 
   def edit
     fill_form
     @cliente = Cliente.find(params[:id])
+    @cliente_tintes = ClienteTinte.where('cliente_id = ?', @cliente.id)
+    @tintes = Tinte.where('tipo ILIKE ?', '%tinte%').order('activo DESC')
   end
 
   def update
@@ -42,9 +49,24 @@ class Gestion::ClientesController < GestionController
     end
   end
 
+  def new_tinte
+    fill_form_tintes
+    @cliente = Cliente.find(params[:id])
+    @cliente_tinte = ClienteTinte.new
+  end
+
+  def editar_tinte
+    fill_form_tintes
+    @cliente = Cliente.find(params[:id])
+    @cliente_tinte = ClienteTinte.find(params[:tinte_id])
+  end
 
   def fill_form
     @sexo = [['Hombre', 'Hombre'], ['Mujer', 'Mujer']]
+  end
+
+  def fill_form_tintes
+    @tintes = Tinte.where('tipo ILIKE ?', '%tinte%').order('activo DESC').map{|t| [t.nombre, t.id]}
   end
 
   def find_clientes

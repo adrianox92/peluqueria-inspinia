@@ -93,10 +93,11 @@ class Gestion::EstadisticasController < GestionController
 
     if anterior == 0
       anterior_falso = 1
-      diferencia_ventas = ((actual - anterior_falso) / anterior_falso) * 100
+      diferencia_ventas = ((actual - anterior_falso).to_f / anterior_falso) * 100
     else
-      diferencia_ventas = ((actual - anterior) / anterior) * 100
+      diferencia_ventas = ((actual - anterior).to_f / anterior) * 100
     end
+    diferencia_ventas
   end
 
 
@@ -107,7 +108,7 @@ class Gestion::EstadisticasController < GestionController
   def get_ventas_periodo(fecha_inicio, fecha_fin)
     total_semana = 0
     dia = ''
-    ventas = Venta.where("created_at >= ? AND created_at < ?", fecha_inicio, fecha_fin).order('created_at')
+    ventas = Venta.where("created_at >= ? AND created_at < ? AND cerrada = ?", fecha_inicio, fecha_fin, true).order('created_at')
 
     ventas_semana_hm = {}
 

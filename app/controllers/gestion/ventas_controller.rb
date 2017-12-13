@@ -127,7 +127,7 @@ class Gestion::VentasController < GestionController
     unless venta.cerrada #Si la venta está cerrada no puedo eliminar los elementos. No debería poder acceder a una venta cerrada desde aquí
       servicio_venta = ServicioVenta.find(params[:id])
       if servicio_venta.present?
-        #Tenemos la linea en el código encontrada, debemos saber si es un producto o un servicio, no llega por parámetro
+        #Tenemos la linea en el código encontrada, debemos saber si es un producto o un servicio, nos llega por parámetro
         if params[:tipo] == 'servicio'
           precio = Precio.find(servicio_venta.servicio_id)
           if precio.present? and precio.activo #Existe, continuamos la normal ejecución
@@ -172,13 +172,18 @@ class Gestion::VentasController < GestionController
 
   def cierra_venta
     venta = Venta.find(params[:venta_id])
+    comision = 0
     if venta.present? and not venta.cerrada
       #Una vez vamos a cerrar la venta tenemos que calcular el IVA y la base de la venta
       precio_total = venta.precio_total
       base = precio_total / 1.21
       iva = precio_total - base
+      if params[:venta][:tipo_pago] == 'Tarjeta'
+        comision = precio_total - (precio_total / 1.003) #Comisión de la tarjeta 0.3%
+        precio_total = precio_total - comision #Restamos al precio total la comisión ya que esta no cuenta como ingreso.
+      end
+      venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], comision_tarjeta: comision, precio_total: precio_total)
 
-      venta.update_attributes(:cerrada => true, :base => base, :iva => iva, :tipo_pago => params[:venta][:tipo_pago])
       redirect_to gestion_ventas_path
     end
   end

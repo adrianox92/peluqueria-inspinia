@@ -24,7 +24,14 @@ Myapp::Application.routes.draw do
         get 'filtrar_clientes/:cliente' => 'clientes#filtrar_clientes', as: 'filtrar_clientes'
         get 'resetear_filtros/' => 'clientes#resetear_filtros', as: 'resetear_filtros'
       end
+      member do
+        get 'new_tinte'
+        get 'edit_tinte/:tinte_id' => 'clientes#edit_tinte', as: 'editar_tinte'
+      end
     end
     resources :tintes
+    resources :clientes_tintes
+    resources :configuraciones
+
   end
 end

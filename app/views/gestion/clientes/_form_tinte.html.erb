@@ -1,0 +1,17 @@
+<%= simple_form_for :cliente_tinte, url: (@cliente_tinte.new_record? ? gestion_clientes_path(@cliente_tinte) : gestion_cliente_path(@cliente_tinte)), method: (@cliente_tinte.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-xs-3">
+            <%= f.input :tinte_id, collection: @tintes, prompt: 'Seleccionar tinte', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :fecha, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>

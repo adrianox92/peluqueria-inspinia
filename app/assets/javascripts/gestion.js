@@ -12,7 +12,7 @@ $(document).ready(function () {
      };
      }
      */
-    if ($('body.new, body.edit').length > 0) {
+    if ($('body.new, body.edit, body.new_tinte, body.editar_tinte').length > 0) {
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             startDate: '-3d'
