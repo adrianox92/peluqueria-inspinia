@@ -15,7 +15,7 @@
             <%= f.input :stock, placeholder: 'Unidades en stock', input_html: {class: 'form-control m-b-md'} %>
           </div>
           <div class="col-xs-3">
-            <%= f.input :fecha_ultima_compra, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
+            <%= f.input :fecha_ultima_compra, as: :string, input_html: {value: fecha_legible(Date.today), class: 'datepicker form-control m-b-md'} %>
           </div>
           <div class="col-xs-3">
             <%= f.input :tipo, collection: @tipos, prompt: 'Seleccionar tipo', input_html: {class: 'form-control m-b-md'} %>

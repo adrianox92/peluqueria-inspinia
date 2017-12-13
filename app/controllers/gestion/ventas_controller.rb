@@ -184,15 +184,11 @@ class Gestion::VentasController < GestionController
         precio_total = precio_total - comision #Restamos al precio total la comisión ya que esta no cuenta como ingreso.
       end
       venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], comision_tarjeta: comision, precio_total: precio_total)
-
-<<<<<<< HEAD
-=======
       if params[:venta][:cliente_id].present?
         cliente = Cliente.find(params[:venta][:cliente_id])
         cliente.update_attributes(ultimo_pago: Time.current)
       end
       venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], cliente_id: params[:venta][:cliente_id])
->>>>>>> 655881def8bab6a89ea5259371616dce2f499875
       redirect_to gestion_ventas_path
     end
   end

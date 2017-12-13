@@ -222,8 +222,8 @@ $(document).ready(function () {
             array_servicios_mes.push(servicio);
             array_precios_mes.push(data[servicio].total_servicio);
             array_usados_mes.push(data[servicio].usado);
-
         });
+        console.log(array_precios_mes);
         var myChartMensual = new Chart(ctx3, {
             type: 'doughnut',
             data: {

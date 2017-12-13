@@ -15,6 +15,9 @@ gem 'sass-rails', '~> 5.0.4'
 
 gem 'simple_form'
 
+#https://github.com/mileszs/wicked_pdf
+gem 'wicked_pdf'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 

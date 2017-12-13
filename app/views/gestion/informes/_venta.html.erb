@@ -15,7 +15,7 @@
       <tr>
         <td><%= i.venta_nombre %></td>
         <td>
-          <%= i.created_at.strftime("%d/%m/%Y") %>
+          <%= fecha_legible(i.created_at) %>
         </td>
         <td><%= number_to_currency(i.precio_total, :unit => '€') %></td>
         <td><%= number_to_currency(i.base, :unit => '€') %></td>

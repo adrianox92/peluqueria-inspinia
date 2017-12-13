@@ -9,7 +9,7 @@
             <%= f.input :pago, placeholder: 'Pago a realizar', input_html: {class: 'form-control m-b-md'} %>
           </div>
           <div class="col-xs-3">
-            <%= f.input :ultimo_pago, as: :string, input_html: {value: Date.today.strftime("%d/%m/%Y"), class: 'datepicker form-control m-b-md'} %>
+            <%= f.input :ultimo_pago, as: :string, input_html: {value: fecha_legible(Date.today), class: 'datepicker form-control m-b-md'} %>
           </div>
           <div class="col-xs-3">
             <%= f.input :periodicidad, collection: @periodicidad, prompt: 'Seleccionar periodicidad', input_html: {class: 'form-control m-b-md'} %>

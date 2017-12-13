@@ -48,6 +48,7 @@
                 <button type="submit" name="commit" class="btn btn-primary"><i class="icon-list-alt icon-white"></i>
                   Generar informe
                 </button>
+                <%= link_to 'Generar informe en PDF', generar_pdf_gestion_informes_path(format: :pdf), class: 'btn btn-primary', target: "_blank" %>
             <% end %>
           </div>
         </div>

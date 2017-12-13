@@ -10,6 +10,17 @@ class Gestion::InformesController < GestionController
     @partial = session[:filtro_tipo].downcase if session[:filtro_tipo].present?
   end
 
+
+  def generar_pdf
+
+    #TODO: instalar wkhtmltopdf en el ordenador a usar https://wkhtmltopdf.org/downloads.html
+    respond_to do |format|
+      format.pdf do
+        render  :pdf => "informe.pdf", :template => 'gestion/informes/informes.html.erb', encoding: 'UTF8'
+      end
+    end
+  end
+
   def get_selectores
     @tipo = [['Ventas', 'Venta'], ['Pagos', 'Pago'], ['Productos', 'Producto'], ['Servicios', 'ServicioVenta']]
     @filtro_fecha_inicio = (params[:filtro_fecha_inicio].blank? or (params[:filtro_fecha_inicio] =~ /\d{2}\/\d{2}\/\d{4}/).nil?) ? Date.today.beginning_of_month : Date.parse(params[:filtro_fecha_inicio])

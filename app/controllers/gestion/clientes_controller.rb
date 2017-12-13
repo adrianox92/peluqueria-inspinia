@@ -14,7 +14,16 @@ class Gestion::ClientesController < GestionController
 
   def create
     if params[:cliente_tinte].present?
-      a = 0
+      tinte = Tinte.find(params[:cliente_tinte][:tinte_id])
+      params[:cliente_tinte][:cliente_id] = params[:cliente_tinte][:cliente_id]
+      params[:cliente_tinte][:producto_id] = tinte.id
+      tinte_cliente = TinteCliente.create(permit_params_cliente_tinte)
+      if tinte_cliente.valid?
+        redirect_to edit_gestion_cliente_path(params[:cliente_tinte][:cliente_id])
+      else
+        @cliente_tinte = tinte_cliente
+        render :new
+      end
     else
       params[:cliente][:nombre_completo_dn] = "#{params[:cliente][:nombre]} #{params[:cliente][:apellidos]}"
       cliente = Cliente.create(permit_params)
@@ -33,7 +42,7 @@ class Gestion::ClientesController < GestionController
   def edit
     fill_form
     @cliente = Cliente.find(params[:id])
-    @cliente_tintes = ClienteTinte.where('cliente_id = ?', @cliente.id)
+    @cliente_tintes = TinteCliente.where('cliente_id = ?', @cliente.id)
     @tintes = Tinte.where('tipo ILIKE ?', '%tinte%').order('activo DESC')
   end
 
@@ -52,13 +61,13 @@ class Gestion::ClientesController < GestionController
   def new_tinte
     fill_form_tintes
     @cliente = Cliente.find(params[:id])
-    @cliente_tinte = ClienteTinte.new
+    @cliente_tinte = TinteCliente.new
   end
 
   def editar_tinte
     fill_form_tintes
     @cliente = Cliente.find(params[:id])
-    @cliente_tinte = ClienteTinte.find(params[:tinte_id])
+    @cliente_tinte = TinteCliente.find(params[:tinte_id])
   end
 
   def fill_form
@@ -66,7 +75,7 @@ class Gestion::ClientesController < GestionController
   end
 
   def fill_form_tintes
-    @tintes = Tinte.where('tipo ILIKE ?', '%tinte%').order('activo DESC').map{|t| [t.nombre, t.id]}
+    @tintes = Tinte.where('tipo ILIKE ?', '%tinte%').order('activo DESC').map { |t| [t.nombre, t.id] }
   end
 
   def find_clientes
@@ -89,6 +98,10 @@ class Gestion::ClientesController < GestionController
 
   def permit_params
     params.require(:cliente).permit(:nombre, :apellidos, :sexo, :telefono, :activo, :nombre_completo_dn)
+  end
+
+  def permit_params_cliente_tinte
+    params.require(:cliente_tinte).permit(:cliente_id, :producto_id, :nombre_dn)
   end
 
 end

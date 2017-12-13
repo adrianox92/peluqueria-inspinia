@@ -16,7 +16,11 @@ Myapp::Application.routes.draw do
     end
     resources :servicios
     resources :productos
-    resources :informes
+    resources :informes do
+      collection do
+        get 'generar_pdf/' => 'informes#generar_pdf', as: 'generar_pdf'
+      end
+    end
     resources :estadisticas
     resources :pagos
     resources :clientes do

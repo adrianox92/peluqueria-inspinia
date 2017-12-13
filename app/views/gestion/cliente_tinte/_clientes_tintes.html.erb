@@ -6,7 +6,7 @@
     <table class="table table-striped">
       <tr>
         <th>Fecha</th>
-        <th>Color</th>
+        <th>Código</th>
         <th>
           <%= link_to new_tinte_gestion_cliente_path(@cliente.id), :title => 'Añadir nuevo tinte al cliente' do %>
               <span class="nuevo glyphicon glyphicon-plus"></span>
@@ -14,13 +14,10 @@
       </tr>
       <% cliente_tintes.each do |c| %>
           <tr id="cliente_tinte_<%= c.id %>">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><%= fecha_legible(c.created_at) %></td>
+            <td><%= Tinte.find(c.producto_id).codigo %></td>
             <td>
-              <%= link_to editar_tinte_gestion_cliente_path(c.id), :title => 'Editar tinte' do %>
+              <%= link_to edit_gestion_clientes_tinte_path(c.id), :title => 'Editar tinte' do %>
                   <span class="editar fa fa-edit"></span>
               <% end %>
               <%= link_to edit_gestion_clientes_tinte_path(c.id), :confirm => "¿Estas seguro?", :method => :delete, remote: true, :title => 'Eliminar tinte' do %>

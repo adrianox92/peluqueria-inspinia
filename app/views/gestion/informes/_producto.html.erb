@@ -1,0 +1,32 @@
+<% if informe.count > 0 %>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Nombre</th>
+        <th>Fecha</th>
+        <th>Precio de compra</th>
+        <th>Precio de venta</th>
+        <th>Última compra</th>
+        <th>Tipo</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% informe.each do |i| %>
+          <tr>
+            <td><%= i.id %></td>
+            <td><%= i.nombre %></td>
+            <td>
+              <%= fecha_legible(i.created_at) %>
+            </td>
+            <td><%= number_to_currency(i.precio_compra, :unit => '€') %></td>
+            <td><%= number_to_currency(i.precio_venta, :unit => '€') %></td>
+            <td><%= fecha_legible(i.fecha_ultima_compra) %></td>
+            <td><%= i.tipo %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <p>No hay resultados que mostrar</p>
+<% end %>

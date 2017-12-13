@@ -71,7 +71,7 @@ class Gestion::EstadisticasController < GestionController
     @total_gastos = devuelve_total_gastos(pagos)
     @total_mes = ingresos_gastos(@ingresos_mes, @total_gastos)
 
-    @productos_mes = devuelve_productos(Time.current.beginning_of_month, Time.current.end_of_month.strftime("%d/%m/%Y"))
+    @productos_mes = devuelve_productos(Time.current.beginning_of_month.strftime("%d/%m/%Y"), Time.current.end_of_month.strftime("%d/%m/%Y"))
   end
 
 
