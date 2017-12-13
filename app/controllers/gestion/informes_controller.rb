@@ -16,7 +16,7 @@ class Gestion::InformesController < GestionController
     #TODO: instalar wkhtmltopdf en el ordenador a usar https://wkhtmltopdf.org/downloads.html
     respond_to do |format|
       format.pdf do
-        render  :pdf => "informe.pdf", :template => 'gestion/informes/informes.html.erb', encoding: 'UTF8'
+        render  :pdf => "informe.pdf", :template => 'gestion/informes/informes.html.erb', encoding: 'UTF8', title: "Informe de #{session[:filtro_tipo]}"
       end
     end
   end
