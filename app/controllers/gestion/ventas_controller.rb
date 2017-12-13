@@ -24,6 +24,7 @@ class Gestion::VentasController < GestionController
     #Cuando entremos en el index desde otra página que no provenga del controlador actual debemos mostrar la última venta que NO está cerrada
     #En caso contrario iniciamos una nueva
     ventas_abiertas = Venta.where('cerrada = ?', false)
+    ultima_factura_id = Venta.where('cerrada = ?', true).last
     ultima_factura = ventas_abiertas.last
 
 
@@ -37,15 +38,15 @@ class Gestion::VentasController < GestionController
         #Le ponemos el número de factura en caso de que no lo tenga
         venta = ventas_abiertas.last
         unless venta.venta_nombre.present?
-          venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
+          venta.update_attribute :venta_nombre, nombra_factura(ultima_factura_id)
         end
         @venta = venta
       else
-        venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
+        venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura_id))
         @venta = venta_nueva
       end
     else
-      venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
+      venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura_id))
       @venta = venta_nueva
     end
   end
@@ -179,7 +180,7 @@ class Gestion::VentasController < GestionController
       base = precio_total / 1.21
       iva = precio_total - base
 
-      venta.update_attributes(:cerrada => true, :base => base, :iva => iva, :tipo_pago => params[:venta][:tipo_pago])
+      venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], cliente_id: params[:venta][:cliente_id])
       redirect_to gestion_ventas_path
     end
   end

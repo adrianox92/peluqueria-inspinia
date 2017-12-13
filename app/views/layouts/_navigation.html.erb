@@ -57,6 +57,12 @@
             <i class="fa fa-pie-chart"></i> <span class="nav-label" data-i18n="nav.metrics">Estadísticas</span>
         <% end %>
       </li>
+      <li class="<%= is_active_action('informes') %>">
+        <%= link_to gestion_informes_path do %>
+            <i class="fa fa-folder-open-o" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.informs">Informes</span>
+        <% end %>
+      </li>
+
       <li class="<%= is_active_controller('tables') %>">
         <a href="#"><i class="fa fa-table"></i>
           <span class="nav-label" data-i18n="nav.tables">Tables</span><span class="fa arrow"></span></a>
