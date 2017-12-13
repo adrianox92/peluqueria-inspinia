@@ -5,14 +5,24 @@ $(document).ready(function () {
         var init = new Switchery(elem);
     }
 
-    /*
+
      if ($('body.ventas').length > 0) {
-     window.onbeforeunload = function () {
-     return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
-     };
+         $(".chosen-select").chosen({
+             no_results_text: "Cliente no encontrado",
+             allow_single_deselect: true,
+             placeholder_text_single: 'Seleccione cliente'
+         });
+         /*
+      window.onbeforeunload = function () {
+      return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
+      };*/
      }
      */
     if ($('body.new, body.edit, body.new_tinte, body.editar_tinte').length > 0) {
+=======
+
+    if ($('.datepicker').length > 0) {
+>>>>>>> 655881def8bab6a89ea5259371616dce2f499875
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             startDate: '-3d'
@@ -109,7 +119,37 @@ $(document).ready(function () {
             array_usados_mes = [],
             ctx = document.getElementById("chart_semanal").getContext('2d'),
             ctx3 = document.getElementById("chart_mensual").getContext('2d'),
-            ctx2 = document.getElementById("line_semanal").getContext('2d');
+            ctx2 = document.getElementById("line_semanal").getContext('2d'),
+            array_background = [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(12, 119, 15, 0.2)',
+                'rgba(211, 22, 249, 0.2)',
+                'rgba((200, 21, 82, 0.2)',
+                'rgba(20, 249, 207, 0.2)',
+                'rgba(249, 172, 20, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(15, 246, 33, 0.2)',
+                'rgba(246, 55, 33, 0.2)'
+            ],
+            array_colores =[
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(12, 119, 15, 1)',
+                'rgba(211, 22, 249, 1)',
+                'rgba((200, 21, 82, 1)',
+                'rgba(20, 249, 207, 1)',
+                'rgba(249, 172, 20, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(15, 246, 33, 1)',
+                'rgba(246, 55, 33, 1)'
+            ];
 
         $.each(data, function (servicio, valor) {
             array_servicios.push(servicio);
@@ -125,32 +165,8 @@ $(document).ready(function () {
                 datasets: [{
                     label: '# de servicios usados',
                     data: array_usados,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(12, 119, 15, 0.2)',
-                        'rgba(211, 22, 249, 0.2)',
-                        'rgba((249, 21, 82, 0.2)',
-                        'rgba(20, 249, 207, 0.2)',
-                        'rgba(249, 172, 20, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(12, 119, 15, 1)',
-                        'rgba(211, 22, 249, 1)',
-                        'rgba((249, 21, 82, 1)',
-                        'rgba(20, 249, 207, 1)',
-                        'rgba(249, 172, 20, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
+                    backgroundColor: array_background,
+                    borderColor: array_colores,
                     borderWidth: 1
                 }]
             },
@@ -220,32 +236,8 @@ $(document).ready(function () {
                 datasets: [{
                     label: '# de servicios usados',
                     data: array_usados_mes,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(12, 119, 15, 0.2)',
-                        'rgba(211, 22, 249, 0.2)',
-                        'rgba((249, 21, 82, 0.2)',
-                        'rgba(20, 249, 207, 0.2)',
-                        'rgba(249, 172, 20, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(12, 119, 15, 1)',
-                        'rgba(211, 22, 249, 1)',
-                        'rgba((249, 21, 82, 1)',
-                        'rgba(20, 249, 207, 1)',
-                        'rgba(249, 172, 20, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
+                    backgroundColor: array_background,
+                    borderColor: array_colores,
                     borderWidth: 1
                 }]
             },
@@ -259,7 +251,6 @@ $(document).ready(function () {
                 }
             }
         });
-        Chart_semanal.height = 300;
     }
 
 

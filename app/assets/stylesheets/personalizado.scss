@@ -7,6 +7,11 @@
 
 }
 
+.turbolinks-progress-bar {
+  height: 5px;
+  background-color: green;
+}
+
 .activo, .nuevo {
   color: #0c770f;
   font-size: 20px;
@@ -30,35 +35,38 @@
 }
 
 /* Ventas */
-.caja-acciones {
+.ventas {
+  .caja-acciones {
 
-  .caja-precio-total {
-    background-color: #0f1c1f;
-    color: #fff;
-    font-size: 90px;
-    text-align: right;
-    padding-right: 15px;
-    .cuenta {
-      font-family: 'digital-7regular';
-      padding-right: 30px;
-      font-size: 120px;
+    .caja-precio-total {
+      background-color: #0f1c1f;
+      color: #fff;
+      font-size: 90px;
+      text-align: right;
+      padding-right: 15px;
+      .cuenta {
+        font-family: 'digital-7regular';
+        padding-right: 30px;
+        font-size: 120px;
+      }
     }
-  }
-  .ibox-content {
-    .row {
-      .box, .box-producto {
-        width: 100%;
-        margin-bottom: 30px;
-        .precio {
-          font-size: 34px;
-          font-weight: bold;
-        }
-        .producto {
-          font-size: 20px;
+    .ibox-content {
+      .row {
+        .box, .box-producto {
+          width: 100%;
+          margin-bottom: 30px;
+          .precio {
+            font-size: 34px;
+            font-weight: bold;
+          }
+          .producto {
+            font-size: 20px;
+          }
         }
       }
     }
   }
+  .chosen-container{margin-bottom: 30px;}
 }
 
 .cerrar-venta {
@@ -78,6 +86,7 @@
     animation-timing-function: linear;
   }
 }
+
 
 @keyframes pulse_animation {
   0% {

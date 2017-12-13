@@ -15,8 +15,8 @@
 <div class="wrapper wrapper-content  animated fadeInRight">
   <div class="row">
     <div class="col-lg-12">
-      <h3>Semana <%= Time.zone.now.beginning_of_week.strftime("%d/%m/%Y") %>
-        al <%= Time.zone.now.end_of_week.strftime("%d/%m/%Y") %></h3>
+      <h3>Semana <%= Time.current.beginning_of_week.strftime("%d/%m/%Y") %>
+        al <%= Time.current.end_of_week.strftime("%d/%m/%Y") %></h3>
     </div>
     <div class="col-lg-9">
       <div class="col-lg-6">
@@ -125,7 +125,7 @@
   </div>
   <div class="row">
     <div class="col-lg-12">
-      <h3>Mes <%= Time.zone.now.strftime("%B") %> </h3>
+      <h3>Mes <%= Time.current.strftime("%B") %> </h3>
     </div>
     <div class="col-lg-12">
       <div class="col-lg-9">

@@ -17,12 +17,14 @@ class Gestion::VentasController < GestionController
     @servicios = Precio.where('activo = ?', true)
     @tipo_pago = [['Efectivo', 'Efectivo'], ['Tarjeta', 'Tarjeta']]
     @productos = Producto.where('activo = ? AND stock > ? AND tipo NOT ILIKE ? or tipo IS NULL', true, 0, '%tinte%') #Productos activos con stock
+    @clientes = Cliente.where('activo = ?', true).map { |c| [c.nombre_completo_dn, c.id] }
   end
 
   def inicia_venta
     #Cuando entremos en el index desde otra página que no provenga del controlador actual debemos mostrar la última venta que NO está cerrada
     #En caso contrario iniciamos una nueva
     ventas_abiertas = Venta.where('cerrada = ?', false)
+    ultima_factura_id = Venta.where('cerrada = ?', true).last
     ultima_factura = ventas_abiertas.last
 
 
@@ -36,15 +38,15 @@ class Gestion::VentasController < GestionController
         #Le ponemos el número de factura en caso de que no lo tenga
         venta = ventas_abiertas.last
         unless venta.venta_nombre.present?
-          venta.update_attribute :venta_nombre, nombra_factura(ultima_factura)
+          venta.update_attribute :venta_nombre, nombra_factura(ultima_factura_id)
         end
         @venta = venta
       else
-        venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
+        venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura_id))
         @venta = venta_nueva
       end
     else
-      venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura))
+      venta_nueva = Venta.create(:venta_nombre => nombra_factura(ultima_factura_id))
       @venta = venta_nueva
     end
   end
@@ -73,7 +75,7 @@ class Gestion::VentasController < GestionController
       end
       #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
 
-      precio_total_actual = venta.precio_total
+      precio_total_actual = (venta.precio_total).present? ? venta.precio_total : 0
       nuevo_precio = precio_total_actual + precio.coste
       begin
         venta.update_attribute :precio_total, nuevo_precio
@@ -92,31 +94,30 @@ class Gestion::VentasController < GestionController
     unless venta.cerrada #Si la venta está cerrada no puedo añadir nuevos elementos. No debería poder acceder a una venta cerrada desde aquí
       producto = Producto.find(params[:producto])
       if producto.present? and producto.activo and producto.stock > 0 #Existe, continuamos la normal ejecución
+        begin
+          #Desglosamos el precio
+          base = producto.precio_venta / 1.21
+          iva = producto.precio_venta - base
 
-        #Desglosamos el precio
-        base = producto.precio_venta / 1.21
-        iva = producto.precio_venta - base
+          servicio_venta = ServicioVenta.create(
+              base: base,
+              precio_total: producto.precio_venta,
+              iva: iva,
+              venta_id: params[:venta_id].to_i,
+              producto_id: params[:producto].to_i,
+              producto_nombre_dn: producto.nombre
+          )
 
-        servicio_venta = ServicioVenta.create(
-            base: base,
-            precio_total: producto.precio_venta,
-            iva: iva,
-            venta_id: params[:venta_id].to_i,
-            producto_id: params[:producto].to_i,
-            producto_nombre_dn: producto.nombre
-        )
-      end
-      producto.update_attribute :stock, (producto.stock - 1) #Reducimos el stock del producto para llevar un control del mismo
-      producto_id = producto.id
-      #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
-
-      precio_total_actual = venta.precio_total
-      nuevo_precio = precio_total_actual + producto.precio_venta
-      begin
-        venta.update_attribute :precio_total, nuevo_precio
-        render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio, tipo: 'producto', id_item: servicio_venta.id, stock: producto.stock, producto_id: producto_id}
-      rescue => e
-        e.backtrace
+          producto.update_attribute :stock, (producto.stock - 1) #Reducimos el stock del producto para llevar un control del mismo
+          producto_id = producto.id
+          #Una vez creado el servicio_venta tenemos que añadir también el precio a la venta en curso
+          precio_total_actual = (venta.precio_total).present? ? venta.precio_total : 0
+          nuevo_precio = precio_total_actual + producto.precio_venta
+          venta.update_attribute :precio_total, nuevo_precio
+          render :json => {status: 'ok', precio_item: producto.precio_venta, producto_nombre_dn: producto.nombre, precio_total: nuevo_precio, tipo: 'producto', id_item: servicio_venta.id, stock: producto.stock, producto_id: producto_id}
+        rescue => e
+          e.backtrace
+        end
       end
     end
   end
@@ -184,6 +185,14 @@ class Gestion::VentasController < GestionController
       end
       venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], comision_tarjeta: comision, precio_total: precio_total)
 
+<<<<<<< HEAD
+=======
+      if params[:venta][:cliente_id].present?
+        cliente = Cliente.find(params[:venta][:cliente_id])
+        cliente.update_attributes(ultimo_pago: Time.current)
+      end
+      venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], cliente_id: params[:venta][:cliente_id])
+>>>>>>> 655881def8bab6a89ea5259371616dce2f499875
       redirect_to gestion_ventas_path
     end
   end

@@ -1,6 +1,8 @@
 class Cliente < ActiveRecord::Base
   self.table_name = 'cliente'
 
+  has_many :ventas
+
   validates :nombre, :apellidos, presence: true
 
   validates :telefono, :numericality => true,

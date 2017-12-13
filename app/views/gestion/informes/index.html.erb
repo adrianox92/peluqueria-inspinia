@@ -1,0 +1,61 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-8">
+    <h2>Informes</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="<%= root_path %>">Home</a>
+      </li>
+      <li class="active">
+        <strong>Informes</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <div class="col-sm-12">
+            <%= form_tag(gestion_informes_path, :method => :get, :class => 'well', :remote => true) do %>
+                <div class="row">
+                  <div class="col-sm-4 col-md-2">
+                    <div class="form-group">
+                      <%= label_tag :filtro_fecha_inicio, 'Fecha inicio', :class => 'control-label' %>
+                      <%= text_field_tag :filtro_fecha_inicio, @filtro_fecha_inicio, :class => 'datepicker form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 col-md-2">
+                    <div class="form-group">
+                      <%= label_tag :filtro_fecha_fin, 'Fecha fin', :class => 'control-label' %>
+                      <%= text_field_tag :filtro_fecha_fin, @filtro_fecha_fin, :class => 'datepicker form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 col-md-2">
+                    <div class="form-group">
+                      <%= label_tag :filtro_tipo, 'Fecha fin', :class => 'control-label' %>
+                      <%= select_tag :filtro_tipo, options_for_select(@tipo, session[:filtro_tipo]), class: 'form-control' %>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 col-md-2">
+                    <div class="form-group">
+                      <%= label_tag :filtro_orden, 'Orden', :class => 'control-label' %>
+                      <%= select_tag :filtro_orden, options_for_select(@orden, session[:filtro_orden]), class: 'form-control' %>
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" name="commit" class="btn btn-primary"><i class="icon-list-alt icon-white"></i>
+                  Generar informe
+                </button>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <%= render partial: @partial, locals: {informe: @informe} if session[:filtro_tipo].present? %>
+    </div>
+
+  </div>
+</div>

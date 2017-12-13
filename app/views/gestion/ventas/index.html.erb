@@ -52,6 +52,7 @@
           <hr class="hr-line-dashed">
           <%= simple_form_for @venta, url: gestion_venta_cierra_venta_path(@venta.id), method: :post do |f| %>
               <%= f.input :tipo_pago, collection: @tipo_pago, selected: @tipo_pago.first, input_html: {class: 'form-control m-b-md'} %>
+              <%= f.input :cliente_id, collection: @clientes, input_html: {class: 'form-control m-b-md chosen-select'} %>
               <%= f.button :submit, 'Cerrar venta', class: 'btn btn-w-m btn-primary btn-lg cerrar-venta', :confirm => "¿Estas seguro? No se podrán añadir nuevos elementos a la factura cerrada" %>
           <% end %>
         </div>
