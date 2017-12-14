@@ -1,0 +1,57 @@
+<h2>Informe de <%= session[:filtro_tipo] %> entre las fechas <%= fecha_legible(session[:filtro_fecha_inicio].to_date) %>
+  - <%= fecha_legible(session[:filtro_fecha_fin].to_date) %></h2>
+
+<div class="col-lg-12">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-content p-xl">
+      <div class="table-responsive m-t">
+        <table class="table invoice-table">
+          <thead>
+          <tr>
+            <th>Venta</th>
+            <th>Base</th>
+            <th>I.V.A</th>
+            <th>Precio total</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @linea_venta.each do |lv| %>
+              <tr>
+                <td>
+                  <div>
+                    <strong><%= "#{fecha_legible(lv[1][:fecha_venta])} #{lv[1][:venta_nombre]} (#{lv[1][:tipo_pago]})" %></strong>
+                  </div>
+                  <small>Servicios realizados:
+                    <br>
+                    <%= lv[1][:servicios] %>
+                  </small>
+                </td>
+                <td><%= number_to_currency(lv[1][:base], :unit => '€') %></td>
+                <td><%= number_to_currency(lv[1][:iva], :unit => '€') %></td>
+                <td><strong><%= number_to_currency(lv[1][:precio_total], :unit => '€') %></strong></td>
+              </tr>
+          <% end %>
+
+          </tbody>
+        </table>
+      </div><!-- /table-responsive -->
+
+      <table class="table invoice-total">
+        <tbody>
+        <tr>
+          <td><strong>Subtotal :</strong></td>
+          <td><%= number_to_currency(@base, :unit => '€') %></td>
+        </tr>
+        <tr>
+          <td><strong>IVA :</strong></td>
+          <td><%= number_to_currency(@iva, :unit => '€') %></td>
+        </tr>
+        <tr>
+          <td><strong>TOTAL :</strong></td>
+          <td><%= number_to_currency(@ingresos, :unit => '€') %></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

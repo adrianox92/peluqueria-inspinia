@@ -13,10 +13,13 @@ class Gestion::InformesController < GestionController
 
   def generar_pdf
 
+    extrae_datos_informe(session[:filtro_tipo], session[:filtro_fecha_inicio], session[:filtro_fecha_fin], session[:filtro_orden])
     #TODO: instalar wkhtmltopdf en el ordenador a usar https://wkhtmltopdf.org/downloads.html
+
+    nombre_pdf = "/gestion/informes/informes_#{session[:filtro_tipo].downcase}.html.erb"
     respond_to do |format|
       format.pdf do
-        render  :pdf => "informe.pdf", :template => 'gestion/informes/informes.html.erb', encoding: 'UTF8', title: "Informe de #{session[:filtro_tipo]}"
+        render :pdf => "informe.pdf", :template => nombre_pdf, encoding: 'UTF8', title: "Informe de #{session[:filtro_tipo]}"
       end
     end
   end
@@ -61,5 +64,64 @@ class Gestion::InformesController < GestionController
       consulta = consulta.order(orden)
       consulta
     end
+  end
+
+  def extrae_datos_informe(modelo, fecha_inicio, fecha_fin, orden)
+
+    parametros = {
+        :filtro_tipo => modelo,
+        :filtro_fecha_inicio => fecha_inicio,
+        :filtro_fecha_fin => fecha_fin,
+        :filtro_orden => orden,
+    }
+
+
+    resultados = filtrar_listado(parametros)
+
+    case parametros[:filtro_tipo]
+      when 'Venta'
+        get_informe_ventas(resultados)
+      when 'Pago'
+        get_informe_gastos(resultados)
+      when 'Producto'
+        get_informe_productos(resultados)
+    end
+  end
+
+  private
+
+  #Sacamos las ventas según los datos que nos llegan por parte del cliente
+  def get_informe_ventas(informe)
+    linea_venta = {}
+    ingresos = 0
+    subtotal = 0
+    iva = 0
+    informe.each do |i|
+      servicios = ''
+      ingresos = ingresos + i.precio_total
+      subtotal = subtotal + i.base
+      iva = iva + i.iva
+      sv = ServicioVenta.where('venta_id = ?', i.id)
+      sv.each do |s|
+        if s.servicio_id.present? #Es un servicio
+          servicios << "#{Precio.find(s.servicio_id).nombre} "
+        else #Es un producto
+          servicios << "#{Producto.find(s.producto_id).nombre} "
+        end
+      end
+      linea_venta["venta_#{i.id}".to_sym] = {venta_nombre: i.venta_nombre, precio_total: i.precio_total, base: i.base, iva: i.iva, tipo_pago: i.tipo_pago, cliente_id: i.cliente_id, fecha_venta: i.created_at, servicios: servicios}
+    end
+    @linea_venta = linea_venta
+    @base = subtotal
+    @iva = iva
+    @ingresos = ingresos
+  end
+
+  def get_informe_productos(informe)
+
+  end
+
+  def get_informe_gastos(informe)
+
   end
 end

@@ -1,0 +1,30 @@
+<% if informe.count > 0 %>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha</th>
+        <th>Servicio</th>
+        <th>Importe total</th>
+        <th>Base</th>
+        <th>Iva</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% informe.each do |i| %>
+          <tr>
+            <td><%= i.id %></td>
+            <td>
+              <%= fecha_legible(i.created_at) %>
+            </td>
+            <td><%= (i.servicio_nombre_dn).present? ? i.servicio_nombre_dn : i.producto_nombre_dn %></td>
+            <td><%= number_to_currency(i.precio_total, :unit => '€') %></td>
+            <td><%= number_to_currency(i.base, :unit => '€') %></td>
+            <td><%= number_to_currency(i.iva, :unit => '€') %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <p>No hay resultados que mostrar</p>
+<% end %>
