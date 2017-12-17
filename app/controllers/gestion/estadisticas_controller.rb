@@ -16,6 +16,13 @@ class Gestion::EstadisticasController < GestionController
     @pagos_tarjeta = ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').count
     @pagos_efectivo = ventas_semana_total_hm[2].where("tipo_pago = ?", 'Efectivo').count
 
+    total_comision = 0
+    ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').each do |c|
+      total_comision = total_comision+ c.comision_tarjeta
+    end
+
+    @total_comision = total_comision
+
     @iva_repercutido = 0
     ventas_semana_en_curso.each do |vsc|
       @iva_repercutido = @iva_repercutido + vsc.iva

@@ -76,6 +76,7 @@
               <div class="col-xs-6">
                 <p>Pagos con tarjeta</p>
                 <h1 class="no-margins"><%= @pagos_tarjeta %></h1>
+                <small><%= number_to_currency(@total_comision, :unit => '€') %> retenidos en comisiones</small>
               </div>
             </div>
 
@@ -183,7 +184,7 @@
             <div class="ibox-content">
               <h5>Balance mensual</h5>
               <h1 class="no-margins"><%= number_to_currency(@total_mes, :unit => '€') %></h1>
-              <small>Balance del mes Ingresos - Gastos </small>
+              <small>Balance del mes Ingresos - Gastos</small>
             </div>
           </div>
         </div>

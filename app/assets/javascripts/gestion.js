@@ -20,9 +20,18 @@ $(document).ready(function () {
     if ($('.datepicker').length > 0) {
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
-            startDate: '-3d'
+            startDate: '-3d',
+            todayHighlight: true
         });
     }
+    if ($('.datepicker2').length > 0) {
+        $('.datepicker2').datepicker({
+            format: 'dd/mm/yyyy',
+            todayHighlight: true,
+            startDate: '01/01/2017'
+        });
+    }
+
 
     /* Ventas */
     $('.box').on('click', function () {
