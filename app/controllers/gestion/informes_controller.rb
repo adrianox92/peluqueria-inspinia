@@ -118,10 +118,39 @@ class Gestion::InformesController < GestionController
   end
 
   def get_informe_productos(informe)
-
+    total_compras = 0
+    total_ventas = 0
+    iva_compra = 0
+    subtotal_compra = 0
+    iva_venta = 0
+    subtotal_venta = 0
+    linea_producto = {}
+    informe.each do |i|
+      total_compras = total_compras + i.precio_compra
+      subtotal_compra = subtotal_compra + i.base_compra
+      iva_compra = iva_compra + i.iva_compra
+      linea_producto["producto_#{i.id}".to_sym] = {nombre: i.nombre, pago: i.precio_compra, base: i.base_compra, iva: i.iva_compra, fecha_creado: i.created_at, ultima_compra: i.fecha_ultima_compra, tipo: i.tipo}
+    end
+    @base = subtotal_compra
+    @iva = iva_compra
+    @productos = total_compras
+    @linea_producto = linea_producto
   end
 
   def get_informe_gastos(informe)
-
+    total_gastos = 0
+    subtotal = 0
+    iva = 0
+    linea_gasto = {}
+    informe.each do |i|
+      total_gastos = total_gastos + i.pago
+      subtotal = subtotal + i.base
+      iva = iva + i.iva
+      linea_gasto["pago_#{i.id}".to_sym] = {nombre: i.nombre, pago: i.pago, base: i.base, iva: i.iva, fecha: i.created_at}
+    end
+    @base = subtotal
+    @iva = iva
+    @gastos = total_gastos
+    @linea_gasto = linea_gasto
   end
 end

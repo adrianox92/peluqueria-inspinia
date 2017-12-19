@@ -1,0 +1,90 @@
+<style>
+  h2 {
+    font-size: 30px;
+  }
+
+  .table {
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .table tbody tr:first-of-type {
+    background-color: #1ab394;
+  }
+
+  .table thead tr td {
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+  }
+
+  .table tbody tr td, .table tfoot tr td {
+    border-top: 1px solid #e7eaec;
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background: #CCC;
+  }
+
+  .table tfoot tr td p {
+    font-size: 20px;
+  }
+
+  .table tfoot tr td:first-of-type {
+    font-size: 20px;
+  }
+</style>
+<h2>Informe de gastos entre las fechas <%= fecha_legible(session[:filtro_fecha_inicio].to_date) %>
+  - <%= fecha_legible(session[:filtro_fecha_fin].to_date) %></h2>
+
+<div class="col-lg-12">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="ibox-content p-xl">
+      <div class="table-responsive m-t">
+        <table class="table invoice-table">
+          <tbody>
+          <tr>
+            <td>Nombre</td>
+            <td>Fecha</td>
+            <td>Base</td>
+            <td>I.V.A</td>
+            <td>Precio total</td>
+          </tr>
+          <% @linea_gasto.each do |lv| %>
+              <tr>
+                <td>
+                  <strong><%= lv[1][:nombre] %></strong>
+                </td>
+                <td>
+                  <%= fecha_legible(lv[1][:fecha]) %>
+                </td>
+
+                <td><%= number_to_currency(lv[1][:base], :unit => '€') %></td>
+                <td><%= number_to_currency(lv[1][:iva], :unit => '€') %></td>
+                <td><strong><%= number_to_currency(lv[1][:pago], :unit => '€') %></strong></td>
+              </tr>
+          <% end %>
+
+          </tbody>
+          <tfoot>
+          <tr>
+            <td colspan="2">Resumen del informe</td>
+            <td><strong>Subtotal: </strong>
+              <p><%= number_to_currency(@base, :unit => '€') %></p></td>
+            <td><strong>IVA: </strong>
+              <p><%= number_to_currency(@iva, :unit => '€') %></p></td>
+            <td><strong>TOTAL: </strong>
+              <p><%= number_to_currency(@gastos, :unit => '€') %></p></td>
+          </tr>
+          </tfoot>
+        </table>
+      </div><!-- /table-responsive -->
+
+    </div>
+  </div>
+</div>

@@ -55,7 +55,9 @@
       </div>
     </div>
     <div class="col-lg-12">
+      <h3>Registros encontrados: <strong><%= @informe.count %></strong></h3>
       <%= render partial: @partial, locals: {informe: @informe} if session[:filtro_tipo].present? %>
+      <h3>Registros encontrados: <strong><%= @informe.count %></strong></h3>
     </div>
 
   </div>
