@@ -6,17 +6,17 @@ $(document).ready(function () {
     }
 
 
-     if ($('body.ventas').length > 0) {
-         $(".chosen-select").chosen({
-             no_results_text: "Cliente no encontrado",
-             allow_single_deselect: true,
-             placeholder_text_single: 'Seleccione cliente'
-         });
-         /*
-      window.onbeforeunload = function () {
-      return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
-      };*/
-     }
+    if ($('body.ventas').length > 0) {
+        $(".chosen-select").chosen({
+            no_results_text: "Cliente no encontrado",
+            allow_single_deselect: true,
+            placeholder_text_single: 'Seleccione cliente'
+        });
+        /*
+         window.onbeforeunload = function () {
+         return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
+         };*/
+    }
     if ($('.datepicker').length > 0) {
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
@@ -139,7 +139,7 @@ $(document).ready(function () {
                 'rgba(15, 246, 33, 0.2)',
                 'rgba(246, 55, 33, 0.2)'
             ],
-            array_colores =[
+            array_colores = [
                 'rgba(255,99,132,1)',
                 'rgba(54, 162, 235, 1)',
                 'rgba(255, 206, 86, 1)',
@@ -259,4 +259,72 @@ $(document).ready(function () {
 
 
     $('[data-toggle="tooltip"]').tooltip();
+
+    if ($('body.citas').length > 0) {
+        $('#calendar').fullCalendar({
+            locale: 'es',
+            lang: 'es', //lang is Spanish
+            header: {
+                left: 'today',
+                right: 'prev,next'
+            },
+            buttonText: {
+                prev: '<',
+                next: '>',
+                today: 'Hoy'
+            },
+            validRange: {
+                start: moment(new Date()).add(-1, 'days')
+            },
+            timezone: 'local',
+            editable: false, //enable event edit
+            axisFormat: 'HH:mm', //format for hours
+            axisFormatMinutes: "mm", //format for minutes
+            allDaySlot: false, // all day row
+            allDayText: '', //text for all day row
+            eventLimit: 8, //limits the number of events displayed on a day
+            eventLimitText: 'más', //determines the text of the link created by eventLimit setting.
+            lazyFetching: false,
+            height: "auto",
+            slotEventOverlap: false,
+            firstHour: 8,
+            minTime: "07:00:00",
+            maxTime: "23:00:00",
+            slotDuration: '01:00:00',
+            slotLabelInterval: '01:00:00',
+            eventOverlap: false,
+            droppable: false, // this allows things to be dropped onto the calendar !!!
+            hiddenDays: [0],
+            firstDay: 1,
+            nowIndicator: true,
+            scrollTime: '08:00:00',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+            defaultView: 'agendaWeek',
+            events: $('#calendar').data('citas'),
+            businessHours: $('#calendar').data('horario-apertura'),
+            dayRender: function (date, cell) {
+                if (moment(date).format('x') < moment().subtract(1, 'days').format('x')) {
+                    $(cell).addClass('disabled');
+                }
+            },
+            dayClick: function (startDate, jsEvent, view) { //empty day click callback
+                d = startDate.toDate();
+                date = new Date(d);
+                date_options = moment(date).format('YYYY-MM-DD$HH:mm:ss');
+                var fecha_cita = '&fecha_cita=',
+                    url_destino = $('#calendar').data('url'),
+                    url_vendedor = '';
+                url_vendedor = fecha_cita.concat(date_options);
+                url_destino = url_destino.concat(url_vendedor);
+                if (!date < moment(new Date()).add(-1, 'days')) {
+                } else {
+                    alert("Cita fuera de horario comercial")
+                }
+            }
+
+        });
+    }
 });

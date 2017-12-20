@@ -17,5 +17,6 @@
 //= require switchery/switchery.js
 //= require chartjs/Chart.min.js
 //= require chosen/chosen.jquery.js
+//= require fullcalendar/fullcalendar.min.js
 //= require gestion
 
