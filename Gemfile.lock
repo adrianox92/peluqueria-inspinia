@@ -74,6 +74,7 @@ GEM
     mini_portile2 (2.1.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    newrelic_rpm (4.7.0.339)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
@@ -159,6 +160,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   font-awesome-rails (= 4.7.0.1)
   jbuilder (~> 1.2)
+  newrelic_rpm
   nokogiri (= 1.6.8)
   pg (= 0.20.0)
   puma

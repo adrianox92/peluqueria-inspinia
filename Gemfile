@@ -17,6 +17,8 @@ gem 'simple_form'
 #https://github.com/mileszs/wicked_pdf
 gem 'wicked_pdf'
 
+gem 'newrelic_rpm'
+
 gem 'wkhtmltopdf-heroku'
 
 # Use Uglifier as compressor for JavaScript assets

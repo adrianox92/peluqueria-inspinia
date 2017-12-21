@@ -13,6 +13,6 @@ development:
 production:
   adapter: postgresql
   host: <%= ENV["DB_HOST"] %>
-  database: <%= ENV["DATABASE_NAME"] %>
+  database: d2pn2kkk2e4a1
   username: <%= ENV["DB_USER"] %>
   password: <%= ENV["DB_PASSWORD"] %>
