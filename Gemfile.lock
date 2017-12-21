@@ -79,6 +79,7 @@ GEM
       pkg-config (~> 1.1.7)
     pg (0.21.0)
     pkg-config (1.1.9)
+    puma (3.11.0)
     rack (1.6.8)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -159,6 +160,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   nokogiri (= 1.6.8)
   pg (~> 0.15)
+  puma
   rails (= 4.2.7.1)
   sass-rails (~> 5.0.4)
   sdoc
