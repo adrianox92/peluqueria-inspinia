@@ -7,8 +7,6 @@ gem 'pg', '~> 0.15'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'font-awesome-rails', '4.7.0.1'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.4'
@@ -45,6 +43,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 #https://github.com/jhchen/socket.io-rails
 gem 'socket.io-rails'
+
 
 
 # Use ActiveModel has_secure_password
