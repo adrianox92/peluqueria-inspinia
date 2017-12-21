@@ -7,7 +7,7 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-Usuario.find_or_create_by(nombre: 'pruebas') do |usuario|
-  usuario.clave = Digest::MD5.hexdigest('pruebas18')
+Usuario.find_or_create_by(nombre: 'administrador') do |usuario|
+  usuario.clave = Digest::MD5.hexdigest('administrador')
   usuario.rol_id = 1
 end
