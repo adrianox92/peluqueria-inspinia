@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.3.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.7.1'
+gem 'rails', '~> 5.1', '>= 5.1.4'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.21'
 # Use Puma as the app server
@@ -30,7 +30,7 @@ gem 'wkhtmltopdf-heroku', '~> 2.12', '>= 2.12.4.0'
 gem 'turbolinks', '~> 5.0', '>= 5.0.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder', '~> 2.7'
 
 # New Relic RPM Ruby Agent http://www.newrelic.com
 gem 'newrelic_rpm', '~> 4.7', '>= 4.7.1.340'
