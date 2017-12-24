@@ -8,14 +8,16 @@
 /spec/examples.txt
 /test/tmp/
 /test/version_tmp/
-/tmp/
-/log/
 
 .bundle
 db/*.sqlite3
-log/
 .idea/
 
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
 
 # Used by dotenv library to load environment variables.
 # .env
