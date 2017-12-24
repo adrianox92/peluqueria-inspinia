@@ -13,7 +13,6 @@
 
 .bundle
 db/*.sqlite3
-log/
 .idea/
 
 
