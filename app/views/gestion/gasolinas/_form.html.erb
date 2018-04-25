@@ -1,0 +1,26 @@
+<%= simple_form_for :gasolina, url: (@gasolina.new_record? ? gestion_gasolinas_path(@gasolina) : gestion_gasolinas_path(@gasolina)), method: (@gasolina.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-xs-3">
+            <%= f.input :vehiculo, placeholder: 'Nombre del vehículo', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :precio_litro, placeholder: 'Precio del litro en euros', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :litros, placeholder: 'Litros repostados', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :precio_total, placeholder: 'Gasto total', input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-3">
+            <%= f.input :gasolinera, input_html: {class: 'form-control m-b-md'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>

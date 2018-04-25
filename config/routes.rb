@@ -37,6 +37,7 @@ Myapp::Application.routes.draw do
     resources :clientes_tintes
     resources :configuraciones
     resources :citas
+    resources :gasolinas
 
 
   end

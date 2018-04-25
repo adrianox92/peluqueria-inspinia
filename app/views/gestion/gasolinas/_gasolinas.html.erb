@@ -1,0 +1,47 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Gestión de los gastos en gasolina</h5>
+  </div>
+  <div class="ibox-content">
+
+    <div id="table" class="table-editable">
+
+      <table class="table table-striped">
+        <tr>
+          <th>#</th>
+          <th>Fecha repostaje</th>
+          <th>Pago total</th>
+          <th>Litros</th>
+          <th>Precio litro</th>
+          <th>Gasolinera</th>
+          <th>Vehículo</th>
+          <th>
+            <%= link_to new_gestion_gasolina_path, :title => 'Añadir nuevo gasto' do %>
+                <span class="nuevo glyphicon glyphicon-plus"></span>
+            <% end %></th>
+        </tr>
+        <% gasolina.each do |g| %>
+            <tr id="gasolina_<%= g.id %>">
+              <td><%= g.id %></td>
+              <td><%= fecha_legible(g.created_at) %></td>
+              <td><%=  number_to_currency(g.precio_total, :unit => '€') %></td>
+              <td><%= g.litros %></td>
+              <td><%= g.precio_litro %>€</td>
+              <td><%= g.gasolinera %></td>
+              <td><%= g.vehiculo %></td>
+              <td>
+                <%= link_to edit_gestion_gasolina_path(g.id), :title => 'Editar gasto' do %>
+                    <span class="editar fa fa-edit"></span>
+                <% end %>
+                <%= link_to gestion_gasolina_path(g.id), :confirm => "¿Estas seguro?", :method => :destroy, remote: true, :title => 'Eliminar gasto' do %>
+                    <span class="eliminar glyphicon glyphicon-remove"></span>
+                <% end %>
+
+              </td>
+            </tr>
+        <% end if gasolina.count > 0 %>
+      </table>
+    </div>
+
+  </div>
+</div>

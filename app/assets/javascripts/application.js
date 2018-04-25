@@ -13,7 +13,6 @@
 //= require slimscroll/jquery.slimscroll.min.js
 //= require forms
 //= require inspinia.js
-//= require socket.io
 //= require switchery/switchery.js
 //= require chartjs/Chart.min.js
 //= require chosen/chosen.jquery.js

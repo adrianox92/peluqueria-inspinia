@@ -1,0 +1,32 @@
+<% if informe.count > 0 %>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>Fecha repostaje</th>
+        <th>Importe total</th>
+        <th>Precio litro</th>
+        <th>Litros</th>
+        <th>Vehiculo</th>
+        <th>Gasolinera</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% informe.each do |i| %>
+          <tr>
+            <td><%= i.id %></td>
+            <td><%= fecha_legible(i.created_at) %></td>
+            <td>
+              <%= number_to_currency(i.precio_total, :unit => '€') %>
+            </td>
+            <td><%= i.precio_litro %></td>
+            <td><%= i.litros %></td>
+            <td><%= i.vehiculo %></td>
+            <td><%= i.gasolinera %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <p>No hay resultados que mostrar</p>
+<% end %>

@@ -229,10 +229,9 @@ $(document).ready(function () {
         });
         $.each(data_mensual, function (servicio, valor) {
             array_servicios_mes.push(servicio);
-            array_precios_mes.push(data[servicio].total_servicio);
-            array_usados_mes.push(data[servicio].usado);
+            array_precios_mes.push(valor.total_servicio);
+            array_usados_mes.push(valor.usado);
         });
-        console.log(array_precios_mes);
         var myChartMensual = new Chart(ctx3, {
             type: 'doughnut',
             data: {
@@ -282,7 +281,7 @@ $(document).ready(function () {
             axisFormatMinutes: "mm", //format for minutes
             allDaySlot: false, // all day row
             allDayText: '', //text for all day row
-            eventLimit: 8, //limits the number of events displayed on a day
+            eventLimit: 20, //limits the number of events displayed on a day
             eventLimitText: 'más', //determines the text of the link created by eventLimit setting.
             lazyFetching: false,
             height: "auto",
@@ -290,8 +289,8 @@ $(document).ready(function () {
             firstHour: 8,
             minTime: "07:00:00",
             maxTime: "23:00:00",
-            slotDuration: '01:00:00',
-            slotLabelInterval: '01:00:00',
+            slotDuration: '00:30:00',
+            slotLabelInterval: '00:30:00',
             eventOverlap: false,
             droppable: false, // this allows things to be dropped onto the calendar !!!
             hiddenDays: [0],
@@ -314,12 +313,8 @@ $(document).ready(function () {
                 d = startDate.toDate();
                 date = new Date(d);
                 date_options = moment(date).format('YYYY-MM-DD$HH:mm:ss');
-                var fecha_cita = '&fecha_cita=',
-                    url_destino = $('#calendar').data('url'),
-                    url_vendedor = '';
-                url_vendedor = fecha_cita.concat(date_options);
-                url_destino = url_destino.concat(url_vendedor);
                 if (!date < moment(new Date()).add(-1, 'days')) {
+                    $('#myModal').modal('show');
                 } else {
                     alert("Cita fuera de horario comercial")
                 }

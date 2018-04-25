@@ -25,7 +25,7 @@ class Gestion::InformesController < GestionController
   end
 
   def get_selectores
-    @tipo = [['Ventas', 'Venta'], ['Pagos', 'Pago'], ['Productos', 'Producto'], ['Servicios', 'ServicioVenta']]
+    @tipo = [['Ventas', 'Venta'], ['Pagos', 'Pago'], ['Productos', 'Producto'], ['Servicios', 'ServicioVenta'], ['Repostajes', 'Gasolina']]
     @filtro_fecha_inicio = (params[:filtro_fecha_inicio].blank? or (params[:filtro_fecha_inicio] =~ /\d{2}\/\d{2}\/\d{4}/).nil?) ? Date.today.beginning_of_month : Date.parse(params[:filtro_fecha_inicio])
     @filtro_fecha_fin = (params[:filtro_fecha_fin].blank? or (params[:filtro_fecha_fin] =~ /\d{2}\/\d{2}\/\d{4}/).nil?) ? Date.today.end_of_month : Date.parse(params[:filtro_fecha_fin])
     @orden = [['Fecha', 'fecha'], ['Importe', 'importe']]
@@ -85,6 +85,8 @@ class Gestion::InformesController < GestionController
         get_informe_gastos(resultados)
       when 'Producto'
         get_informe_productos(resultados)
+      when 'Gasolina'
+        get_informe_gasolina(resultados)
     end
   end
 
@@ -150,6 +152,16 @@ class Gestion::InformesController < GestionController
     end
     @base = subtotal
     @iva = iva
+    @gastos = total_gastos
+    @linea_gasto = linea_gasto
+  end
+  def get_informe_gasolina(informe)
+    total_gastos = 0
+    linea_gasto = {}
+    informe.each do |i|
+      total_gastos = total_gastos + i.precio_total
+      linea_gasto["gasolina_#{i.id}".to_sym] = {vehiculo: i.vehiculo, precio_litro: i.precio_litro, litros: i.litros, gasolinera: i.gasolinera, fecha: i.created_at, precio_total: i.precio_total}
+    end
     @gastos = total_gastos
     @linea_gasto = linea_gasto
   end

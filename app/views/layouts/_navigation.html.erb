@@ -68,6 +68,13 @@
         <% end %>
       </li>
 
+      <li class="<%= is_active_action('gasolinas') %>">
+        <%= link_to gestion_gasolinas_path do %>
+            <i class="fa fa-car"></i> <span class="nav-label" data-i18n="nav.metrics">Gastos gasolina</span>
+        <% end %>
+      </li>
+
+
       <li class="<%= is_active_action('configuracion') %>">
         <%= link_to gestion_configuraciones_path do %>
             <i class="fa fa-cog"></i> <span class="nav-label" data-i18n="nav.metrics">Configuración</span>
