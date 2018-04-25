@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "vehiculo"
     t.string "gasolinera"
     t.string "tipo_gasolina"
+    t.float "kilometros"
   end
 
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"

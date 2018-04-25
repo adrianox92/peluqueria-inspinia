@@ -14,6 +14,7 @@
           <th>Litros</th>
           <th>Precio litro</th>
           <th>Gasolinera</th>
+          <th>Kilometros</th>
           <th>Vehículo</th>
           <th>
             <%= link_to new_gestion_gasolina_path, :title => 'Añadir nuevo gasto' do %>
@@ -28,6 +29,7 @@
               <td><%= g.litros %></td>
               <td><%= g.precio_litro %>€</td>
               <td><%= g.gasolinera %></td>
+              <td><%= g.kilometros %></td>
               <td><%= g.vehiculo %></td>
               <td>
                 <%= link_to edit_gestion_gasolina_path(g.id), :title => 'Editar gasto' do %>

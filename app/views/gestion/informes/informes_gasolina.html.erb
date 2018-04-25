@@ -54,6 +54,7 @@
             <th>Litros</th>
             <th>Vehiculo</th>
             <th>Gasolinera</th>
+            <th>Kilometros</th>
             <th>Importe total</th>
           </tr>
           <% @linea_gasto.each do |lv| %>
@@ -65,6 +66,7 @@
                 <td><%= lv[1][:litros] %></td>
                 <td><%= lv[1][:vehiculo] %></td>
                 <td><%= lv[1][:gasolinera] %></td>
+                <td><%= lv[1][:kilometros] %></td>
                 <td><strong> <%= number_to_currency(lv[1][:precio_total], :unit => '€') %></strong></td>
               </tr>
           <% end %>
