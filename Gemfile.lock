@@ -55,6 +55,7 @@ GEM
     crass (1.0.3)
     erubis (2.7.0)
     execjs (2.7.0)
+    ffi (1.9.18)
     ffi (1.9.18-x86-mingw32)
     font-awesome-rails (4.7.0.1)
       railties (>= 3.2, < 5.1)
@@ -76,8 +77,11 @@ GEM
     minitest (5.10.3)
     multi_json (1.12.2)
     newrelic_rpm (4.7.1.340)
+    nokogiri (1.6.8.1)
+      mini_portile2 (~> 2.1.0)
     nokogiri (1.6.8.1-x86-mingw32)
       mini_portile2 (~> 2.1.0)
+    pg (0.20.0)
     pg (0.20.0-x86-mingw32)
     rack (1.6.8)
     rack-test (0.6.3)
@@ -151,6 +155,7 @@ GEM
     wkhtmltopdf-heroku (2.12.4.0)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
@@ -173,4 +178,4 @@ DEPENDENCIES
   wkhtmltopdf-heroku
 
 BUNDLED WITH
-   1.13.6
+   1.16.1

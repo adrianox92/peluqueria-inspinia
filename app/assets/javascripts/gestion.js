@@ -17,16 +17,23 @@ $(document).ready(function () {
          return 'La venta no está cerrada, ¿seguro que quiere abandonar la página?';
          };*/
     }
+
     if ($('.datepicker').length > 0) {
         $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
             startDate: '-3d',
+            language: 'es',
+            regional: 'es',
+            weekStart: 1,
             todayHighlight: true
         });
     }
     if ($('.datepicker2').length > 0) {
         $('.datepicker2').datepicker({
             format: 'dd/mm/yyyy',
+            language: 'es',
+            weekStart: 1,
+            regional: 'es',
             todayHighlight: true,
             startDate: '01/01/2017'
         });

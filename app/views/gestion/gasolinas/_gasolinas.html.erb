@@ -13,6 +13,7 @@
           <th>Pago total</th>
           <th>Litros</th>
           <th>Precio litro</th>
+          <th>Kilómetros</th>
           <th>Gasolinera</th>
           <th>Vehículo</th>
           <th>
@@ -23,10 +24,11 @@
         <% gasolina.each do |g| %>
             <tr id="gasolina_<%= g.id %>">
               <td><%= g.id %></td>
-              <td><%= fecha_legible(g.created_at) %></td>
+              <td><%= fecha_legible(g.fecha_repostaje) %></td>
               <td><%=  number_to_currency(g.precio_total, :unit => '€') %></td>
               <td><%= g.litros %></td>
               <td><%= g.precio_litro %>€</td>
+              <td><%= g.kilometros %></td>
               <td><%= g.gasolinera %></td>
               <td><%= g.vehiculo %></td>
               <td>
