@@ -120,5 +120,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "fecha_repostaje"
   end
 
+  create_table "vehiculo", force: :cascade do |t|
+    t.string "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
 end

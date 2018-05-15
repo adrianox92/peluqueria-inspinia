@@ -17,5 +17,6 @@
 //= require chartjs/Chart.min.js
 //= require chosen/chosen.jquery.js
 //= require fullcalendar/fullcalendar.min.js
+//= require sweetalert/sweetalert.min.js
 //= require gestion
 

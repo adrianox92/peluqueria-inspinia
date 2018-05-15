@@ -88,11 +88,16 @@ $(document).ready(function () {
                 $('.cuenta').text((data.precio_total).toFixed(2));
                 $('.tabla-productos-venta tbody').append(newRowContentProducto);
 
+                var id_producto = '#' + data.producto_id;
                 if (data.stock == 0) {
-                    console.log(data.id_item);
-                    var id_producto = '#' + data.producto_id
-                    $('#productos ' + id_producto).remove();
+                    $('#productos ' + id_producto).addClass('sin-stock');
                 }
+
+                $('#productos ' + id_producto + ' .stock-bajo').data('original-title', "Unidades disponibles: " + data.stock)
+                $('#productos ' + id_producto + ' .stock-bajo').attr('data-original-title', "Unidades disponibles: " + data.stock)
+            }
+            else{
+                swal ( "Error" ,  "Stock disponible 0" ,  "error" )
             }
         });
     });
@@ -106,9 +111,14 @@ $(document).ready(function () {
                 type: 'post'
             }).done(function (data) {
                 if (data.status == 'ok') {
-                    //TODO: Si el producto tenía 0 como lo hemos eliminado tenemos que volverlo a crear
                     $('.cuenta').text((data.precio_total).toFixed(2));
                     $('.tabla-productos-venta tbody tr#' + data.id).remove();
+                    var id_producto = '#' + data.producto_id;
+
+                    $('#productos ' + id_producto + ' .stock-bajo').data('original-title', "Unidades disponibles: " + data.stock_nuevo);
+                    $('#productos ' + id_producto + ' .stock-bajo').attr('data-original-title', "Unidades disponibles: " + data.stock_nuevo);
+
+                    $('#productos ' + id_producto).removeClass('sin-stock');
                 }
                 if (data.status == 'ko') {
                     alert('error');
