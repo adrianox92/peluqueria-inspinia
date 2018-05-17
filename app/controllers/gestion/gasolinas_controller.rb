@@ -41,6 +41,6 @@ class Gestion::GasolinasController < GestionController
   end
 
   def permit_params
-    params.require(:gasolina).permit(:precio_total, :litros, :precio_litro, :vehiculo, :gasolinera, :tipo_gasolina)
+    params.require(:gasolina).permit(:precio_total, :litros, :precio_litro, :vehiculo, :gasolinera, :tipo_gasolina, :kilometros, :fecha_repostaje)
   end
 end

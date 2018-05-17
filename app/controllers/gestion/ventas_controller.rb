@@ -16,7 +16,7 @@ class Gestion::VentasController < GestionController
   def get_data
     @servicios = Precio.where('activo = ?', true)
     @tipo_pago = [['Efectivo', 'Efectivo'], ['Tarjeta', 'Tarjeta']]
-    @productos = Producto.where('activo = ? AND stock > ? AND tipo NOT ILIKE ? or tipo IS NULL', true, 0, '%tinte%') #Productos activos con stock
+    @productos = Producto.where('activo = ? AND tipo NOT ILIKE ? or tipo IS NULL', true, '%tinte%') #Productos activos con stock
     @clientes = Cliente.where('activo = ?', true).map { |c| [c.nombre_completo_dn, c.id] }
   end
 
@@ -118,13 +118,17 @@ class Gestion::VentasController < GestionController
         rescue => e
           e.backtrace
         end
+      else
+        render :json => {status: 'ko'}
       end
     end
   end
 
+  # Método que devuelve el producto al inventario en caso de que lo elimenemos de la venta
+  # El método devuelve el nuevo precio que tiene la venta.
   def elimina_linea_venta
-    #TODO: Si el producto tenía 0 como lo hemos eliminado tenemos que volverlo a crear
     venta = Venta.find(params[:venta_id])
+    elemento = ''
     unless venta.cerrada #Si la venta está cerrada no puedo eliminar los elementos. No debería poder acceder a una venta cerrada desde aquí
       servicio_venta = ServicioVenta.find(params[:id])
       if servicio_venta.present?
@@ -153,12 +157,13 @@ class Gestion::VentasController < GestionController
             base = producto.precio_venta / 1.21
             iva = producto.precio_venta - base
 
+            sin_stock = true if producto.stock == 0 #Controlamos que el stock que teníamos era 0 para volver a crear el elemento
             producto.update_attribute :stock, (producto.stock + 1) #Restituimos el stock del producto para llevar un control del mismo
             precio_total_actual = venta.precio_total
             nuevo_precio = precio_total_actual - producto.precio_venta
             begin
               venta.update_attribute :precio_total, nuevo_precio
-              render :json => {status: 'ok', precio_total: nuevo_precio, id: servicio_venta.id}
+              render :json => {status: 'ok', precio_total: nuevo_precio, id: servicio_venta.id, producto_id: producto.id, stock_nuevo: producto.stock }
             rescue => e
               e.backtrace
             end
