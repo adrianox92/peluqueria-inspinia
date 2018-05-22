@@ -164,7 +164,7 @@ DEPENDENCIES
   font-awesome-rails (= 4.7.0.1)
   jbuilder (~> 1.2)
   newrelic_rpm
-  nokogiri (~> 1.8.1)
+  nokogiri (~> 1.8.2)
   pg (= 0.20.0)
   rails (= 4.2.7.1)
   sass-rails (~> 5.0.4)

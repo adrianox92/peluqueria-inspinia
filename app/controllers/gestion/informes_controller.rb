@@ -160,7 +160,7 @@ class Gestion::InformesController < GestionController
     linea_gasto = {}
     informe.each do |i|
       total_gastos = total_gastos + i.precio_total
-      linea_gasto["gasolina_#{i.id}".to_sym] = {vehiculo: i.vehiculo, precio_litro: i.precio_litro, litros: i.litros, gasolinera: i.gasolinera, fecha: i.created_at, precio_total: i.precio_total}
+      linea_gasto["gasolina_#{i.id}".to_sym] = {vehiculo: i.vehiculo.nombre, precio_litro: i.precio_litro, litros: i.litros, gasolinera: i.gasolinera, fecha: i.created_at, precio_total: i.precio_total, kilometros: i.kilometros}
     end
     @gastos = total_gastos
     @linea_gasto = linea_gasto

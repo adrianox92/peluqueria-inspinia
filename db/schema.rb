@@ -107,6 +107,25 @@ ActiveRecord::Schema.define(version: 0) do
     t.float    "comision_tarjeta"
   end
 
+  create_table "tinte", force: :cascade do |t|
+    t.integer "stock"
+    t.string "nombre"
+    t.string "codigo"
+    t.boolean "activo",          default: true
+    t.datetime "fecha_ultima_compra"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer "created_by"
+  end
+
+  create_table "tinte_cliente", force: :cascade do |t|
+    t.integer "tinte_id"
+    t.integer "cliente_id"
+    t.string "nombre_dn"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "gasolina", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -114,7 +133,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.float "litros"
     t.float "precio_litro"
     t.float "kilometros"
-    t.string "vehiculo"
+    t.integer "vehiculo_id"
     t.string "gasolinera"
     t.string "tipo_gasolina"
     t.float "kilometros"

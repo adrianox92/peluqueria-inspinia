@@ -6,6 +6,7 @@ class Gestion::GasolinasController < GestionController
 
 
   def new
+    fill_form
     @gasolina = Gasolina.new
   end
 
@@ -21,6 +22,7 @@ class Gestion::GasolinasController < GestionController
   end
 
   def edit
+    fill_form
     @gasolina = Gasolina.find(params[:id])
   end
 
@@ -40,7 +42,11 @@ class Gestion::GasolinasController < GestionController
     redirect_to gestion_gasolinas_path
   end
 
+  def fill_form
+    @vehiculos = Vehiculo.all.order('id').map{|v| [v.nombre, v.id]}
+  end
+
   def permit_params
-    params.require(:gasolina).permit(:precio_total, :litros, :precio_litro, :vehiculo, :gasolinera, :tipo_gasolina, :kilometros, :fecha_repostaje)
+    params.require(:gasolina).permit(:precio_total, :litros, :precio_litro, :vehiculo_id, :gasolinera, :tipo_gasolina, :kilometros, :fecha_repostaje)
   end
 end

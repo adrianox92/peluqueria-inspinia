@@ -101,7 +101,7 @@ class Gestion::ClientesController < GestionController
   end
 
   def permit_params_cliente_tinte
-    params.require(:cliente_tinte).permit(:cliente_id, :producto_id, :nombre_dn)
+    params.require(:cliente_tinte).permit(:cliente_id, :tinte_id, :nombre_dn)
   end
 
 end

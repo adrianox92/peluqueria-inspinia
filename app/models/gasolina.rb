@@ -3,4 +3,6 @@ class Gasolina < ActiveRecord::Base
 
   validates :precio_total, :litros, :precio_litro, :vehiculo, :gasolinera, presence: true
 
+  belongs_to :vehiculo
+
 end

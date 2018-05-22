@@ -3,7 +3,7 @@
       <div class="ibox-content">
         <div class="row">
           <div class="col-xs-3">
-            <%= f.input :vehiculo, placeholder: 'Nombre del vehículo', input_html: {class: 'form-control m-b-md'} %>
+            <%= f.input :vehiculo_id, collection: @vehiculos, prompt: 'Seleccionar vehiculo', input_html: {class: 'chosen-select form-control m-b-md'} %>
           </div>
           <div class="col-xs-3">
             <%= f.input :precio_litro, placeholder: 'Precio del litro en euros', input_html: {class: 'form-control m-b-md'} %>

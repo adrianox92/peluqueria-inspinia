@@ -15,7 +15,7 @@
       <% cliente_tintes.each do |c| %>
           <tr id="cliente_tinte_<%= c.id %>">
             <td><%= fecha_legible(c.created_at) %></td>
-            <td><%= Tinte.find(c.producto_id).codigo %></td>
+            <td><%= Tinte.find(c.tinte_id).codigo %></td>
             <td>
               <%= link_to edit_gestion_clientes_tinte_path(c.id), :title => 'Editar tinte' do %>
                   <span class="editar fa fa-edit"></span>
