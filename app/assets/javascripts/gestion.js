@@ -303,17 +303,18 @@ $(document).ready(function () {
             lazyFetching: false,
             height: "auto",
             slotEventOverlap: false,
-            firstHour: 8,
-            minTime: "07:00:00",
-            maxTime: "23:00:00",
-            slotDuration: '00:30:00',
-            slotLabelInterval: '00:30:00',
+            firstHour: 9,
+            minTime: "09:00:00",
+            maxTime: "20:00:00",
+            slotDuration: '00:15:00',
+            slotLabelInterval: '01:00:00',
             eventOverlap: false,
             droppable: false, // this allows things to be dropped onto the calendar !!!
             hiddenDays: [0],
             firstDay: 1,
             nowIndicator: true,
             scrollTime: '08:00:00',
+            timeFormat: 'H(:mm)', // uppercase H for 24-hour clock
             monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -329,8 +330,9 @@ $(document).ready(function () {
             dayClick: function (startDate, jsEvent, view) { //empty day click callback
                 d = startDate.toDate();
                 date = new Date(d);
-                date_options = moment(date).format('YYYY-MM-DD$HH:mm:ss');
+                date_options = moment(date).format('YYYY-MM-DD HH:mm');
                 if (!date < moment(new Date()).add(-1, 'days')) {
+                    $('#cita_fecha_inicio').val(date_options);
                     $('#myModal').modal('show');
                 } else {
                     alert("Cita fuera de horario comercial")

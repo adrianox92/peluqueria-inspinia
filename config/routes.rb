@@ -39,6 +39,7 @@ Myapp::Application.routes.draw do
     resources :citas
     resources :gasolinas
 
-
+    resources :roles
+    resources :usuarios
   end
 end

@@ -20,77 +20,90 @@
       </li>
       <li class="<%= is_active_action('servicios') %>">
         <%= link_to gestion_servicios_path do %>
-            <i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.layouts">Servicios (Precios)</span>
+          <i class="fa fa-money"></i> <span class="nav-label" data-i18n="nav.layouts">Servicios (Precios)</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('clientes') %>">
         <%= link_to gestion_clientes_path do %>
-            <i class="fa fa-address-book" aria-hidden="true"></i><span class="nav-label" data-i18n="nav.clients">Clientes</span>
+          <i class="fa fa-address-book" aria-hidden="true"></i><span class="nav-label" data-i18n="nav.clients">Clientes</span>
 
         <% end %>
       </li>
       <li class="<%= is_active_action('ventas') %>">
         <%= link_to gestion_ventas_path do %>
-            <i class="fa fa-cart-plus"></i> <span class="nav-label" data-i18n="nav.layouts">Nueva Venta</span>
+          <i class="fa fa-cart-plus"></i> <span class="nav-label" data-i18n="nav.layouts">Nueva Venta</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('productos') %>">
         <%= link_to gestion_productos_path do %>
-            <i class="fa fa-shopping-basket" aria-hidden="true"></i>
-            <span class="nav-label">Productos</span>
+          <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+          <span class="nav-label">Productos</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('tintes') %>">
         <%= link_to gestion_tintes_path do %>
-            <i class="fa fa-paint-brush" aria-hidden="true"></i>
-            <span class="nav-label">Tintes</span>
+          <i class="fa fa-paint-brush" aria-hidden="true"></i>
+          <span class="nav-label">Tintes</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('pagos') %>">
         <%= link_to gestion_pagos_path do %>
-            <i class="fa fa-university" aria-hidden="true"></i>
-            <span class="nav-label">Pagos</span>
+          <i class="fa fa-university" aria-hidden="true"></i>
+          <span class="nav-label">Pagos</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('citas') %>">
         <%= link_to gestion_citas_path do %>
-            <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Citas</span>
+          <i class="fa fa-calendar" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Citas</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('estadisticas') %>">
         <%= link_to gestion_estadisticas_path do %>
-            <i class="fa fa-pie-chart"></i> <span class="nav-label" data-i18n="nav.metrics">Estadísticas</span>
+          <i class="fa fa-pie-chart"></i> <span class="nav-label" data-i18n="nav.metrics">Estadísticas</span>
         <% end %>
       </li>
       <li class="<%= is_active_action('informes') %>">
         <%= link_to gestion_informes_path do %>
-            <i class="fa fa-folder-open-o" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.informs">Informes</span>
+          <i class="fa fa-folder-open-o" aria-hidden="true"></i>
+          <span class="nav-label" data-i18n="nav.informs">Informes</span>
         <% end %>
       </li>
 
       <li class="<%= is_active_action('gasolinas') %>">
         <%= link_to gestion_gasolinas_path do %>
+          <i class="fa fa-car"></i> <span class="nav-label" data-i18n="nav.metrics">Gastos gasolina</span>
+        <% end %>
+      </li>
+
+
+      <% if session[:logged_as] == 1 #Solo el usuario administrador tiene acceso a esto  %>
+        <li class="<%= is_active_action('configuracion') %>">
+          <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="nav-label" data-i18n="nav.metrics">Configuración</span><span class="fa arrow"></span>
+          </a>
+          <ul class="nav nav-second-level collapse <%= is_active_controller('tables', 'in') %>">
+            <li>
+              <%= link_to gestion_usuarios_path do %>
+                Usuarios
+              <% end %>
+            </li>
+            <li>
+              <%= link_to gestion_roles_path do %>
+                Roles
+              <% end %>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">1</a></li>
+          </ul>
+        </li>
+        <li class="<%= is_active_action('llamadas') %>">
+          <%= link_to gestion_gasolinas_path do %>
             <i class="fa fa-car"></i> <span class="nav-label" data-i18n="nav.metrics">Gastos gasolina</span>
-        <% end %>
-      </li>
+          <% end %>
+        </li>
+      <% end %>
 
-
-      <li class="<%= is_active_action('configuracion') %>">
-        <%= link_to gestion_configuraciones_path do %>
-            <i class="fa fa-cog"></i> <span class="nav-label" data-i18n="nav.metrics">Configuración</span>
-        <% end %>
-      </li>
-
-      <li class="<%= is_active_controller('tables') %>">
-        <a href="#"><i class="fa fa-table"></i>
-          <span class="nav-label" data-i18n="nav.tables">Tables</span><span class="fa arrow"></span></a>
-        <ul class="nav nav-second-level collapse <%= is_active_controller('tables', 'in') %>">
-          <li><a href="#">1</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">1</a></li>
-        </ul>
-      </li>
     </ul>
 
   </div>

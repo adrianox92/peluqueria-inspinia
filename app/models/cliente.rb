@@ -14,4 +14,9 @@ class Cliente < ActiveRecord::Base
     end
   end
 
+  #Concatenamos el nombre del cliente y sus apellidos
+  def nombre_completo
+    "#{self.nombre} #{self.apellidos}"
+  end
+
 end

@@ -1,4 +1,4 @@
-<%= simple_form_for :gasolina, url: (@gasolina.new_record? ? gestion_gasolinas_path(@gasolina) : gestion_gasolinas_path(@gasolina)), method: (@gasolina.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+<%= simple_form_for :gasolina, url: (@gasolina.new_record? ? gestion_gasolinas_path(@gasolina) : gestion_gasolina_path(@gasolina)), method: (@gasolina.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
     <div class="ibox float-e-margins">
       <div class="ibox-content">
         <div class="row">
@@ -13,9 +13,6 @@
           </div>
           <div class="col-xs-3">
             <%= f.input :precio_total, placeholder: 'Gasto total', input_html: {class: 'form-control m-b-md'} %>
-          </div>
-          <div class="col-xs-3">
-            <%= f.input :kilometros, placeholder: 'Kilómetros', input_html: {class: 'form-control m-b-md'} %>
           </div>
           <div class="col-xs-3">
             <%= f.input :fecha_repostaje, as: :string, input_html: {value: fecha_legible(Date.today), class: 'datepicker form-control m-b-md'} %>
