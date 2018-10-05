@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.float    "base"
     t.float    "iva"
     t.string   "tipo_pago"
+    t.string   "cliente_nombre_dn"
     t.boolean  "cerrada",          default: false
     t.string   "venta_nombre"
     t.integer  "cliente_id"
@@ -121,7 +122,10 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "tinte_cliente", force: :cascade do |t|
     t.integer "tinte_id"
     t.integer "cliente_id"
+    t.integer "producto_id"
     t.string "nombre_dn"
+    t.string "tipo_dn"
+    t.string "codigo_dn"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -146,14 +150,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at"
   end
 
-  create_table "cita", force: :cascade do |t|
-    t.integer "cliente_id"
-    t.datetime "fecha_inicio"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
 
-  add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
 end

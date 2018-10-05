@@ -12,6 +12,8 @@ gem 'font-awesome-rails', '4.7.0.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.4'
 
+gem 'nokogiri', '1.6.8.1'
+
 gem 'simple_form'
 
 #https://github.com/mileszs/wicked_pdf
