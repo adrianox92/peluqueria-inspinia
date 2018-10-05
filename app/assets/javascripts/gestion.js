@@ -96,8 +96,8 @@ $(document).ready(function () {
                 $('#productos ' + id_producto + ' .stock-bajo').data('original-title', "Unidades disponibles: " + data.stock)
                 $('#productos ' + id_producto + ' .stock-bajo').attr('data-original-title', "Unidades disponibles: " + data.stock)
             }
-            else{
-                swal ( "Error" ,  "Stock disponible 0" ,  "error" )
+            else {
+                swal("Error", "Stock disponible 0", "error")
             }
         });
     });
@@ -282,6 +282,7 @@ $(document).ready(function () {
             lang: 'es', //lang is Spanish
             header: {
                 left: 'today',
+                center: 'title',
                 right: 'prev,next'
             },
             buttonText: {
@@ -304,6 +305,7 @@ $(document).ready(function () {
             height: "auto",
             slotEventOverlap: false,
             firstHour: 9,
+            nowIndicator: true,
             minTime: "09:00:00",
             maxTime: "20:00:00",
             slotDuration: '00:15:00',
@@ -312,7 +314,6 @@ $(document).ready(function () {
             droppable: false, // this allows things to be dropped onto the calendar !!!
             hiddenDays: [0],
             firstDay: 1,
-            nowIndicator: true,
             scrollTime: '08:00:00',
             timeFormat: 'H(:mm)', // uppercase H for 24-hour clock
             monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -320,20 +321,39 @@ $(document).ready(function () {
             dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
             dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
             defaultView: 'agendaWeek',
+            businessHours: [{
+                dow: [1, 2, 3, 4], // Monday - Thursday
+                start: '10:00',
+                end: '13:00'
+            }, {
+                dow: [1, 2, 3, 4], // Monday - Thursday (if adding lunch hours)
+                start: '16:30',
+                end: '19:00'
+            }, {
+                dow: [5], // Friday
+                start: '10:00',
+                end: '19:00'
+            }, {
+                dow: [6], // Saturday
+                start: '10:00',
+                end: '13:30'
+            }],
+            selectConstraint: "businessHours",
             events: $('#calendar').data('citas'),
-            businessHours: $('#calendar').data('horario-apertura'),
             dayRender: function (date, cell) {
                 if (moment(date).format('x') < moment().subtract(1, 'days').format('x')) {
                     $(cell).addClass('disabled');
                 }
             },
             dayClick: function (startDate, jsEvent, view) { //empty day click callback
-                d = startDate.toDate();
-                date = new Date(d);
-                date_options = moment(date).format('YYYY-MM-DD HH:mm');
-                if (!date < moment(new Date()).add(-1, 'days')) {
-                    $('#cita_fecha_inicio').val(date_options);
-                    $('#myModal').modal('show');
+                var d = startDate.toDate(),
+                    date = new Date(d),
+                    ahora = moment(),
+                    cita_seleccionada = moment(d).format('YYYY-MM-DD HH:mm'),
+                    date_options = moment(date).format('YYYY-MM-DD HH:mm');
+                if (ahora.diff(cita_seleccionada) < 0) {
+                        $('#cita_fecha_inicio').val(date_options);
+                        $('#myModal').modal('show');
                 } else {
                     alert("Cita fuera de horario comercial")
                 }

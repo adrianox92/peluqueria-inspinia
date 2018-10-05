@@ -146,6 +146,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at"
   end
 
+  create_table "cita", force: :cascade do |t|
+    t.integer "cliente_id"
+    t.datetime "fecha_inicio"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
 
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"

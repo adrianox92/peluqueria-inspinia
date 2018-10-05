@@ -155,6 +155,7 @@ class Gestion::InformesController < GestionController
     @gastos = total_gastos
     @linea_gasto = linea_gasto
   end
+
   def get_informe_gasolina(informe)
     total_gastos = 0
     linea_gasto = {}

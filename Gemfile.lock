@@ -71,6 +71,7 @@ GEM
     nokogiri (1.6.8.1-x86-mingw32)
       mini_portile2 (~> 2.1.0)
     pg (0.20.0-x86-mingw32)
+    puma (3.11.0)
     rack (1.6.10)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -151,6 +152,7 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   newrelic_rpm
   pg (~> 0.20.0)
+  puma
   rails
   sass-rails (~> 5.0.4)
   sdoc
