@@ -84,6 +84,11 @@
           </a>
           <ul class="nav nav-second-level collapse <%= is_active_controller('tables', 'in') %>">
             <li>
+              <%= link_to gestion_administraciones_path do %>
+                  Administración general
+              <% end %>
+            </li>
+            <li>
               <%= link_to gestion_usuarios_path do %>
                 Usuarios
               <% end %>
@@ -99,11 +104,6 @@
             </li>
             <li><a href="#">1</a></li>
           </ul>
-        </li>
-        <li class="<%= is_active_action('llamadas') %>">
-          <%= link_to gestion_gasolinas_path do %>
-            <i class="fa fa-car"></i> <span class="nav-label" data-i18n="nav.metrics">Gastos gasolina</span>
-          <% end %>
         </li>
       <% end %>
 

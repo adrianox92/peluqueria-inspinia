@@ -150,6 +150,19 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at"
   end
 
+  create_table "administracion", force: :cascade do |t|
+    t.string "nombre_empresa"
+    t.string "cif"
+    t.integer "telefono_contacto"
+    t.string "email_contacto"
+    t.integer "iva"
+    t.integer "comision_tarjeta"
+    t.string "tipo_empresa"
+    t.boolean "activo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
 
 end

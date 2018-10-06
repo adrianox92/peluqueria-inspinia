@@ -40,6 +40,7 @@ Myapp::Application.routes.draw do
     resources :gasolinas
 
     resources :roles
+    resources :administraciones
     resources :usuarios
   end
 end
