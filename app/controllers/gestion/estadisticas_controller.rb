@@ -1,84 +1,88 @@
 class Gestion::EstadisticasController < GestionController
 
   def index
-    ventas = Venta.where('cerrada = ?', true) #Sacamos todas las ventas cerradas para mostrar los datos en pantalla según la caja
+    begin
+      ventas = Venta.where('cerrada = ?', true) #Sacamos todas las ventas cerradas para mostrar los datos en pantalla según la caja
 
-    #Semana en curso
-    ventas_semana_en_curso = ventas.where("created_at >= ?", Time.current.beginning_of_week)
+      #Semana en curso
+      ventas_semana_en_curso = ventas.where("created_at >= ?", Time.current.beginning_of_week)
 
-    from = Time.current.beginning_of_week.beginning_of_day
-    to = Time.current.end_of_week
+      from = Time.current.beginning_of_week.beginning_of_day
+      to = Time.current.end_of_week
 
-    ventas_semana_total_hm = get_ventas_periodo(from, to)
-    @ventas_semana_total = ventas_semana_total_hm[1].to_json
+      ventas_semana_total_hm = get_ventas_periodo(from, to)
+      @ventas_semana_total = ventas_semana_total_hm[1].to_json
 
-    @ventas_semana = ventas_semana_total_hm[0]
-    @pagos_tarjeta = ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').count
-    @pagos_efectivo = ventas_semana_total_hm[2].where("tipo_pago = ?", 'Efectivo').count
+      @ventas_semana = ventas_semana_total_hm[0]
+      @pagos_tarjeta = ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').count
+      @pagos_efectivo = ventas_semana_total_hm[2].where("tipo_pago = ?", 'Efectivo').count
 
-    total_comision = 0
-    ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').each do |c|
-      total_comision = total_comision+ c.comision_tarjeta
+      total_comision = 0
+      ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').each do |c|
+        total_comision = total_comision+ c.comision_tarjeta
+      end
+
+      @total_comision = total_comision
+
+      @iva_repercutido = 0
+      ventas_semana_en_curso.each do |vsc|
+        @iva_repercutido = @iva_repercutido + vsc.iva
+      end if @ventas_semana > 0
+
+      @iva_soportado = 0
+      compras_semana_en_curso = Producto.where("fecha_ultima_compra >= ?", Time.current.beginning_of_week)
+      compras_semana_en_curso.each do |csc|
+        @iva_soportado = @iva_soportado + csc.iva_compra
+      end if compras_semana_en_curso.count > 0
+
+
+      from_semana_anterior = Time.current.beginning_of_week - 7.days
+      to_semana_anterior = Time.current.beginning_of_week
+
+      ventas_semana_anterior = get_ventas_periodo(from_semana_anterior, to_semana_anterior)
+      @ventas_semana_anterior_total = ventas_semana_anterior[1].to_json
+
+
+      @diferencia_ventas = devuelve_diferencia(ventas_semana_anterior[0], @ventas_semana)
+      @ventas_semana_anterior = ventas_semana_anterior[0]
+
+      @ingresos_semana = ingresos (ventas_semana_en_curso) #Ingresos de la semana en curso
+      @ingresos_semana_anterior = ingresos(ventas_semana_anterior[2])
+
+
+      @diferencia_ingresos = devuelve_diferencia(@ingresos_semana_anterior, @ingresos_semana)
+
+
+      #Mes en curso
+      ventas_mes = ventas.where("created_at >= ? AND created_at <= ?", (Time.current.beginning_of_month), Time.current.end_of_month)
+      @ventas_mes = ventas_mes.count
+      @ingresos_mes = ingresos(ventas_mes)
+
+      ventas_mes_anterior = ventas.where("created_at >= ? AND created_at <= ?", (Time.current.beginning_of_month - 1.month), Time.current.end_of_month - 1.month)
+      num_ventas_mes_anterior = ventas_mes_anterior.count
+
+      @diferencia_ventas_meses = devuelve_diferencia(num_ventas_mes_anterior, @ventas_mes)
+
+      ingresos_mes_anterior = ventas.where("created_at >= ? AND created_at <= ?", (Time.current.beginning_of_month - 1.month), Time.current.end_of_month - 1.month)
+      total_ingresos_mes_anterior = ingresos(ingresos_mes_anterior)
+
+      @diferencia_ingresos_meses = devuelve_diferencia(total_ingresos_mes_anterior, @ingresos_mes)
+
+
+      #General
+      @productos_semana = devuelve_productos(Time.current.beginning_of_week, Time.current.end_of_week.strftime("%d/%m/%Y"))
+
+      @ventas = ventas
+
+      #Sacamos los gastos del mes y después calculamos la diferencia para saber si hay beneficio.
+      pagos = Pago.where('ultimo_pago >= ? AND ultimo_pago <= ?', Time.current.beginning_of_month, Time.current.end_of_month)
+      @total_gastos = devuelve_total_gastos(pagos)
+      @total_mes = ingresos_gastos(@ingresos_mes, @total_gastos)
+
+      @productos_mes = devuelve_productos(Time.current.beginning_of_month.strftime("%d/%m/%Y"), Time.current.end_of_month.strftime("%d/%m/%Y"))
+    rescue => e
+      e.backtrace
     end
-
-    @total_comision = total_comision
-
-    @iva_repercutido = 0
-    ventas_semana_en_curso.each do |vsc|
-      @iva_repercutido = @iva_repercutido + vsc.iva
-    end if @ventas_semana > 0
-
-    @iva_soportado = 0
-    compras_semana_en_curso = Producto.where("fecha_ultima_compra >= ?", Time.current.beginning_of_week)
-    compras_semana_en_curso.each do |csc|
-      @iva_soportado = @iva_soportado + csc.iva_compra
-    end if compras_semana_en_curso.count > 0
-
-
-    from_semana_anterior = Time.current.beginning_of_week - 7.days
-    to_semana_anterior = Time.current.beginning_of_week
-
-    ventas_semana_anterior = get_ventas_periodo(from_semana_anterior, to_semana_anterior)
-    @ventas_semana_anterior_total = ventas_semana_anterior[1].to_json
-
-
-    @diferencia_ventas = devuelve_diferencia(ventas_semana_anterior[0], @ventas_semana)
-    @ventas_semana_anterior = ventas_semana_anterior[0]
-
-    @ingresos_semana = ingresos (ventas_semana_en_curso) #Ingresos de la semana en curso
-    @ingresos_semana_anterior = ingresos(ventas_semana_anterior[2])
-
-
-    @diferencia_ingresos = devuelve_diferencia(@ingresos_semana_anterior, @ingresos_semana)
-
-
-    #Mes en curso
-    ventas_mes = ventas.where("created_at >= ? AND created_at <= ?", (Time.current.beginning_of_month), Time.current.end_of_month)
-    @ventas_mes = ventas_mes.count
-    @ingresos_mes = ingresos(ventas_mes)
-
-    ventas_mes_anterior = ventas.where("created_at >= ? AND created_at <= ?", (Time.current.beginning_of_month - 1.month), Time.current.end_of_month - 1.month)
-    num_ventas_mes_anterior = ventas_mes_anterior.count
-
-    @diferencia_ventas_meses = devuelve_diferencia(num_ventas_mes_anterior, @ventas_mes)
-
-    ingresos_mes_anterior = ventas.where("created_at >= ? AND created_at <= ?", (Time.current.beginning_of_month - 1.month), Time.current.end_of_month - 1.month)
-    total_ingresos_mes_anterior = ingresos(ingresos_mes_anterior)
-
-    @diferencia_ingresos_meses = devuelve_diferencia(total_ingresos_mes_anterior, @ingresos_mes)
-
-
-    #General
-    @productos_semana = devuelve_productos(Time.current.beginning_of_week, Time.current.end_of_week.strftime("%d/%m/%Y"))
-
-    @ventas = ventas
-
-    #Sacamos los gastos del mes y después calculamos la diferencia para saber si hay beneficio.
-    pagos = Pago.where('ultimo_pago >= ? AND ultimo_pago <= ?', Time.current.beginning_of_month, Time.current.end_of_month)
-    @total_gastos = devuelve_total_gastos(pagos)
-    @total_mes = ingresos_gastos(@ingresos_mes, @total_gastos)
-
-    @productos_mes = devuelve_productos(Time.current.beginning_of_month.strftime("%d/%m/%Y"), Time.current.end_of_month.strftime("%d/%m/%Y"))
   end
 
 

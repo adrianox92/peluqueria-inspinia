@@ -67,7 +67,7 @@
           <h3>Servicios</h3>
           <div class="row">
             <% @servicios.each_with_index do |s, index| %>
-                <div class="col-lg-3">
+                <div class="col-sm-6 col-lg-3">
                   <div class="box btn btn-w-m btn-primary" id="<%= s.id %>">
                     <p class="precio">
                       <%= number_to_currency(s.coste, :unit => '€') %>
@@ -85,7 +85,7 @@
           <h3>Productos</h3>
           <div class="row">
             <% @productos.each_with_index do |p, index| %>
-                <div class="col-lg-3">
+                <div class="col-sm-6 col-lg-3">
                   <div class="box-producto btn btn-w-m btn-primary <%= "sin-stock" if p.stock == 0 %>" id="<%= p.id %>">
                     <p class="precio">
                       <%= number_to_currency(p.precio_venta, :unit => '€') %>
