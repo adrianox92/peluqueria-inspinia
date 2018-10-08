@@ -16,14 +16,20 @@ ActiveRecord::Schema.define(version: 0) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cita", force: :cascade do |t|
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "cita", id: :bigserial, force: :cascade do |t|
     t.integer  "cliente_id"
     t.datetime "fecha_inicio"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "cliente", force: :cascade do |t|
+  create_table "cliente", id: :bigserial, force: :cascade do |t|
     t.string   "nombre"
     t.string   "apellidos"
     t.string   "nombre_completo_dn"
@@ -35,7 +41,32 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "ultimo_pago"
   end
 
-  create_table "pago", force: :cascade do |t|
+  create_table "combustible", force: :cascade do |t|
+    t.datetime "fecha"
+    t.string   "vehiculo"
+    t.string   "tipo_combustible"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "litros"
+    t.float    "precio_litro"
+    t.float    "euros"
+    t.boolean  "lleno"
+  end
+
+  create_table "gasolina", force: :cascade do |t|
+    t.datetime "updated_at"
+    t.datetime "created_at"
+    t.float    "precio_total"
+    t.float    "litros"
+    t.float    "precio_litro"
+    t.string   "gasolinera"
+    t.string   "tipo_gasolina"
+    t.datetime "fecha_repostaje"
+    t.float    "kilometros"
+    t.integer  "vehiculo_id"
+  end
+
+  create_table "pago", id: :bigserial, force: :cascade do |t|
     t.string   "nombre"
     t.float    "pago"
     t.datetime "periodicidad"
@@ -47,7 +78,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.float    "iva"
   end
 
-  create_table "precio", force: :cascade do |t|
+  create_table "precio", id: :bigserial, force: :cascade do |t|
     t.string   "nombre"
     t.float    "coste"
     t.datetime "created_at"
@@ -55,7 +86,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.boolean  "activo",     default: true
   end
 
-  create_table "producto", force: :cascade do |t|
+  create_table "producto", id: :bigserial, force: :cascade do |t|
     t.string   "nombre"
     t.float    "precio_compra"
     t.float    "precio_venta"
@@ -73,7 +104,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "color"
   end
 
-  create_table "servicio_venta", force: :cascade do |t|
+  create_table "servicio_venta", id: :bigserial, force: :cascade do |t|
     t.integer  "venta_id"
     t.float    "precio_total"
     t.float    "base"
@@ -86,7 +117,27 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "created_at"
   end
 
-  create_table "usuario", force: :cascade do |t|
+  create_table "tinte", force: :cascade do |t|
+    t.string   "nombre"
+    t.float    "precio_compra"
+    t.decimal  "stock"
+    t.string   "codigo"
+    t.datetime "fecha_ultima_compra"
+    t.boolean  "activo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "created_by"
+  end
+
+  create_table "tinte_cliente", force: :cascade do |t|
+    t.integer  "tinte_id"
+    t.decimal  "cliente_id"
+    t.datetime "updated_at"
+    t.datetime "created_at"
+    t.string   "nombre_dn"
+  end
+
+  create_table "usuario", id: :bigserial, force: :cascade do |t|
     t.string   "nombre"
     t.string   "clave"
     t.integer  "rol_id"
@@ -94,75 +145,24 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "last_login_at"
   end
 
-  create_table "venta", force: :cascade do |t|
+  create_table "vehiculo", force: :cascade do |t|
+    t.string   "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "venta", id: :bigserial, force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "precio_total"
     t.float    "base"
     t.float    "iva"
     t.string   "tipo_pago"
-    t.string   "cliente_nombre_dn"
     t.boolean  "cerrada",          default: false
     t.string   "venta_nombre"
     t.integer  "cliente_id"
     t.float    "comision_tarjeta"
   end
 
-  create_table "tinte", force: :cascade do |t|
-    t.integer "stock"
-    t.string "nombre"
-    t.string "codigo"
-    t.boolean "activo",          default: true
-    t.datetime "fecha_ultima_compra"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "created_by"
-  end
-
-  create_table "tinte_cliente", force: :cascade do |t|
-    t.integer "tinte_id"
-    t.integer "cliente_id"
-    t.integer "producto_id"
-    t.string "nombre_dn"
-    t.string "tipo_dn"
-    t.string "codigo_dn"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "gasolina", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.float "precio_total"
-    t.float "litros"
-    t.float "precio_litro"
-    t.float "kilometros"
-    t.integer "vehiculo_id"
-    t.string "gasolinera"
-    t.string "tipo_gasolina"
-    t.float "kilometros"
-    t.datetime "fecha_repostaje"
-  end
-
-  create_table "vehiculo", force: :cascade do |t|
-    t.string "nombre"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "administracion", force: :cascade do |t|
-    t.string "nombre_empresa"
-    t.string "cif"
-    t.integer "telefono_contacto"
-    t.string "email_contacto"
-    t.integer "iva"
-    t.integer "comision_tarjeta"
-    t.string "tipo_empresa"
-    t.boolean "activo"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
-
 end
