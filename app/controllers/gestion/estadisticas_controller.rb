@@ -70,7 +70,7 @@ class Gestion::EstadisticasController < GestionController
 
 
       #General
-      @productos_semana = devuelve_productos(Time.current.beginning_of_week, Time.current.end_of_week.strftime("%d/%m/%Y"))
+      @productos_semana = devuelve_servicios(Time.current.beginning_of_week, Time.current.end_of_week.strftime("%d/%m/%Y"))
 
       @ventas = ventas
 
@@ -79,12 +79,28 @@ class Gestion::EstadisticasController < GestionController
       @total_gastos = devuelve_total_gastos(pagos)
       @total_mes = ingresos_gastos(@ingresos_mes, @total_gastos)
 
-      @productos_mes = devuelve_productos(Time.current.beginning_of_month.strftime("%d/%m/%Y"), Time.current.end_of_month.strftime("%d/%m/%Y"))
+      @productos_mes = devuelve_servicios(Time.current.beginning_of_month.strftime("%d/%m/%Y"), Time.current.end_of_month.strftime("%d/%m/%Y"))
     rescue => e
       e.backtrace
     end
   end
 
+  def comparacion_ventas
+    from = Time.current.beginning_of_week.beginning_of_day
+    to = Time.current.end_of_week
+
+    ventas_semana_total_hm = get_ventas_periodo(from, to)
+    @ventas_semana_total = ventas_semana_total_hm[1].to_json
+
+    #Ventas de la semana anterior
+    from_semana_anterior = Time.current.beginning_of_week - 7.days
+    to_semana_anterior = Time.current.beginning_of_week
+
+    ventas_semana_anterior = get_ventas_periodo(from_semana_anterior, to_semana_anterior)
+    @ventas_semana_anterior_total = ventas_semana_anterior[1].to_json
+
+    return @ventas_semana_total, @ventas_semana_anterior
+  end
 
   private
   def ingresos (ventas)
@@ -147,7 +163,7 @@ class Gestion::EstadisticasController < GestionController
 
   end
 
-  def devuelve_productos(periodo_inicio, periodo_fin)
+  def devuelve_servicios(periodo_inicio, periodo_fin)
     ventas_ids = Venta.where('cerrada = ? AND created_at >= ? AND created_at <= ?', true, periodo_inicio, periodo_fin).ids #Sacamos los IDS de las ventas de la semana
     servicio_venta = ServicioVenta.where('venta_id IN (?) AND servicio_id IS NOT NULL', ventas_ids).order('servicio_id')
     data = {}
@@ -166,7 +182,7 @@ class Gestion::EstadisticasController < GestionController
         usado = usado + 1
       end
       data[serven.servicio_nombre_dn.to_sym] = {total_servicio: total_servicio, usado: usado}
-    end
+    end if servicio_venta.count > 0
     data.to_json
   end
 

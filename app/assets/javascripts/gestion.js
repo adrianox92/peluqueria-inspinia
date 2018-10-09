@@ -130,8 +130,8 @@ $(document).ready(function () {
 
     /* Estadísticas */
     if ($('body.estadisticas').length > 0) {
-        var data = JSON.parse($('#productos_semana').val()),
-            data_mensual = JSON.parse($('#productos_mes').val()),
+        var productos_semana = JSON.parse($('#productos_semana').val()),
+            productos_mes = JSON.parse($('#productos_mes').val()),
             array_servicios = [],
             array_precios = [],
             array_usados = [],
@@ -172,7 +172,7 @@ $(document).ready(function () {
                 'rgba(246, 55, 33, 1)'
             ];
 
-        $.each(data, function (servicio, valor) {
+        $.each(productos_semana, function (servicio, valor) {
             array_servicios.push(servicio);
             array_precios.push(data[servicio].total_servicio);
             array_usados.push(data[servicio].usado);
@@ -244,7 +244,7 @@ $(document).ready(function () {
                 }
             }
         });
-        $.each(data_mensual, function (servicio, valor) {
+        $.each(productos_mes, function (servicio, valor) {
             array_servicios_mes.push(servicio);
             array_precios_mes.push(valor.total_servicio);
             array_usados_mes.push(valor.usado);
