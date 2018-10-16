@@ -121,7 +121,12 @@ $(document).ready(function () {
                     $('#productos ' + id_producto).removeClass('sin-stock');
                 }
                 if (data.status == 'ko') {
-                    alert('error');
+                    swal({
+                        title: 'Error',
+                        text: 'Se ha producido un error',
+                        type: 'error',
+                        confirmButtonText: 'Cerrar'
+                    })
                 }
 
             });
@@ -173,35 +178,40 @@ $(document).ready(function () {
             ];
 
 
-        $.each(JSON.parse(productos_semana), function (servicio, valor) {
-            array_servicios.push(servicio);
-            array_precios.push(data[servicio].total_servicio);
-            array_usados.push(data[servicio].usado);
+        if($('#productos_semana').val() != '') {
+            var json_semana= JSON.parse(productos_semana);
+            $.each(json_semana, function (servicio, valor) {
+                array_servicios.push(servicio);
+                array_precios.push(json_semana[servicio].total_servicio);
+                array_usados.push(json_semana[servicio].usado);
 
-        });
+            });
 
-        var myChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: array_servicios,
-                datasets: [{
-                    label: '# de servicios usados',
-                    data: array_usados,
-                    backgroundColor: array_background,
-                    borderColor: array_colores,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: array_servicios,
+                    datasets: [{
+                        label: '# de servicios usados',
+                        data: array_usados,
+                        backgroundColor: array_background,
+                        borderColor: array_colores,
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
+        }else{
+
+        }
         var data_semana_curso = JSON.parse($('#ventas_semana_total_grafica').val()),
             data_semana_anterior = JSON.parse($('#ventas_semana_anterior_total_grafica').val()),
             array_ventas_semana_anterior = [],
@@ -245,33 +255,36 @@ $(document).ready(function () {
                 }
             }
         });
-        $.each(JSON.parse(productos_mes), function (servicio, valor) {
-            array_servicios_mes.push(servicio);
-            array_precios_mes.push(valor.total_servicio);
-            array_usados_mes.push(valor.usado);
-        });
-        var myChartMensual = new Chart(ctx3, {
-            type: 'doughnut',
-            data: {
-                labels: array_servicios_mes,
-                datasets: [{
-                    label: '# de servicios usados',
-                    data: array_usados_mes,
-                    backgroundColor: array_background,
-                    borderColor: array_colores,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
+        if ($('#productos_mes').val() != '') {
+            var json_mes = JSON.parse(productos_mes);
+            $.each(json_mes, function (servicio, valor) {
+                array_servicios_mes.push(servicio);
+                array_precios_mes.push(valor.total_servicio);
+                array_usados_mes.push(valor.usado);
+            });
+            var myChartMensual = new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: array_servicios_mes,
+                    datasets: [{
+                        label: '# de servicios usados',
+                        data: array_usados_mes,
+                        backgroundColor: array_background,
+                        borderColor: array_colores,
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
 
@@ -356,7 +369,12 @@ $(document).ready(function () {
                         $('#cita_fecha_inicio').val(date_options);
                         $('#myModal').modal('show');
                 } else {
-                    alert("Cita fuera de horario comercial")
+                    swal({
+                        title: 'Error',
+                        text: 'Cita fuera de horario comercial',
+                        type: 'info',
+                        confirmButtonText: 'Cerrar'
+                    });
                 }
             }
 
