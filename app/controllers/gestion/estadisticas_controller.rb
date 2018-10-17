@@ -19,7 +19,7 @@ class Gestion::EstadisticasController < GestionController
 
       total_comision = 0
       ventas_semana_total_hm[2].where("tipo_pago = ?", 'Tarjeta').each do |c|
-        total_comision = total_comision+ c.comision_tarjeta
+        total_comision = total_comision + c.comision_tarjeta
       end
 
       @total_comision = total_comision
@@ -70,7 +70,7 @@ class Gestion::EstadisticasController < GestionController
 
 
       #General
-      @productos_semana = devuelve_servicios(Time.current.beginning_of_week, Time.current.end_of_week.strftime("%d/%m/%Y"))
+
 
       @ventas = ventas
 
@@ -79,7 +79,6 @@ class Gestion::EstadisticasController < GestionController
       @total_gastos = devuelve_total_gastos(pagos)
       @total_mes = ingresos_gastos(@ingresos_mes, @total_gastos)
 
-      @productos_mes = devuelve_servicios(Time.current.beginning_of_month.strftime("%d/%m/%Y"), Time.current.end_of_month.strftime("%d/%m/%Y"))
     rescue => e
       e.backtrace
     end
@@ -101,6 +100,41 @@ class Gestion::EstadisticasController < GestionController
 
     return @ventas_semana_total, @ventas_semana_anterior
   end
+
+  def devuelve_servicios
+    begin
+      #Sacamos las ventas de esta semana si nos llega true, sino las del mes.
+      if params[:current_week] == 'true'
+        periodo_inicio = Time.current.beginning_of_week
+        periodo_fin = Time.current.end_of_week.strftime("%d/%m/%Y")
+      else
+        periodo_inicio = Time.current.beginning_of_month.strftime("%d/%m/%Y")
+        periodo_fin = Time.current.end_of_month.strftime("%d/%m/%Y")
+      end
+
+      #Sacamos los ID's de las ventas para buscar los servicios.
+      ventas_ids = Venta.where('cerrada = ? AND created_at >= ? AND created_at <= ?', true, periodo_inicio, periodo_fin).ids #Sacamos los IDS de las ventas de la semana
+      servicio_venta = ServicioVenta.where('venta_id IN (?) AND servicio_id IS NOT NULL', ventas_ids).order('servicio_id')
+      data = {}
+      servicio_id = 0
+      usado = 0
+      servicio_venta.each do |serven|
+        if servicio_id != serven.servicio_id
+          usado = 0
+          usado = usado + 1
+          servicio_id = serven.servicio_id
+        else
+          usado = usado + 1
+        end
+        data[serven.servicio_nombre_dn.to_sym] = {usado: usado}
+      end if servicio_venta.count > 0
+      data.to_json
+      render :json => data
+    rescue => e
+      e.backtrace
+    end
+  end
+
 
   private
   def ingresos (ventas)
@@ -163,28 +197,6 @@ class Gestion::EstadisticasController < GestionController
 
   end
 
-  def devuelve_servicios(periodo_inicio, periodo_fin)
-    ventas_ids = Venta.where('cerrada = ? AND created_at >= ? AND created_at <= ?', true, periodo_inicio, periodo_fin).ids #Sacamos los IDS de las ventas de la semana
-    servicio_venta = ServicioVenta.where('venta_id IN (?) AND servicio_id IS NOT NULL', ventas_ids).order('servicio_id')
-    data = {}
-    servicio_id = 0
-    total_servicio = 0
-    usado = 0
-    servicio_venta.each do |serven|
-      if servicio_id != serven.servicio_id
-        total_servicio = 0
-        total_servicio = total_servicio + serven.precio_total
-        usado = 0
-        usado = usado + 1
-        servicio_id = serven.servicio_id
-      else
-        total_servicio = total_servicio + serven.precio_total
-        usado = usado + 1
-      end
-      data[serven.servicio_nombre_dn.to_sym] = {total_servicio: total_servicio, usado: usado}
-    end if servicio_venta.count > 0
-    data.to_json
-  end
 
   def devuelve_total_gastos(pagos)
     total_gastos = 0

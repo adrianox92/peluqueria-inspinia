@@ -1,0 +1,15 @@
+<%= simple_form_for :permiso, url: (@permiso.new_record? ? gestion_permisos_path(@permiso) : gestion_permiso_path(@permiso)), method: (@permiso.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+  <div class="ibox float-e-margins">
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-xs-6">
+          <%= f.input :nombre, placeholder: 'Nombre del permiso', input_html: {class: 'form-control m-b-md'} %>
+        </div>
+        <div class="col-xs-6">
+          <%= f.input :descripcion, placeholder: 'Descripción del permiso', input_html: {class: 'form-control m-b-md'} %>
+        </div>
+        <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+      </div>
+    </div>
+  </div>
+<% end %>

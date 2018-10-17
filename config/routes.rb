@@ -21,7 +21,11 @@ Myapp::Application.routes.draw do
         get 'generar_pdf/' => 'informes#generar_pdf', as: 'generar_pdf'
       end
     end
-    resources :estadisticas
+    resources :estadisticas do
+      collection do
+        get 'devuelve_productos/:current_week' => 'estadisticas#devuelve_servicios', as: 'devuelve_servicios'
+      end
+    end
     resources :pagos
     resources :clientes do
       collection do
@@ -42,5 +46,6 @@ Myapp::Application.routes.draw do
     resources :roles
     resources :administraciones
     resources :usuarios
+    resources :permisos
   end
 end

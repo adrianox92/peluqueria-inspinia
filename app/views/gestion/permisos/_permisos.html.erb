@@ -1,0 +1,37 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Gestión de los permisos para los usuarios</h5>
+  </div>
+  <div class="ibox-content">
+
+    <div id="table" class="">
+
+      <table class="table table-striped">
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>
+            <%= link_to new_gestion_permiso_path, :title => 'Añadir nuevo permiso' do %>
+              <span class="nuevo glyphicon glyphicon-plus"></span>
+            <% end %></th>
+        </tr>
+        <% permiso.each do |p| %>
+          <tr id="permiso_<%= p.id %>">
+            <td><%= p.nombre %></td>
+            <td><%= p.descripcion %></td>
+            <td>
+              <%= link_to edit_gestion_permiso_path(p.id), :title => 'Editar permiso' do %>
+                <span class="editar fa fa-edit"></span>
+              <% end %>
+              <%= link_to gestion_permiso_path(p.id), :confirm => "¿Estas seguro?", :method => :destroy, remote: true, :title => 'Eliminar permiso' do %>
+                <span class="eliminar glyphicon glyphicon-remove"></span>
+              <% end %>
+
+            </td>
+          </tr>
+        <% end if permiso.count > 0 %>
+      </table>
+    </div>
+
+  </div>
+</div>
