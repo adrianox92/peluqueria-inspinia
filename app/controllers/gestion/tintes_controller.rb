@@ -8,7 +8,7 @@ class Gestion::TintesController < GestionController
   end
 
   def create
-    params[:tinte][:base_compra] = params[:tinte][:precio_compra].to_f / 1.21
+    params[:tinte][:base_compra] = params[:tinte][:precio_compra].to_f / devuelve_iva
     params[:tinte][:iva_compra] = params[:tinte][:precio_compra].to_f - params[:tinte][:base_compra]
     params[:tinte][:tipo] = 'tinte'
 
@@ -27,7 +27,7 @@ class Gestion::TintesController < GestionController
 
   def update
     tinte = Tinte.find(params[:id])
-    params[:tinte][:base_compra] = params[:tinte][:precio_compra].to_f / 1.21
+    params[:tinte][:base_compra] = params[:tinte][:precio_compra].to_f / devuelve_iva
     params[:tinte][:iva_compra] = params[:tinte][:precio_compra].to_f - params[:tinte][:base_compra]
     params[:tinte][:tipo] = 'tinte'
 

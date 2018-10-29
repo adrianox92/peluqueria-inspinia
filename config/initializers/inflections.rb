@@ -14,3 +14,14 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.singular(/s$/, '')
+  inflect.singular(/es$/, '')
+  inflect.irregular 'rol', 'roles'
+  inflect.irregular 'cliente', 'clientes'
+  inflect.irregular 'tinte', 'tintes'
+  inflect.irregular 'empresa', 'empresas'
+
+end

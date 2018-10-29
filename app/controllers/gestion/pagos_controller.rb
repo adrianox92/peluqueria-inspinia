@@ -9,7 +9,7 @@ class Gestion::PagosController < GestionController
   end
 
   def create
-    params[:pago][:base] = params[:pago][:pago].to_f / 1.21
+    params[:pago][:base] = params[:pago][:pago].to_f / devuelve_iva
     params[:pago][:iva] = params[:pago][:pago].to_f - params[:pago][:base]
 
     pago = Pago.create(permit_params)
@@ -30,7 +30,7 @@ class Gestion::PagosController < GestionController
 
   def update
     pago = Pago.find(params[:id])
-    params[:pago][:base] = params[:pago][:pago].to_f / 1.21
+    params[:pago][:base] = params[:pago][:pago].to_f / devuelve_iva
     params[:pago][:iva] = params[:pago][:pago].to_f - params[:pago][:base]
     if pago.update_attributes(permit_params)
       redirect_to gestion_pagos_path

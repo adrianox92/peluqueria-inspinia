@@ -1,0 +1,23 @@
+<%= simple_form_for :empresa, url: (@empresa.new_record? ? gestion_empresas_path(@empresa) : gestion_empresa_path(@empresa)), method: (@empresa.new_record? ? :post : :put), html: {class: 'form-horizontal'} do |f| %>
+  <div class="ibox float-e-margins">
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-xs-3">
+          <%= f.input :nombre, input_html: {class: 'form-control m-b-md'} %>
+        </div>
+        <div class="col-xs-3">
+          <%= f.input :iva, placeholder: 'Iva a aplicar', input_html: {class: 'form-control m-b-md'} %>
+        </div>
+        <div class="col-xs-3">
+          <%= f.input :comision_tarjeta, placeholder: '% comisión operaciones con tarjeta', input_html: {class: 'form-control m-b-md'} %>
+        </div>
+        <div class="col-xs-3">
+          <%= f.input :stock_bajo, placeholder: 'Avisos stock bajo', input_html: {class: 'form-control m-b-md'} %>
+        </div>
+        <div class="col-xs-12">
+          <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

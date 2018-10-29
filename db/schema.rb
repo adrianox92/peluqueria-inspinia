@@ -53,6 +53,15 @@ ActiveRecord::Schema.define(version: 0) do
     t.boolean  "lleno"
   end
 
+  create_table "empresa", force: :cascade do |t|
+    t.integer  "iva"
+    t.float    "comision_tarjeta"
+    t.integer  "stock_bajo"
+    t.string   "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "gasolina", force: :cascade do |t|
     t.datetime "updated_at"
     t.datetime "created_at"
@@ -76,6 +85,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.boolean  "activo",       default: true
     t.float    "base"
     t.float    "iva"
+  end
+
+  create_table "permiso", force: :cascade do |t|
+    t.string "nombre"
+    t.string "descripcion"
   end
 
   create_table "precio", id: :bigserial, force: :cascade do |t|
@@ -102,6 +116,17 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "tipo"
     t.string   "codigo"
     t.string   "color"
+  end
+
+  create_table "rol", force: :cascade do |t|
+    t.string  "nombre"
+    t.integer "cliente_id"
+  end
+
+  create_table "rol_permiso", id: false, force: :cascade do |t|
+    t.integer "rol_id",     null: false
+    t.integer "permiso_id", null: false
+    t.string  "acceso"
   end
 
   create_table "servicio_venta", id: :bigserial, force: :cascade do |t|
@@ -143,6 +168,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "rol_id"
     t.datetime "created_at"
     t.datetime "last_login_at"
+    t.integer  "empresa_id"
   end
 
   create_table "vehiculo", force: :cascade do |t|
@@ -164,5 +190,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.float    "comision_tarjeta"
   end
 
+  add_foreign_key "rol_permiso", "permiso", name: "rol_permiso_permiso_id_fkey", on_delete: :cascade
+  add_foreign_key "rol_permiso", "rol", name: "rol_permiso_rol_id_fkey", on_delete: :cascade
   add_foreign_key "servicio_venta", "venta", column: "venta_id", name: "venta_id_fkey"
+  add_foreign_key "usuario", "empresa", name: "empresa_id_fkey"
 end

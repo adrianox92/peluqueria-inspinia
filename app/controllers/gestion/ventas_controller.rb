@@ -61,7 +61,7 @@ class Gestion::VentasController < GestionController
       if precio.present? and precio.activo #Existe, continuamos la normal ejecución
 
         #Desglosamos el precio
-        base = precio.coste / 1.21
+        base = precio.coste / devuelve_iva
         iva = precio.coste - base
 
         servicio_venta = ServicioVenta.create(
@@ -96,7 +96,7 @@ class Gestion::VentasController < GestionController
       if producto.present? and producto.activo and producto.stock > 0 #Existe, continuamos la normal ejecución
         begin
           #Desglosamos el precio
-          base = producto.precio_venta / 1.21
+          base = producto.precio_venta / devuelve_iva
           iva = producto.precio_venta - base
 
           servicio_venta = ServicioVenta.create(
@@ -138,7 +138,7 @@ class Gestion::VentasController < GestionController
           if precio.present? and precio.activo #Existe, continuamos la normal ejecución
 
             #Desglosamos el precio
-            base = precio.coste / 1.21
+            base = precio.coste / devuelve_iva
             iva = precio.coste - base
 
             precio_total_actual = venta.precio_total
@@ -154,7 +154,7 @@ class Gestion::VentasController < GestionController
           producto = Producto.find(servicio_venta.producto_id)
           if producto.present? and producto.activo
             #Desglosamos el precio
-            base = producto.precio_venta / 1.21
+            base = producto.precio_venta / devuelve_iva
             iva = producto.precio_venta - base
 
             sin_stock = true if producto.stock == 0 #Controlamos que el stock que teníamos era 0 para volver a crear el elemento
@@ -182,10 +182,12 @@ class Gestion::VentasController < GestionController
     if venta.present? and not venta.cerrada
       #Una vez vamos a cerrar la venta tenemos que calcular el IVA y la base de la venta
       precio_total = venta.precio_total
-      base = precio_total / 1.21
+      base = precio_total / devuelve_iva
       iva = precio_total - base
+
+      #Si me han pagado con tarjeta tengo que calcular la retención que me realiza el banco SOBRE EL TOTAL DE LA VENTA CON IVA
       if params[:venta][:tipo_pago] == 'Tarjeta'
-        comision = precio_total - (precio_total / 1.003) #Comisión de la tarjeta 0.3%
+        comision = precio_total - (precio_total / (devuelve_comision_tarjeta)) #Comisión de la tarjeta establecida por el cliente
         precio_total = precio_total - comision #Restamos al precio total la comisión ya que esta no cuenta como ingreso.
       end
       venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], comision_tarjeta: comision, precio_total: precio_total)

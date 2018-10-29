@@ -1,0 +1,43 @@
+<div class="ibox float-e-margins">
+  <div class="ibox-title">
+    <h5>Gestión de las empresas</h5>
+  </div>
+  <div class="ibox-content">
+
+    <div id="table" class="table-editable">
+
+      <table class="table table-striped">
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>IVA</th>
+          <th>Comisión tarjeta</th>
+          <th>Stock Bajo</th>
+          <th>
+            <%= link_to new_gestion_empresa_path, :title => 'Añadir nueva empresa' do %>
+              <span class="nuevo glyphicon glyphicon-plus"></span>
+            <% end %></th>
+        </tr>
+        <% empresa.each do |g| %>
+          <tr id="gasolina_<%= g.id %>">
+            <td><%= g.id %></td>
+            <td><%= g.nombre %></td>
+            <td><%= g.iva %></td>
+            <td><%= g.comision_tarjeta %></td>
+            <td><%= g.stock_bajo %></td>
+            <td>
+              <%= link_to edit_gestion_empresa_path(g.id), :title => 'Editar empresa' do %>
+                <span class="editar fa fa-edit"></span>
+              <% end %>
+              <%= link_to gestion_empresa_path(g.id), :confirm => "¿Estas seguro?", :method => :destroy, remote: true, :title => 'Eliminar empresa' do %>
+                <span class="eliminar glyphicon glyphicon-remove"></span>
+              <% end %>
+
+            </td>
+          </tr>
+        <% end if empresa.count > 0 %>
+      </table>
+    </div>
+
+  </div>
+</div>

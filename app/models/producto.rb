@@ -4,7 +4,7 @@ class Producto < ActiveRecord::Base
   validates :nombre, :precio_compra, :stock, :fecha_ultima_compra, presence: true
 
 
-  def self.stock_bajo
-    self.where('stock < ?', 3 ) #Buscamos los productos con menor stock de 10
+  def self.stock_bajo(stock_bajo)
+    self.where('stock < ?', stock_bajo ) #Buscamos los productos con menor stock de 10
   end
 end

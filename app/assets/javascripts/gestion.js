@@ -346,6 +346,7 @@ $(document).ready(function () {
                 eventOverlap: false,
                 droppable: false, // this allows things to be dropped onto the calendar !!!
                 hiddenDays: [0],
+                selectConstraint: "businessHours",
                 firstDay: 1,
                 scrollTime: '08:00:00',
                 timeFormat: 'H(:mm)', // uppercase H for 24-hour clock
@@ -371,7 +372,6 @@ $(document).ready(function () {
                     start: '10:00',
                     end: '13:30'
                 }],
-                selectConstraint: "businessHours",
                 events: $('#calendar').data('citas'),
                 dayRender: function (date, cell) {
                     if (moment(date).format('x') < moment().subtract(1, 'days').format('x')) {
@@ -384,6 +384,7 @@ $(document).ready(function () {
                         ahora = moment(),
                         cita_seleccionada = moment(d).format('YYYY-MM-DD HH:mm'),
                         date_options = moment(date).format('YYYY-MM-DD HH:mm');
+                    console.log(cita_seleccionada, ahora.diff(cita_seleccionada));
                     if (ahora.diff(cita_seleccionada) < 0) {
                         $('#cita_fecha_inicio').val(date_options);
                         $('#myModal').modal('show');

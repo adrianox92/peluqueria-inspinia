@@ -76,7 +76,7 @@
       </li>
 
 
-      <% if session[:logged_as] == 1 #Solo el usuario administrador tiene acceso a esto  %>
+      <% if session[:logged_as] == 1 #Solo el usuario administrador tiene acceso a esto   %>
         <li class="<%= is_active_action('configuracion') %>">
           <a href="#">
             <i class="fa fa-cog"></i>
@@ -84,8 +84,14 @@
           </a>
           <ul class="nav nav-second-level collapse <%= is_active_controller('tables', 'in') %>">
             <li>
-              <%= link_to gestion_administraciones_path do %>
-                  Administración general
+              <% if not session[:logged_group].nil? and session[:logged_group_id] != 1  %>
+                <%= link_to gestion_empresas_path do %>
+                  Empresas
+                <% end %>
+              <% else %>
+                <%= link_to edit_gestion_empresa_path(session[:logged_group_id]) do %>
+                  Empresa
+                <% end %>
               <% end %>
             </li>
             <li>
@@ -104,7 +110,7 @@
               <% end %>
             </li>
             <li><%= link_to '' do %>
-                  Horarios
+                Horarios
               <% end %>
             </li>
             <li><a href="#">1</a></li>
