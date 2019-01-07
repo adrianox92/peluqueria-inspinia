@@ -21,8 +21,8 @@
         <% pago.each do |p| %>
             <tr id="producto_<%= p.id %>">
               <td><%= p.nombre %></td>
-              <td><%= p.pago %></td>
-              <td><%= p.ultimo_pago %></td>
+              <td><%= number_to_currency(p.pago, :unit => '€') %></td>
+              <td><%= fecha_legible(p.ultimo_pago) %></td>
               <td><%= p.periodicidad %></td>
               <td><%= boolean_to_human(p.activo).html_safe %></td>
               <td>

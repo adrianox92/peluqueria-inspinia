@@ -32,12 +32,30 @@
         <h4 class="modal-title">Nueva Cita</h4>
       </div>
       <div class="modal-body clearfix">
-        <%= simple_form_for :cita, url: gestion_citas_path(@cita) , method: :post, html: {class: 'form-horizontal'} do |f| %>
+        <%= simple_form_for :cita, url: gestion_citas_path(@cita), method: :post, html: {class: 'form-horizontal'} do |f| %>
           <div class="col-xs-12">
-            <%= f.input :cliente_id, collection: @clientes, prompt: 'Seleccionar cliente', input_html: {class: 'form-control m-b-lg'} %>
+            <%= f.input :cliente_id, collection: @clientes, prompt: 'Seleccionar cliente', input_html: {class: 'form-control m-b-xs chosen-select'} %>
+          </div>
+          <div class="col-xs-12">
+            <a href="#" class="btn btn-primary m-b-md nuevo_cliente">Crear cliente</a>
+          </div>
+          <div class="form-nuevo-cliente col-xs-12">
+            <%= fields_for :cliente, @cliente do |c| %>
+              <label>Nombre</label>
+              <%= c.text_field :nombre, {class: "form-control m-b-md #{field_class(@cliente, :nombre) }"} %>
+              <label>Apellidos</label>
+              <%= c.text_field :apellidos, {class: "form-control m-b-md #{field_class(@cliente, :apellidos) }"} %>
+              <label>Telefono</label>
+              <%= c.text_field :telefono, {class: "form-control m-b-md #{field_class(@cliente, :telefono) }"} %>
+              <label>Sexo</label>
+              <%= c.select(:sexo, [['Hombre', 'Hombre'], ['Mujer', 'Mujer']], {:include_blank => "Seleccionar"}, {:class => 'form-control m-b-md'} ) %>
+            <% end %>
           </div>
           <div class="col-xs-12">
             <%= f.input :fecha_inicio, input_html: {class: 'form-control m-b-lg'} %>
+          </div>
+          <div class="col-xs-12">
+            <%= f.input :fecha_fin, collection: @horas, prompt: 'Seleccionar duración',input_html: {class: 'form-control m-b-lg'} %>
           </div>
           <div class="col-xs-12">
             <%= f.button :submit, 'Guardar', class: 'btn btn-w-m btn-primary center-block' %>

@@ -1,7 +1,7 @@
 class Gestion::UsuariosController < GestionController
 
   def index
-
+    @usuarios = obtener_usuarios
   end
 
   def new
@@ -23,7 +23,7 @@ class Gestion::UsuariosController < GestionController
   private
 
   def obtener_usuarios
-
+    Usuario.where('activo = ?', true).order('id')
   end
 
 

@@ -38,7 +38,12 @@ $(document).ready(function () {
                 startDate: '01/01/2017'
             });
         }
-
+        $('.nuevo_cliente').on('click', function () {
+            $('.form-nuevo-cliente').slideDown(200);
+            $('#cita_cliente_id').slideUp(200).removeAttr('required');
+            return false
+            
+        });
 
         /* Ventas */
         $('.box').on('click', function () {
@@ -310,6 +315,13 @@ $(document).ready(function () {
 
         /* Citas */
         if ($('body.citas').length > 0) {
+            $('#myModal').on('shown.bs.modal', function () {
+                $('.chosen-select', this).chosen('destroy').chosen({
+                    no_results_text: "Cliente no encontrado",
+                    allow_single_deselect: true,
+                    placeholder_text_single: 'Seleccione cliente'
+                });
+            });
             $('#calendar').fullCalendar({
                 locale: 'es',
                 lang: 'es', //lang is Spanish
@@ -334,6 +346,7 @@ $(document).ready(function () {
                 allDayText: '', //text for all day row
                 eventLimit: 20, //limits the number of events displayed on a day
                 eventLimitText: 'más', //determines the text of the link created by eventLimit setting.
+                displayEventEnd: true,
                 lazyFetching: false,
                 height: "auto",
                 slotEventOverlap: false,
@@ -346,6 +359,7 @@ $(document).ready(function () {
                 eventOverlap: false,
                 droppable: false, // this allows things to be dropped onto the calendar !!!
                 hiddenDays: [0],
+                selectable: true,
                 selectConstraint: "businessHours",
                 firstDay: 1,
                 scrollTime: '08:00:00',
@@ -384,7 +398,6 @@ $(document).ready(function () {
                         ahora = moment(),
                         cita_seleccionada = moment(d).format('YYYY-MM-DD HH:mm'),
                         date_options = moment(date).format('YYYY-MM-DD HH:mm');
-                    console.log(cita_seleccionada, ahora.diff(cita_seleccionada));
                     if (ahora.diff(cita_seleccionada) < 0) {
                         $('#cita_fecha_inicio').val(date_options);
                         $('#myModal').modal('show');

@@ -18,7 +18,7 @@
       <% cliente.each do |c| %>
           <tr id="producto_<%= c.id %>">
             <td><%= c.nombre_completo_dn %></td>
-            <td><%= fecha_legible(c.ultimo_pago) %></td>
+            <td><%= c.ultimo_pago.present? ? fecha_legible(c.ultimo_pago) : '' %></td>
             <td><%= c.telefono %></td>
             <td><%= genre_to_human(c.sexo).html_safe %></td>
             <td><%= boolean_to_human(c.activo).html_safe %></td>

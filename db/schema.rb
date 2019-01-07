@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "cita", id: :bigserial, force: :cascade do |t|
     t.integer  "cliente_id"
     t.datetime "fecha_inicio"
+    t.datetime "fecha_fin"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -169,6 +170,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "created_at"
     t.datetime "last_login_at"
     t.integer  "empresa_id"
+    t.boolean  "activo",      default: true
   end
 
   create_table "vehiculo", force: :cascade do |t|
