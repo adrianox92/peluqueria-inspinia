@@ -6,6 +6,14 @@ class GestionController < ActionController::Base
   before_action :muestra_notificaciones
   def index
 
+    @ingresos = ingresos
+
+    @ingresos_mes_anterior = ingresos_mes_anterior
+    @diferencia_ingresos = devuelve_diferencia(@ingresos_mes_anterior, @ingresos)
+
+    @clientes = Cliente.where('activo = true')
+
+    @citas = Cita.where('created_at >= ? AND created_at <= ?',Time.current.beginning_of_week, Time.current.end_of_week)
   end
 
   def login
@@ -59,6 +67,35 @@ class GestionController < ActionController::Base
 
   def devuelve_comision_tarjeta
     comision = 1 + (session[:comision_tarjeta].to_f / 100)
+  end
+
+  def ingresos
+    ingresos_totales = 0
+    Venta.where('created_at >= ? AND created_at <= ? AND cerrada = true', Date.today.at_beginning_of_month, Date.today.end_of_month).each do |v|
+      precio_total = (v.precio_total).present? ? v.precio_total : 0
+      ingresos_totales = ingresos_totales + precio_total
+    end
+    ingresos_totales
+  end
+
+  def ingresos_mes_anterior
+    ingresos_totales = 0
+    Venta.where('created_at >= ? AND created_at <= ? AND cerrada = true', Date.today.at_beginning_of_month.last_month, Date.today.end_of_month.last_month).each do |v|
+      precio_total = (v.precio_total).present? ? v.precio_total : 0
+      ingresos_totales = ingresos_totales + precio_total
+    end
+    ingresos_totales
+  end
+
+  def devuelve_diferencia (anterior, actual)
+
+    if anterior == 0
+      anterior_falso = 1
+      diferencia_ventas = ((actual - anterior_falso).to_f / anterior_falso) * 100
+    else
+      diferencia_ventas = ((actual - anterior).to_f / anterior) * 100
+    end
+    diferencia_ventas
   end
 
 end

@@ -1,0 +1,44 @@
+<div class="wrapper wrapper-content">
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="text-center">Bienvenido a la zona de gestión de <%= session[:logged_group] %></h3>
+      </div>
+    <div class="col-lg-4">
+      <div class="ibox ">
+        <div class="ibox-title">
+          <span class="label label-success pull-right">Mensual</span>
+          <h5>Ingresos</h5>
+        </div>
+        <div class="ibox-content">
+          <h1 class="no-margins"><%= number_to_currency(@ingresos, :unit => '€') %></h1>
+          <div class="stat-percent font-bold text-success"><%= @diferencia_ingresos %>% <i class="fa fa-bolt"></i></div>
+          <small>Ingresos totales</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="ibox ">
+        <div class="ibox-title">
+          <span class="label label-primary pull-right">Total</span>
+          <h5>Clientes</h5>
+        </div>
+        <div class="ibox-content">
+          <h1 class="no-margins"><%= @clientes.count %></h1>
+          <small>Clientes totales</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="ibox">
+        <div class="ibox-title">
+          <span class="label label-success pull-right">Semanal</span>
+          <h5>Citas</h5>
+        </div>
+        <div class="ibox-content">
+          <h1 class="no-margins"><%= @citas.count %></h1>
+          <small>Citas totales</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
