@@ -16,7 +16,7 @@
                 <span class="nuevo glyphicon glyphicon-plus"></span>
             <% end %></th>
         </tr>
-        <% precio.each do |p| %>
+        <% usuario.each do |p| %>
             <tr id="precio_<%= p.id %>">
               <td><%= p.nombre %></td>
               <td><%= p.rol_id %></td>
@@ -31,15 +31,7 @@
 
               </td>
             </tr>
-        <% end if precio.count > 0 %>
-        <!-- This is our clonable table line -->
-        <tr class="hide">
-          <td contenteditable="true">Untitled</td>
-          <td contenteditable="true">undefined</td>
-          <td>
-            <span class="table-remove glyphicon glyphicon-remove"></span>
-          </td>
-        </tr>
+        <% end if usuario.count > 0 %>
       </table>
     </div>
 

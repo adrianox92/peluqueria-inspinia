@@ -23,11 +23,11 @@
 }
 
 .mujer{
-  color: #ff00ff;
+  color: #DB7093;
 }
 
 .hombre{
-  color: #0d8ddb;
+  color: #4682B4;
 }
 
 .editar {
@@ -87,6 +87,12 @@
     transform-origin: 70% 70%;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+  }
+}
+
+.modal-body{
+  .form-nuevo-cliente{
+    display: none;
   }
 }
 

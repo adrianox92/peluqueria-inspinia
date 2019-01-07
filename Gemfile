@@ -7,6 +7,8 @@ gem 'rails'
 gem 'pg', '~> 0.20.0'
 gem 'bootstrap-sass', '~> 3.3.7'
 gem 'font-awesome-rails', '4.7.0.1'
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 
 
 # Use SCSS for stylesheets
