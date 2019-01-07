@@ -12,16 +12,16 @@
           <i class="fa fa-bell"></i> <span class="label label-primary"><%= @notificaciones.count %></span>
         </a>
         <% if @notificaciones.count > 0 %>
-            <ul class="dropdown-menu dropdown-alerts">
-              <% @notificaciones.each do |n| %>
-                  <li>
-                    <a href="<%= edit_gestion_producto_path(n.id) %>">
-                     <p>Stock bajo en el producto <%= n.nombre %></p>
-                    </a>
-                  </li>
-                  <li class="divider"></li>
-              <% end %>
-            </ul>
+          <ul class="dropdown-menu dropdown-alerts">
+            <% @notificaciones.each do |n| %>
+              <li>
+                <a href="<%= edit_gestion_producto_path(n.id) %>">
+                  <p>Stock bajo en el producto <%= n.nombre %> <strong>(<%= n.stock %> unidad/es)</strong></p>
+                </a>
+              </li>
+              <li class="divider"></li>
+            <% end %>
+          </ul>
         <% end %>
       </li>
       <li>

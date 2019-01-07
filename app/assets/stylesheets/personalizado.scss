@@ -72,6 +72,10 @@
   .chosen-container{margin-bottom: 30px;}
 }
 
+/*Citas */
+.citas{
+  .chosen-container{margin-bottom: 30px;}
+}
 .cerrar-venta {
   width: 100%;
   text-align: center;
@@ -186,7 +190,6 @@
   background-color: #1ab394;
   /* background color */
   border-color: #1ab394;
-  /* border color */
 }
 .fc-event-time,
 .fc-event-title {
@@ -202,5 +205,7 @@
 }
 .fc-prev-button,.fc-next-button{background-color: #1ab394;color: #fff;font-weight: bold;}
 .fc-nonbusiness{background-color: #0f1c1f;}
+
+.navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts{width: auto;}
 
 #calendar{background-color: #FFF;padding: 15px;}

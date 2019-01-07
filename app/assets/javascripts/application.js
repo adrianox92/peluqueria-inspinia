@@ -18,6 +18,6 @@
 //= require chosen/chosen.jquery.js
 //= require fullcalendar/fullcalendar.min.js
 //= require sweetalert/sweetalert.min.js
-//= require bootstrap-datetimepicker.js
+//= require select2/select2.full.min.js
 //= require gestion
 

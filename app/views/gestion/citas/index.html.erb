@@ -34,7 +34,7 @@
       <div class="modal-body clearfix">
         <%= simple_form_for :cita, url: gestion_citas_path(@cita), method: :post, html: {class: 'form-horizontal'} do |f| %>
           <div class="col-xs-12">
-            <%= f.input :cliente_id, collection: @clientes, prompt: 'Seleccionar cliente', input_html: {class: 'form-control m-b-xs'} %>
+            <%= f.input :cliente_id, collection: @clientes, prompt: 'Seleccionar cliente', input_html: {class: 'form-control m-b-xs chosen-select'} %>
           </div>
           <div class="col-xs-12">
             <a href="#" class="btn btn-primary m-b-md nuevo_cliente">Crear cliente</a>

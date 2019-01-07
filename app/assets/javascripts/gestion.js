@@ -315,6 +315,13 @@ $(document).ready(function () {
 
         /* Citas */
         if ($('body.citas').length > 0) {
+            $('#myModal').on('shown.bs.modal', function () {
+                $('.chosen-select', this).chosen('destroy').chosen({
+                    no_results_text: "Cliente no encontrado",
+                    allow_single_deselect: true,
+                    placeholder_text_single: 'Seleccione cliente'
+                });
+            });
             $('#calendar').fullCalendar({
                 locale: 'es',
                 lang: 'es', //lang is Spanish
