@@ -13,7 +13,8 @@ class GestionController < ActionController::Base
 
     @clientes = Cliente.where('activo = true')
 
-    @citas = Cita.where('created_at >= ? AND created_at <= ?',Time.current.beginning_of_week, Time.current.end_of_week)
+    @citas = Cita.where('fecha_inicio >= ? AND fecha_inicio <= ?',Time.current.beginning_of_week, Time.current.end_of_week)
+    @citas_hoy = Cita.where('fecha_inicio >= ? AND fecha_inicio <= ?',Time.current.beginning_of_day, Time.current.end_of_day)
   end
 
   def login

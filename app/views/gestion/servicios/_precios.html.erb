@@ -19,7 +19,7 @@
         <% precio.each do |p| %>
             <tr id="precio_<%= p.id %>">
               <td><%= p.nombre %></td>
-              <td><%= p.coste %></td>
+              <td><%= number_to_currency(p.coste) %></td>
               <td><%= boolean_to_human(p.activo).html_safe %></td>
               <td>
                 <%= link_to edit_gestion_servicio_path(p.id), :title => 'Editar servicio' do %>

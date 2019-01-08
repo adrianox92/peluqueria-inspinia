@@ -183,7 +183,6 @@ $(document).ready(function () {
                 url: "/gestion/estadisticas/devuelve_productos/true",
                 type: 'get',
                 success: function (data) {
-                    console.log(data);
                     $.each(data, function (servicio, valor) {
                         array_servicios.push(servicio);
                         array_usados.push(data[servicio].usado);
@@ -271,7 +270,6 @@ $(document).ready(function () {
                 url: "/gestion/estadisticas/devuelve_productos/false",
                 type: 'get',
                 success: function (data) {
-                    console.log(data);
                     $.each(data, function (servicio, valor) {
                         array_servicios_mes.push(servicio);
                         array_usados_mes.push(valor.usado);
@@ -310,7 +308,6 @@ $(document).ready(function () {
             });
         }
 
-
         $('[data-toggle="tooltip"]').tooltip();
 
         /* Citas */
@@ -331,8 +328,8 @@ $(document).ready(function () {
                     right: 'prev,next'
                 },
                 buttonText: {
-                    prev: '<',
-                    next: '>',
+                    prev: 'Semana anterior',
+                    next: 'Semana siguiente',
                     today: 'Hoy'
                 },
                 validRange: {
@@ -410,7 +407,6 @@ $(document).ready(function () {
                         });
                     }
                 }
-
             });
         }
     }

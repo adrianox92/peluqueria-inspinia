@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12">
       <h3 class="text-center">Bienvenido a la zona de gestión de <%= session[:logged_group] %></h3>
-      </div>
+    </div>
     <div class="col-lg-4">
       <div class="ibox ">
         <div class="ibox-title">
@@ -17,10 +17,10 @@
       </div>
     </div>
     <div class="col-lg-4">
-      <div class="ibox ">
+      <div class="ibox">
         <div class="ibox-title">
           <span class="label label-primary pull-right">Total</span>
-          <h5>Clientes</h5>
+          <a href="<%= gestion_clientes_path %>"><h5>Clientes</h5></a>
         </div>
         <div class="ibox-content">
           <h1 class="no-margins"><%= @clientes.count %></h1>
@@ -40,5 +40,19 @@
         </div>
       </div>
     </div>
+    <% if @citas_hoy.count > 0 %>
+      <div class="col-lg-4">
+        <div class="ibox">
+          <div class="ibox-title">
+            <span class="label label-success pull-right">Diario</span>
+            <h5>Citas para el día de hoy</h5>
+          </div>
+          <div class="ibox-content">
+            <h1 class="no-margins"><%= @citas_hoy.count %></h1>
+            <small>Citas totales</small>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
