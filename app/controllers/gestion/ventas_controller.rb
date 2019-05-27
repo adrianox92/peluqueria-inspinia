@@ -193,7 +193,9 @@ class Gestion::VentasController < GestionController
       venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], comision_tarjeta: comision, precio_total: precio_total)
       if params[:venta][:cliente_id].present?
         cliente = Cliente.find(params[:venta][:cliente_id])
-        cliente.update_attributes(ultimo_pago: Time.current)
+        gasto_total = cliente.gastos_total.to_f + precio_total
+        visitas = cliente.visitas_totales.to_i + 1
+        cliente.update_attributes(ultimo_pago: Time.current, gastos_total: gasto_total, visitas_totales: visitas)
       end
       venta.update_attributes(cerrada: true, base: base, iva: iva, tipo_pago: params[:venta][:tipo_pago], cliente_id: params[:venta][:cliente_id])
       redirect_to gestion_ventas_path

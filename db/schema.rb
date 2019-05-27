@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "sexo"
     t.boolean  "activo"
     t.datetime "ultimo_pago"
+    t.integer  "visitas_totales"
+    t.float    "gasto_total"
   end
 
   create_table "combustible", force: :cascade do |t|
