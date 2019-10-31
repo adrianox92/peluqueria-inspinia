@@ -14,7 +14,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.14.30'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0.4'
 
-gem 'nokogiri', '1.6.8.1'
+gem 'nokogiri', '1.10.4'
 
 gem 'simple_form'
 
